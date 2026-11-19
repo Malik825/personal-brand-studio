@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import portrait from "@/assets/sule-portrait.png.asset.json";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { experience, projects, site } from "@/content";
@@ -38,9 +39,13 @@ function Home() {
           </div>
         </div>
         <figure className="relative">
-          <div className="flex aspect-[4/5] items-end justify-center overflow-hidden bg-secondary" role="img" aria-label="Portrait of Sule Malik (placeholder)">
-            <span className="mb-[-12%] font-display text-[14rem] leading-none text-foreground/10">SM</span>
-          </div>
+          <img
+            src={portrait.url}
+            alt="Sule Malik, a software engineer, looking away from the camera"
+            width={500}
+            height={625}
+            className="aspect-[4/5] w-full object-cover"
+          />
           <figcaption className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card px-4 py-2 text-xs shadow-sm">
             <span className="size-2 rounded-full bg-success" /> Open to opportunities
           </figcaption>

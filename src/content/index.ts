@@ -1,6 +1,7 @@
 import type { Article, Experience, Project } from "./types";
 export type * from "./types";
 
+// PLACEHOLDER contact details — replace with Sule's real email and LinkedIn before publishing.
 export const site = {
   name: "Sule Malik",
   role: "Product-minded software engineer",
