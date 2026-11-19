@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- All site copy and data live in src/content (typed); UI components never hardcode content, so a CMS (Sanity) can replace the data source later.
+- Frontend only: no Supabase, no auth; the public site must work signed-out.
