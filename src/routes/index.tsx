@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import portrait from "@/assets/profile.jpeg.asset.json";
+import portrait from "@/assets/profile.png.asset.json";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { experience, projects, site } from "@/content";
