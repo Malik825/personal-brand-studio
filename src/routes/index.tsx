@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <Page>
-      <section className="container-site grid gap-12 pb-20 pt-14 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:pt-20">
+      <section className="container-site grid gap-12 pb-20 pt-14 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pt-20">
         <div>
           <Eyebrow>{site.role}</Eyebrow>
           <h1 className="mt-8 font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl xl:text-[5.5rem]">
@@ -38,13 +38,13 @@ function Home() {
             <Link to="/contact" className="btn-outline">Let's work together <span aria-hidden>→</span></Link>
           </div>
         </div>
-        <figure className="relative">
+        <figure className="relative lg:justify-self-end">
           <img
             src={portrait.url}
             alt="Sule Malik seated on a chair, holding a drink"
             width={960}
             height={1280}
-            className="aspect-[4/5] w-full object-cover"
+            className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-2xl ring-1 ring-foreground/10"
           />
           <figcaption className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card px-4 py-2 text-xs shadow-sm">
             <span className="size-2 rounded-full bg-success" /> Open to opportunities
