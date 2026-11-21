@@ -3,11 +3,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import portrait from "@/assets/profile.png";
 import { Eyebrow, Page } from "@/components/site/Layout";
-import { SelectedWork } from "@/components/site/SelectedWork";
+import { HorizontalShowcase } from "@/components/site/HorizontalShowcase";
+import { ScrollType } from "@/components/motion/ScrollType";
 import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
 import { getExperience, getProjects, getSite } from "@/content";
+import { closingScrollType, philosophyMarquee, techMarquee } from "@/content/marquees";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -51,6 +53,7 @@ function Home() {
   });
 
   const bgParallaxY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
+  const ringParallaxY = useTransform(heroScroll, [0, 1], ["0%", "-45%"]);
   const portraitParallaxY = useTransform(heroScroll, [0, 1], ["0%", "8%"]);
 
   return (
@@ -60,13 +63,23 @@ function Home() {
         ref={heroRef}
         className="relative overflow-hidden container-site grid gap-12 pb-24 pt-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pt-20"
       >
-        {/* Subtle decorative background ambient glow moving with scroll */}
+        {/* Layered decorative depth: soft glow and a thin ring drift at different speeds */}
         {!shouldReduceMotion && (
-          <motion.div
-            style={{ y: bgParallaxY }}
-            className="pointer-events-none absolute -top-24 right-1/4 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl"
-            aria-hidden
-          />
+          <>
+            <motion.div
+              style={{ y: bgParallaxY }}
+              className="pointer-events-none absolute -top-24 right-1/4 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl"
+              aria-hidden
+            />
+            <motion.div
+              style={{ y: ringParallaxY }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.6, delay: 0.5, ease: cinematicEase }}
+              className="pointer-events-none absolute -right-24 top-1/3 -z-10 hidden size-[28rem] rounded-full border border-primary/15 lg:block"
+              aria-hidden
+            />
+          </>
         )}
 
         <div>
@@ -146,32 +159,41 @@ function Home() {
             ))}
           </motion.ul>
 
-          {/* CTA buttons enter with slight delay and micro-interactions */}
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8, ease: cinematicEase }}
-            className="mt-9 flex flex-wrap gap-3"
-          >
-            <Link to="/work" className="btn-solid group">
-              <span>View my work</span>
-              <span
-                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
-                aria-hidden
-              >
-                →
-              </span>
-            </Link>
-            <Link to="/contact" className="btn-outline group">
-              <span>Let's work together</span>
-              <span
-                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
-                aria-hidden
-              >
-                →
-              </span>
-            </Link>
-          </motion.div>
+          {/* CTA buttons enter with staggered timing */}
+          <div className="mt-9 flex flex-wrap gap-3">
+            <motion.span
+              className="inline-flex"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8, ease: cinematicEase }}
+            >
+              <Link to="/work" className="btn-solid group">
+                <span>View my work</span>
+                <span
+                  className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  aria-hidden
+                >
+                  →
+                </span>
+              </Link>
+            </motion.span>
+            <motion.span
+              className="inline-flex"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9, ease: cinematicEase }}
+            >
+              <Link to="/contact" className="btn-outline group">
+                <span>Let's work together</span>
+                <span
+                  className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  aria-hidden
+                >
+                  →
+                </span>
+              </Link>
+            </motion.span>
+          </div>
         </div>
 
         {/* Hero portrait with smooth clip-path masked reveal and scroll parallax */}
@@ -218,15 +240,15 @@ function Home() {
 
       {/* ================= TECHNOLOGY MARQUEE ================= */}
       <section className="border-y border-border bg-card/30">
-        <InfiniteMarquee type="tech" speedSeconds={28} />
+        <InfiniteMarquee items={techMarquee} variant="tech" speedSeconds={32} label="Technologies" />
       </section>
 
-      {/* ================= SELECTED WORK INDEX ================= */}
-      <SelectedWork projects={projects} />
+      {/* ================= HORIZONTAL PROJECT SHOWCASE ================= */}
+      <HorizontalShowcase projects={projects} />
 
       {/* ================= PHILOSOPHY MARQUEE ================= */}
       <section className="border-y border-border bg-card/40">
-        <InfiniteMarquee type="philosophy" reverse speedSeconds={34} />
+        <InfiniteMarquee items={philosophyMarquee} variant="philosophy" reverse speedSeconds={40} label="Engineering philosophy" />
       </section>
 
       {/* ================= PHILOSOPHY STATEMENT SECTION ================= */}
@@ -278,6 +300,9 @@ function Home() {
           </ol>
         </div>
       </section>
+
+      {/* ================= DECORATIVE SCROLL TYPE ================= */}
+      <ScrollType text={closingScrollType} className="pt-20" />
 
       {/* ================= CALL TO ACTION SECTION ================= */}
       <section className="relative overflow-hidden container-site py-28 text-center">

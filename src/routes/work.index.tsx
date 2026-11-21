@@ -1,3 +1,4 @@
+import { ProjectListSkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page, PageIntro } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/work/")({
     ],
   }),
   component: Work,
+  pendingComponent: ProjectListSkeleton,
 });
 
 function Work() {

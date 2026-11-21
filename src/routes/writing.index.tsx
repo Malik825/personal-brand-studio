@@ -1,3 +1,4 @@
+import { ArticleListSkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page, PageIntro } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/writing/")({
     ],
   }),
   component: Writing,
+  pendingComponent: ArticleListSkeleton,
 });
 
 function Writing() {

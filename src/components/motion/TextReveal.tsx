@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { ElementType, ReactNode } from "react";
 import { cinematicEase } from "./variants";
+import { getMotionComponent } from "./motionCache";
 
 interface TextRevealProps {
   children: ReactNode;
@@ -24,7 +25,7 @@ export function TextReveal({
     if (shouldReduceMotion) {
       return <Component className={className}>{children}</Component>;
     }
-    const MotionComponent = motion.create(Component);
+    const MotionComponent = getMotionComponent(Component);
     return (
       <span className="inline-block overflow-hidden">
         <MotionComponent

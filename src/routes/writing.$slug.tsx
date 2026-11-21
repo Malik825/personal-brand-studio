@@ -1,3 +1,4 @@
+import { ArticleSkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/writing/$slug")({
       : [{ title: "Article unavailable" }, { name: "robots", content: "noindex" }],
   }),
   component: ArticlePage,
+  pendingComponent: ArticleSkeleton,
 });
 
 function ArticlePage() {

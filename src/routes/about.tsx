@@ -3,6 +3,7 @@ import { Eyebrow, Page, PageIntro } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { getAbout } from "@/content";
+import { philosophyMarquee } from "@/content/marquees";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
@@ -47,7 +48,7 @@ function About() {
 
       {/* Philosophy marquee accent */}
       <section className="border-y border-border bg-card/30">
-        <InfiniteMarquee type="philosophy" speedSeconds={32} />
+        <InfiniteMarquee items={philosophyMarquee} variant="philosophy" speedSeconds={40} label="Engineering philosophy" />
       </section>
 
       <section className="container-site divide-y divide-border border-b border-border">

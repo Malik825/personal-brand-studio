@@ -1,37 +1,76 @@
+import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content";
 import { cn } from "@/lib/utils";
 
-// Abstract interface placeholder until real project imagery is supplied via the CMS.
-export function ProjectVisual({ project, className }: { project: Project; className?: string }) {
+/**
+ * Project image, or an abstract interface placeholder when no image exists.
+ * `fill` makes it fill its parent instead of using a fixed 4:3 frame.
+ * Shows a shimmer skeleton only while the image is actually loading.
+ */
+export function ProjectVisual({
+  project,
+  className,
+  fill = false,
+}: {
+  project: Project;
+  className?: string;
+  fill?: boolean;
+}) {
+  const frame = fill ? "h-full w-full" : "aspect-[4/3] border border-foreground/10";
+
   if (project.image) {
     return (
-      <div
-        className={cn(
-          "tone-" + project.tone,
-          "relative aspect-[4/3] overflow-hidden border border-foreground/10 bg-card",
-          className,
-        )}
-      >
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
+      <div className={cn("tone-" + project.tone, "relative overflow-hidden", frame, className)}>
+        <LoadingImage src={project.image} alt={project.title} />
       </div>
     );
   }
 
   return (
-    <div className={cn("tone-" + project.tone, "relative aspect-[4/3] overflow-hidden border border-foreground/10")} aria-hidden>
-      <div className={cn("absolute inset-[8%] flex flex-col gap-[6%] rounded-sm bg-[var(--tone-surface)] p-[5%]", className)}>
-        <div className="flex gap-1.5"><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /></div>
+    <div className={cn("tone-" + project.tone, "relative overflow-hidden", frame, className)} aria-hidden>
+      <div className="absolute inset-[8%] flex flex-col gap-[6%] rounded-sm bg-[var(--tone-surface)] p-[5%] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]">
+        <div className="flex gap-1.5">
+          <span className="size-1.5 rounded-full bg-[var(--tone-line)]" />
+          <span className="size-1.5 rounded-full bg-[var(--tone-line)]" />
+          <span className="size-1.5 rounded-full bg-[var(--tone-line)]" />
+        </div>
         <div className="h-[8%] w-1/2 bg-[var(--tone-line)]" />
         <div className="grid flex-1 grid-cols-3 gap-[4%]">
           <div className="col-span-2 bg-[var(--tone-line)] opacity-60" />
-          <div className="flex flex-col gap-[8%]"><div className="flex-1 bg-[var(--tone-accent)]" /><div className="flex-1 bg-[var(--tone-line)] opacity-60" /></div>
+          <div className="flex flex-col gap-[8%]">
+            <div className="flex-1 bg-[var(--tone-accent)]" />
+            <div className="flex-1 bg-[var(--tone-line)] opacity-60" />
+          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function LoadingImage({ src, alt }: { src: string; alt: string }) {
+  const ref = useRef<HTMLImageElement>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  // The image may finish loading before hydration, so check `complete` on mount.
+  useEffect(() => {
+    if (ref.current?.complete) setLoaded(true);
+  }, []);
+
+  return (
+    <>
+      {!loaded && <div className="skeleton-shimmer absolute inset-0" aria-hidden />}
+      <img
+        ref={ref}
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        className={cn(
+          "h-full w-full object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]",
+          loaded ? "opacity-100" : "opacity-0",
+        )}
+      />
+    </>
   );
 }

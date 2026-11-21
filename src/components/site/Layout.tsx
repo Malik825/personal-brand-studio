@@ -30,10 +30,31 @@ export function Header() {
               key={n.to}
               to={n.to}
               activeOptions={{ exact: n.to === "/" }}
-              activeProps={{ className: "text-primary font-medium after:scale-x-100" }}
-              className="relative py-1 text-foreground/80 transition-colors duration-200 hover:text-primary after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-out hover:after:origin-left hover:after:scale-x-100"
+              className="group relative py-1 outline-none focus-visible:text-primary"
             >
-              {n.label}
+              {({ isActive }) => (
+                <>
+                  <span
+                    className={
+                      isActive
+                        ? "font-medium text-primary"
+                        : "text-foreground/80 transition-colors duration-200 group-hover:text-primary"
+                    }
+                  >
+                    {n.label}
+                  </span>
+                  {/* Hover underline: grows from the left, retracts to the right */}
+                  <span
+                    aria-hidden
+                    className={
+                      "absolute inset-x-0 -bottom-0.5 h-px bg-primary transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] " +
+                      (isActive
+                        ? "scale-x-100"
+                        : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100")
+                    }
+                  />
+                </>
+              )}
             </Link>
           ))}
         </nav>

@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { ElementType, ReactNode } from "react";
 import { cinematicEase } from "./variants";
+import { getMotionComponent } from "./motionCache";
 
 interface FadeUpProps {
   children: ReactNode;
@@ -20,7 +21,7 @@ export function FadeUp({
   as: Component = "div",
 }: FadeUpProps) {
   const shouldReduceMotion = useReducedMotion();
-  const MotionComponent = motion.create(Component);
+  const MotionComponent = getMotionComponent(Component);
 
   if (shouldReduceMotion) {
     return <Component className={className}>{children}</Component>;

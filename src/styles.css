@@ -162,6 +162,10 @@
 }
 
 /* Infinite Marquee Animations */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
 @keyframes marquee {
   0% {
     transform: translate3d(0, 0, 0);

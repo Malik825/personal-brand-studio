@@ -1,3 +1,4 @@
+import { CaseStudySkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
@@ -39,6 +40,7 @@ export const Route = createFileRoute("/work/$slug")({
       : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
   }),
   component: CaseStudy,
+  pendingComponent: CaseStudySkeleton,
 });
 
 function CaseStudy() {
