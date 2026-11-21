@@ -58,15 +58,32 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <Link to="/contact" className="btn-solid group">
-          <span>Let's talk</span>
-          <span
-            className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
-            aria-hidden
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              document.dispatchEvent(
+                new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
+              );
+            }}
+            className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs text-muted-foreground transition-all duration-200 hover:border-foreground/30 hover:text-foreground cursor-pointer"
+            aria-label="Open command palette"
           >
-            →
-          </span>
-        </Link>
+            <span>Search</span>
+            <kbd className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+              ⌘K
+            </kbd>
+          </button>
+          <Link to="/contact" className="btn-solid group">
+            <span>Let's talk</span>
+            <span
+              className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+              aria-hidden
+            >
+              →
+            </span>
+          </Link>
+        </div>
       </div>
       <nav aria-label="Mobile" className="flex gap-5 overflow-x-auto py-3 text-sm md:hidden scrollbar-none">
         {nav.map((n) => (

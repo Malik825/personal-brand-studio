@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { CommandPalette } from "@/components/site/CommandPalette";
 
 import appCss from "../styles.css?url";
 
@@ -148,6 +149,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <CommandPalette />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <PageTransitionContainer>
         <Outlet />

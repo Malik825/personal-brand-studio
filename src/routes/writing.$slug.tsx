@@ -1,6 +1,7 @@
 import { ArticleSkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Page } from "@/components/site/Layout";
+import { ReadingProgress } from "@/components/site/ReadingProgress";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { formatDate, getArticle } from "@/content";
 
@@ -30,6 +31,7 @@ function ArticlePage() {
   const a = Route.useLoaderData();
   return (
     <Page>
+      <ReadingProgress />
       <article className="container-site max-w-3xl pt-16 pb-24">
         <FadeUp>
           <Link

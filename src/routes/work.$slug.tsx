@@ -2,6 +2,7 @@ import { CaseStudySkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
+import { ReadingProgress } from "@/components/site/ReadingProgress";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { ImageReveal } from "@/components/motion/ImageReveal";
 import { getProject, getProjects } from "@/content";
@@ -48,6 +49,7 @@ function CaseStudy() {
 
   return (
     <Page>
+      <ReadingProgress />
       <article>
         <header className="container-site pb-12 pt-16">
           <FadeUp>
@@ -80,7 +82,7 @@ function CaseStudy() {
         </header>
 
         <div className="container-site">
-          <ImageReveal delay={0.2} duration={1.1}>
+          <ImageReveal delay={0.1} duration={0.8}>
             <div className="overflow-hidden rounded-xl border border-border">
               <ProjectVisual project={p} />
             </div>
@@ -89,14 +91,14 @@ function CaseStudy() {
 
         <div className="container-site mt-20 space-y-16">
           <FadeUp>
-            <section className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
+            <section id="challenge" className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
               <Eyebrow>Challenge</Eyebrow>
               <p className="font-display text-3xl leading-snug md:text-4xl">{p.challenge}</p>
             </section>
           </FadeUp>
 
           <FadeUp>
-            <section className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
+            <section id="approach" className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
               <Eyebrow>Approach</Eyebrow>
               <ol className="space-y-6 text-lg">
                 {p.approach.map((a, i) => (
@@ -110,7 +112,7 @@ function CaseStudy() {
           </FadeUp>
 
           <FadeUp>
-            <section className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+            <section id="outcome" className="grid gap-6 lg:grid-cols-[1fr_2fr]">
               <Eyebrow>Outcome</Eyebrow>
               <p className="text-lg leading-relaxed text-muted-foreground">{p.outcome}</p>
             </section>
