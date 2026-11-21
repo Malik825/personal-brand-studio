@@ -79,7 +79,7 @@ function CaseStudy() {
 
         <div className="container-site">
           <ImageReveal delay={0.2} duration={1.1}>
-            <div className="overflow-hidden rounded-xl border border-border shadow-sm">
+            <div className="overflow-hidden rounded-xl border border-border">
               <ProjectVisual project={p} />
             </div>
           </ImageReveal>

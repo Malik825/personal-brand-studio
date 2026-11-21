@@ -3,11 +3,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import portrait from "@/assets/profile.png";
 import { Eyebrow, Page } from "@/components/site/Layout";
-import { ProjectVisual } from "@/components/site/ProjectVisual";
-import { HorizontalProjects } from "@/components/site/HorizontalProjects";
+import { SelectedWork } from "@/components/site/SelectedWork";
 import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { FadeUp } from "@/components/motion/FadeUp";
-import { Parallax } from "@/components/motion/Parallax";
 import { cinematicEase } from "@/components/motion/variants";
 import { getExperience, getProjects, getSite } from "@/content";
 
@@ -178,7 +176,7 @@ function Home() {
 
         {/* Hero portrait with smooth clip-path masked reveal and scroll parallax */}
         <motion.figure
-          style={shouldReduceMotion ? undefined : { y: portraitParallaxY }}
+          style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
           className="relative lg:justify-self-end will-change-transform"
         >
           <motion.div
@@ -207,7 +205,7 @@ function Home() {
             initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1.05, ease: cinematicEase }}
-            className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-sm px-4 py-2 text-xs shadow-md border border-border"
+            className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-sm px-4 py-2 text-xs border border-border"
           >
             <span className="relative flex size-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
@@ -223,8 +221,8 @@ function Home() {
         <InfiniteMarquee type="tech" speedSeconds={28} />
       </section>
 
-      {/* ================= HORIZONTALLY SCROLLING SELECTED PROJECTS ================= */}
-      <HorizontalProjects projects={projects} />
+      {/* ================= SELECTED WORK INDEX ================= */}
+      <SelectedWork projects={projects} />
 
       {/* ================= PHILOSOPHY MARQUEE ================= */}
       <section className="border-y border-border bg-card/40">

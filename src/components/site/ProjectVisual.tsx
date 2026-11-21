@@ -24,7 +24,7 @@ export function ProjectVisual({ project, className }: { project: Project; classN
 
   return (
     <div className={cn("tone-" + project.tone, "relative aspect-[4/3] overflow-hidden border border-foreground/10")} aria-hidden>
-      <div className={cn("absolute inset-[8%] flex flex-col gap-[6%] rounded-sm bg-[var(--tone-surface)] p-[5%] shadow-sm", className)}>
+      <div className={cn("absolute inset-[8%] flex flex-col gap-[6%] rounded-sm bg-[var(--tone-surface)] p-[5%]", className)}>
         <div className="flex gap-1.5"><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /><span className="size-1.5 rounded-full bg-[var(--tone-line)]" /></div>
         <div className="h-[8%] w-1/2 bg-[var(--tone-line)]" />
         <div className="grid flex-1 grid-cols-3 gap-[4%]">
