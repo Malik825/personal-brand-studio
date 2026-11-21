@@ -44,7 +44,7 @@ function Home() {
             alt="Sule Malik seated on a chair, holding a drink"
             width={960}
             height={1280}
-            className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-2xl ring-1 ring-foreground/10"
+            className="portrait-editorial aspect-[4/5] w-full object-cover"
           />
           <figcaption className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card px-4 py-2 text-xs shadow-sm">
             <span className="size-2 rounded-full bg-success" /> Open to opportunities

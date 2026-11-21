@@ -1,13 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Eyebrow, Page, PageIntro } from "@/components/site/Layout";
-
-const sections = [
-  { t: "Background", b: "I'm a software engineer who has spent my career building customer-facing web products — SaaS platforms, booking systems, e-commerce and subscription services. I work mostly on the frontend and product layer, where engineering decisions meet real users." },
-  { t: "Engineering philosophy", b: "Good software is clear before it is clever. I favour simple architectures, readable code and components that are easy to change, because products always evolve faster than anyone plans." },
-  { t: "Product-oriented problem solving", b: "Before writing code I want to understand who the feature is for and what success looks like. That context shapes the trade-offs: what to build first, what to simplify and what to leave out." },
-  { t: "Distributed teams", b: "I'm used to working remotely with designers, product managers and engineers across time zones. That means clear written communication, ownership of outcomes and keeping work visible." },
-];
-const caps = ["React", "Next.js", "Angular", "TypeScript", "Component systems", "State management", "API integration", "Responsive & accessible UI", "Performance", "Headless CMS"];
+import { aboutSections as sections, capabilities as caps } from "@/content/assistant";
 
 export const Route = createFileRoute("/about")({
   head: () => ({

@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Add AI Gateway portfolio assistant with separate browser-saved conversations
+- [ ] Give the homepage portrait a distinctive asymmetric shape
 - [x] Homepage (priority, per design reference)
 - [x] About, Work + case studies, Writing + article, Contact pages
 - [x] Profile photo in the homepage hero (user's own photo)

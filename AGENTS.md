@@ -31,4 +31,6 @@ use the editor.
 
 ## Project rules
 - All site copy and data live in src/content (typed); UI components never hardcode content, so a CMS (Sanity) can replace the data source later.
-- Frontend only: no Supabase, no auth; the public site must work signed-out.
+- The public portfolio and assistant work signed-out; Cloud is used only for secure AI calls, not visitor accounts or chat storage.
+- Store browser chat threads as AI SDK messages keyed by the thread page URL; this prevents conversations mixing on navigation or reload.
+- Build assistant grounding from typed portfolio content on the server, excluding placeholder contact details and unpublished results; this keeps answers aligned with the public portfolio.
