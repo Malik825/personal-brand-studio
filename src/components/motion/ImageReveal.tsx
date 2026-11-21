@@ -13,7 +13,7 @@ export function ImageReveal({
   children,
   className = "",
   delay = 0.1,
-  duration = 1.0,
+  duration = 0.8,
 }: ImageRevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -23,9 +23,9 @@ export function ImageReveal({
 
   return (
     <motion.div
-      initial={{ clipPath: "inset(0% 0% 100% 0%)", opacity: 0.7 }}
-      whileInView={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.05 }}
       transition={{
         duration,
         delay,
@@ -33,18 +33,7 @@ export function ImageReveal({
       }}
       className={className}
     >
-      <motion.div
-        initial={{ scale: 1.08 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{
-          duration: duration * 1.15,
-          delay,
-          ease: cinematicEase,
-        }}
-      >
-        {children}
-      </motion.div>
+      {children}
     </motion.div>
   );
 }
