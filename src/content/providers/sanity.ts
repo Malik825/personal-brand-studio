@@ -96,7 +96,17 @@ export class SanityContentProvider implements ContentProvider {
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Project[]>(query);
-      return data && data.length > 0 ? data : staticProjects;
+      if (data && data.length > 0) {
+        return data.map((p) => {
+          const fallback = staticProjects.find((sp) => sp.slug === p.slug);
+          return {
+            ...fallback,
+            ...p,
+            image: p.image || fallback?.image,
+          };
+        });
+      }
+      return staticProjects;
     } catch (err) {
       console.warn("[Sanity] Failed to fetch projects, falling back to static:", err);
       return staticProjects;
@@ -120,7 +130,15 @@ export class SanityContentProvider implements ContentProvider {
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Project | null>(query, { slug });
-      return data || staticProjects.find((p) => p.slug === slug);
+      const fallback = staticProjects.find((p) => p.slug === slug);
+      if (data) {
+        return {
+          ...fallback,
+          ...data,
+          image: data.image || fallback?.image,
+        };
+      }
+      return fallback;
     } catch (err) {
       console.warn(`[Sanity] Failed to fetch project "${slug}", falling back to static:`, err);
       return staticProjects.find((p) => p.slug === slug);

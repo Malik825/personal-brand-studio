@@ -138,41 +138,21 @@ function Panel({
           </span>
         </div>
 
-        {/* Image with clip reveal + inner parallax */}
-        <motion.div
-          initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
-          whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 1.1, ease: cinematicEase }}
-          className="relative min-h-0 flex-1 overflow-hidden rounded-sm"
-        >
+        {/* Image with inner parallax */}
+        <div className="relative min-h-0 flex-1 overflow-hidden rounded-sm border border-border bg-card">
           <motion.div style={{ x: imageShift }} className="absolute inset-y-0 -left-[6%] -right-[6%]">
             <ProjectVisual project={p} fill />
           </motion.div>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-[1fr_auto] items-end gap-10">
           <div>
-            <span className="block overflow-hidden pb-1">
-              <motion.span
-                initial={{ y: "105%" }}
-                whileInView={{ y: "0%" }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ duration: 0.9, delay: 0.15, ease: cinematicEase }}
-                className="block font-display text-6xl leading-none tracking-tight transition-colors duration-300 group-hover:text-primary xl:text-7xl"
-              >
-                {p.title}
-              </motion.span>
+            <span className="block font-display text-5xl leading-none tracking-tight transition-colors duration-300 group-hover:text-primary xl:text-6xl">
+              {p.title}
             </span>
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: cinematicEase }}
-              className="mt-4 line-clamp-2 max-w-xl leading-relaxed text-muted-foreground"
-            >
+            <p className="mt-4 line-clamp-2 max-w-xl leading-relaxed text-muted-foreground">
               {p.summary}
-            </motion.p>
+            </p>
           </div>
           <span className="flex items-center gap-2 whitespace-nowrap text-sm font-medium">
             {showcaseCopy.cta}

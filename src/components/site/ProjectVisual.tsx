@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/content";
 import { cn } from "@/lib/utils";
 
 /**
  * Project image, or an abstract interface placeholder when no image exists.
  * `fill` makes it fill its parent instead of using a fixed 4:3 frame.
- * Shows a shimmer skeleton only while the image is actually loading.
  */
 export function ProjectVisual({
   project,
@@ -20,8 +18,14 @@ export function ProjectVisual({
 
   if (project.image) {
     return (
-      <div className={cn("tone-" + project.tone, "relative overflow-hidden", frame, className)}>
-        <LoadingImage src={project.image} alt={project.title} />
+      <div className={cn("tone-" + project.tone, "relative overflow-hidden bg-card", frame, className)}>
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        />
       </div>
     );
   }
@@ -44,33 +48,5 @@ export function ProjectVisual({
         </div>
       </div>
     </div>
-  );
-}
-
-function LoadingImage({ src, alt }: { src: string; alt: string }) {
-  const ref = useRef<HTMLImageElement>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  // The image may finish loading before hydration, so check `complete` on mount.
-  useEffect(() => {
-    if (ref.current?.complete) setLoaded(true);
-  }, []);
-
-  return (
-    <>
-      {!loaded && <div className="skeleton-shimmer absolute inset-0" aria-hidden />}
-      <img
-        ref={ref}
-        src={src}
-        alt={alt}
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setLoaded(true)}
-        className={cn(
-          "h-full w-full object-cover transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]",
-          loaded ? "opacity-100" : "opacity-0",
-        )}
-      />
-    </>
   );
 }
