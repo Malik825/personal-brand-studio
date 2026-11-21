@@ -1,8 +1,17 @@
 # Roadmap
+- [x] Homepage (hero, selected projects, philosophy, experience preview, CTAs)
+- [x] About page (background, philosophy, capabilities loaded from content provider)
+- [x] Work + case studies (CyLynk, DerivConnect, Glovera, Urban Vault, A1TIPS)
+- [x] Writing + articles listing and individual reader template
+- [x] Contact page (email, LinkedIn, enquiry form UI)
+- [x] Remove Lovable platform references and migrate to clean standalone Vite config
+- [x] Create minimalist SVG brand favicon (`/favicon.svg`)
+- [x] Sanity-ready dynamic content provider layer (`src/content/providers/`)
+- [x] All routes refactored to use async loaders via the content provider
+- [x] Connect Sanity.io client (project `wcfopvjq`, dataset `production`)
+- [x] Create Sanity schemas in `schema/` matching the TypeScript content models
+- [x] Seed and publish all content to Sanity dataset via Sanity MCP (Site Settings, About, Projects including DerivConnect, Articles, Experience)
+- [x] Fix hero portrait asset import to `.png` and handle portable text paragraphs in Sanity provider
+- [x] Add image upload support to Sanity schemas (projects and articles)
 - [ ] Add AI Gateway portfolio assistant with separate browser-saved conversations
-- [ ] Give the homepage portrait a distinctive asymmetric shape
-- [x] Homepage (priority, per design reference)
-- [x] About, Work + case studies, Writing + article, Contact pages
-- [x] Profile photo in the homepage hero (user's own photo)
-- [ ] Replace placeholder email and LinkedIn in src/content/index.ts
-- [ ] Add real project results to each case study
+- [ ] Update placeholder contact details in `src/content/providers/static.ts` and Sanity when ready

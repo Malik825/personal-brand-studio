@@ -3,6 +3,25 @@ import { cn } from "@/lib/utils";
 
 // Abstract interface placeholder until real project imagery is supplied via the CMS.
 export function ProjectVisual({ project, className }: { project: Project; className?: string }) {
+  if (project.image) {
+    return (
+      <div
+        className={cn(
+          "tone-" + project.tone,
+          "relative aspect-[4/3] overflow-hidden border border-foreground/10 bg-card",
+          className,
+        )}
+      >
+        <img
+          src={project.image}
+          alt={project.title}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("tone-" + project.tone, "relative aspect-[4/3] overflow-hidden border border-foreground/10")} aria-hidden>
       <div className={cn("absolute inset-[8%] flex flex-col gap-[6%] rounded-sm bg-[var(--tone-surface)] p-[5%] shadow-sm", className)}>
