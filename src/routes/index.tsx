@@ -1,7 +1,14 @@
+import { useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import portrait from "@/assets/profile.png";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
+import { HorizontalProjects } from "@/components/site/HorizontalProjects";
+import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
+import { FadeUp } from "@/components/motion/FadeUp";
+import { Parallax } from "@/components/motion/Parallax";
+import { cinematicEase } from "@/components/motion/variants";
 import { getExperience, getProjects, getSite } from "@/content";
 
 export const Route = createFileRoute("/")({
@@ -36,124 +43,274 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { site, projects, experience } = Route.useLoaderData();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Subtle Hero background parallax
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const bgParallaxY = useTransform(heroScroll, [0, 1], ["0%", "30%"]);
+  const portraitParallaxY = useTransform(heroScroll, [0, 1], ["0%", "8%"]);
 
   return (
     <Page>
-      <section className="container-site grid gap-12 pb-20 pt-14 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pt-20">
+      {/* ================= HERO SECTION ================= */}
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden container-site grid gap-12 pb-24 pt-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pt-20"
+      >
+        {/* Subtle decorative background ambient glow moving with scroll */}
+        {!shouldReduceMotion && (
+          <motion.div
+            style={{ y: bgParallaxY }}
+            className="pointer-events-none absolute -top-24 right-1/4 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl"
+            aria-hidden
+          />
+        )}
+
         <div>
-          <Eyebrow>{site.role}</Eyebrow>
+          {/* Introductory label appears first */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: cinematicEase }}
+          >
+            <Eyebrow>{site.role}</Eyebrow>
+          </motion.div>
+
+          {/* Main headline reveals line by line using staggered text animation */}
           <h1 className="mt-8 font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl xl:text-[5.5rem]">
-            I build digital products with engineering precision and product{" "}
-            <em className="text-primary">thinking.</em>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: cinematicEase }}
+              >
+                I build digital products
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.32, ease: cinematicEase }}
+              >
+                with engineering precision
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block"
+                initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.44, ease: cinematicEase }}
+              >
+                and product <em className="text-primary italic">thinking.</em>
+              </motion.span>
+            </span>
           </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed">
+
+          {/* Supporting paragraph fades upward */}
+          <motion.p
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.56, ease: cinematicEase }}
+            className="mt-8 max-w-xl text-lg leading-relaxed text-foreground/90"
+          >
             I'm Sule Malik — a product-minded software engineer focused on creating scalable
             applications, thoughtful user experiences and software that solves real business
             problems.
-          </p>
-          <ul className="mt-7 flex flex-wrap gap-2" aria-label="Core technologies">
-            {site.stack.map((t) => (
-              <li
+          </motion.p>
+
+          {/* Core technologies badges with stagger */}
+          <motion.ul
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.68, ease: cinematicEase }}
+            className="mt-7 flex flex-wrap gap-2"
+            aria-label="Core technologies"
+          >
+            {site.stack.map((t, idx) => (
+              <motion.li
                 key={t}
-                className="rounded-full border border-foreground/25 px-4 py-1.5 text-sm"
+                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.7 + idx * 0.05, ease: cinematicEase }}
+                className="rounded-full border border-foreground/25 bg-background/50 px-4 py-1.5 text-sm transition-colors duration-200 hover:border-primary hover:text-primary"
               >
                 {t}
-              </li>
+              </motion.li>
             ))}
-          </ul>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link to="/work" className="btn-solid">
-              View my work <span aria-hidden>→</span>
-            </Link>
-            <Link to="/contact" className="btn-outline">
-              Let's work together <span aria-hidden>→</span>
-            </Link>
-          </div>
-        </div>
-        <figure className="relative lg:justify-self-end">
-          <img
-            src={portrait}
-            alt="Sule Malik"
-            width={960}
-            height={1280}
-            className="portrait-editorial aspect-[4/5] w-full object-cover"
-          />
-          <figcaption className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card px-4 py-2 text-xs shadow-sm">
-            <span className="size-2 rounded-full bg-success" /> Open to opportunities
-          </figcaption>
-        </figure>
-      </section>
+          </motion.ul>
 
-      <section className="border-t border-border bg-card/50">
-        <div className="container-site grid gap-12 py-20 lg:grid-cols-[1fr_2.2fr]">
-          <div>
-            <Eyebrow>Selected work</Eyebrow>
-            <h2 className="mt-6 font-display text-4xl leading-tight">
-              Building real solutions for modern businesses.
-            </h2>
-            <Link to="/work" className="link-underline mt-8 inline-block">
-              Explore my work →
-            </Link>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-2">
-            {projects.map((p) => (
-              <Link
-                key={p.slug}
-                to="/work/$slug"
-                params={{ slug: p.slug }}
-                className="group"
+          {/* CTA buttons enter with slight delay and micro-interactions */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8, ease: cinematicEase }}
+            className="mt-9 flex flex-wrap gap-3"
+          >
+            <Link to="/work" className="btn-solid group">
+              <span>View my work</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
               >
-                <ProjectVisual project={p} />
-                <h3 className="mt-4 font-medium group-hover:text-primary">{p.title}</h3>
-                <p className="text-sm text-muted-foreground">{p.category}</p>
-              </Link>
-            ))}
-          </div>
+                →
+              </span>
+            </Link>
+            <Link to="/contact" className="btn-outline group">
+              <span>Let's work together</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                →
+              </span>
+            </Link>
+          </motion.div>
         </div>
+
+        {/* Hero portrait with smooth clip-path masked reveal and scroll parallax */}
+        <motion.figure
+          style={shouldReduceMotion ? undefined : { y: portraitParallaxY }}
+          className="relative lg:justify-self-end will-change-transform"
+        >
+          <motion.div
+            initial={
+              shouldReduceMotion
+                ? false
+                : { clipPath: "inset(100% 0% 0% 0%)", opacity: 0.6 }
+            }
+            animate={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
+            transition={{ duration: 1.15, delay: 0.35, ease: cinematicEase }}
+            className="overflow-hidden portrait-editorial aspect-[4/5] w-full"
+          >
+            <motion.img
+              src={portrait}
+              alt="Sule Malik"
+              width={960}
+              height={1280}
+              initial={shouldReduceMotion ? false : { scale: 1.08 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.3, delay: 0.35, ease: cinematicEase }}
+              className="h-full w-full object-cover"
+            />
+          </motion.div>
+
+          <motion.figcaption
+            initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.05, ease: cinematicEase }}
+            className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-sm px-4 py-2 text-xs shadow-md border border-border"
+          >
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-success" />
+            </span>
+            <span>Open to opportunities</span>
+          </motion.figcaption>
+        </motion.figure>
       </section>
 
-      <section className="container-site grid gap-12 border-t border-border py-20 lg:grid-cols-[1fr_2.2fr]">
-        <Eyebrow>Philosophy</Eyebrow>
-        <div>
-          <p className="font-display text-3xl leading-snug md:text-4xl">
+      {/* ================= TECHNOLOGY MARQUEE ================= */}
+      <section className="border-y border-border bg-card/30">
+        <InfiniteMarquee type="tech" speedSeconds={28} />
+      </section>
+
+      {/* ================= HORIZONTALLY SCROLLING SELECTED PROJECTS ================= */}
+      <HorizontalProjects projects={projects} />
+
+      {/* ================= PHILOSOPHY MARQUEE ================= */}
+      <section className="border-y border-border bg-card/40">
+        <InfiniteMarquee type="philosophy" reverse speedSeconds={34} />
+      </section>
+
+      {/* ================= PHILOSOPHY STATEMENT SECTION ================= */}
+      <section className="container-site grid gap-12 border-b border-border py-24 lg:grid-cols-[1fr_2.2fr]">
+        <FadeUp>
+          <Eyebrow>Philosophy</Eyebrow>
+        </FadeUp>
+        <FadeUp delay={0.15}>
+          <p className="font-display text-3xl leading-snug md:text-4xl text-foreground">
             I care about turning complex ideas into simple, scalable products that people love —
             writing code with the user, the team and the business in mind.
           </p>
-          <Link to="/about" className="link-underline mt-8 inline-block">
-            Learn more about me →
-          </Link>
+          <div className="mt-8">
+            <Link to="/about" className="link-underline inline-flex items-center gap-2 group">
+              <span>Learn more about me</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                →
+              </span>
+            </Link>
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* ================= EXPERIENCE SECTION ================= */}
+      <section className="container-site grid gap-12 border-b border-border py-24 lg:grid-cols-[1fr_2.2fr]">
+        <FadeUp>
+          <Eyebrow>Experience</Eyebrow>
+        </FadeUp>
+        <div>
+          <ol className="divide-y divide-border border-y border-border">
+            {experience.map((e, idx) => (
+              <FadeUp key={e.role} delay={0.08 * idx}>
+                <li className="group grid gap-2 py-7 transition-colors duration-200 hover:bg-card/40 px-2 -mx-2 rounded-lg md:grid-cols-[8rem_1fr]">
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    {e.period}
+                  </span>
+                  <div>
+                    <p className="font-medium text-lg group-hover:text-primary transition-colors">
+                      {e.role} · <span className="text-muted-foreground font-normal">{e.org}</span>
+                    </p>
+                    <p className="mt-1 text-muted-foreground leading-relaxed">{e.note}</p>
+                  </div>
+                </li>
+              </FadeUp>
+            ))}
+          </ol>
         </div>
       </section>
 
-      <section className="container-site grid gap-12 border-t border-border py-20 lg:grid-cols-[1fr_2.2fr]">
-        <Eyebrow>Experience</Eyebrow>
-        <ol className="divide-y border-border">
-          {experience.map((e) => (
-            <li key={e.role} className="grid gap-2 py-6 md:grid-cols-[8rem_1fr]">
-              <span className="text-sm text-muted-foreground">{e.period}</span>
-              <div>
-                <p className="font-medium">
-                  {e.role} · <span className="text-muted-foreground">{e.org}</span>
-                </p>
-                <p className="mt-1 text-muted-foreground">{e.note}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="container-site border-t border-border pt-24 text-center">
-        <h2 className="mx-auto max-w-3xl font-display text-5xl leading-tight md:text-6xl">
-          Have a product in mind? <em className="text-primary">Let's build it.</em>
-        </h2>
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <Link to="/contact" className="btn-solid">
-            Start a conversation →
-          </Link>
-          <a href={`mailto:${site.email}`} className="btn-outline">
-            {site.email}
-          </a>
-        </div>
+      {/* ================= CALL TO ACTION SECTION ================= */}
+      <section className="relative overflow-hidden container-site py-28 text-center">
+        <FadeUp>
+          <h2 className="mx-auto max-w-3xl font-display text-5xl leading-tight md:text-6xl">
+            Have a product in mind? <em className="text-primary italic">Let's build it.</em>
+          </h2>
+          <p className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground">
+            Available for select frontend engineering roles, architectural consulting, and high-impact digital products.
+          </p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <Link to="/contact" className="btn-solid group">
+              <span>Start a conversation</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                →
+              </span>
+            </Link>
+            <a href={`mailto:${site.email}`} className="btn-outline group">
+              <span>{site.email}</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                ↗
+              </span>
+            </a>
+          </div>
+        </FadeUp>
       </section>
     </Page>
   );
