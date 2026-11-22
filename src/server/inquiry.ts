@@ -4,9 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 interface InquiryPayload {
   name: string;
   email: string;
-  company?: string;
-  serviceType?: string;
-  timeline?: string;
+  company?: string | undefined;
+  serviceType?: string | undefined;
+  timeline?: string | undefined;
   message: string;
 }
 
@@ -42,16 +42,12 @@ export const submitContactInquiry = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data }): Promise<InquiryResponse> => {
-    const supabaseUrl =
-      process.env.SUPABASE_URL ||
-      process.env.VITE_SUPABASE_URL ||
-      "https://hmjsmmieqjsnhpotsfbe.supabase.co";
+    const env = process.env;
+    const supabaseUrl = env["SUPABASE_URL"] || env["VITE_SUPABASE_URL"];
 
+    // Prefer the service-role key server-side; fall back to the publishable key (RLS must allow inserts).
     const supabaseKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.SUPABASE_PUBLISHABLE_KEY ||
-      process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-      "sb_publishable_-qJjcyO4gU7MtbbPAJWupA_lNPHSVf1";
+      env["SUPABASE_SERVICE_ROLE_KEY"] || env["SUPABASE_PUBLISHABLE_KEY"] || env["VITE_SUPABASE_PUBLISHABLE_KEY"];
 
     const inquiryRecord = {
       name: data.name,
