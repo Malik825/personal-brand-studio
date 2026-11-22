@@ -52,7 +52,7 @@ export function CaseStudySkeleton() {
   return (
     <Busy label="Loading case study">
       <IntroSkeleton />
-      <div className="container-site" aria-hidden>
+      <div className="container-site max-w-5xl mx-auto" aria-hidden>
         <div className={`${bar} aspect-[16/9] rounded-xl`} />
       </div>
     </Busy>

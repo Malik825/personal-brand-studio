@@ -66,8 +66,8 @@ function CaseStudy() {
   return (
     <Page>
       <ReadingProgress />
-      <article>
-        <header className="container-site pb-12 pt-16">
+      <article className="container-site max-w-5xl mx-auto">
+        <header className="pb-12 pt-16 md:pt-20">
           <FadeUp>
             <Link
               to="/work"
@@ -78,8 +78,8 @@ function CaseStudy() {
               </span>
               <span>All work</span>
             </Link>
-            <h1 className="mt-8 font-display text-6xl tracking-tight md:text-8xl">{p.title}</h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">{p.summary}</p>
+            <h1 className="mt-8 font-display text-5xl tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">{p.title}</h1>
+            <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{p.summary}</p>
             <dl className="mt-12 grid gap-6 border-y border-border py-6 sm:grid-cols-3">
               <div>
                 <dt className="text-xs uppercase tracking-widest text-muted-foreground">Role</dt>
@@ -97,24 +97,24 @@ function CaseStudy() {
           </FadeUp>
         </header>
 
-        <div className="container-site">
+        <div>
           <ImageReveal delay={0.05} duration={0.6}>
-            <div className="overflow-hidden rounded-2xl border border-border">
-              <ProjectVisual project={p} eager />
+            <div className="overflow-hidden rounded-2xl border border-border bg-muted/20 shadow-sm aspect-[16/10] sm:aspect-[16/9] w-full">
+              <ProjectVisual project={p} fill eager />
             </div>
           </ImageReveal>
         </div>
 
-        <div className="container-site mt-20 space-y-16">
+        <div className="mt-20 space-y-16">
           <FadeUp>
-            <section id="challenge" className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
+            <section id="challenge" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border pb-16">
               <Eyebrow>Challenge</Eyebrow>
-              <p className="font-display text-3xl leading-snug md:text-4xl">{p.challenge}</p>
+              <p className="font-display text-2xl leading-snug sm:text-3xl md:text-4xl">{p.challenge}</p>
             </section>
           </FadeUp>
 
           <FadeUp>
-            <section id="approach" className="grid gap-6 lg:grid-cols-[1fr_2fr] border-b border-border pb-16">
+            <section id="approach" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border pb-16">
               <Eyebrow>Approach</Eyebrow>
               <ol className="space-y-6 text-lg">
                 {p.approach.map((a, i) => (
@@ -128,33 +128,33 @@ function CaseStudy() {
           </FadeUp>
 
           <FadeUp>
-            <section id="outcome" className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+            <section id="outcome" className="grid gap-6 md:grid-cols-[1fr_2.5fr]">
               <Eyebrow>Outcome</Eyebrow>
               <p className="text-lg leading-relaxed text-muted-foreground">{p.outcome}</p>
             </section>
           </FadeUp>
         </div>
-      </article>
 
-      <div className="container-site mt-24 border-t border-border pt-12">
-        <FadeUp>
-          <Link
-            to="/work/$slug"
-            params={{ slug: next.slug }}
-            className="group flex items-baseline justify-between py-6 rounded-lg transition-colors hover:text-primary"
-          >
-            <span className="text-xs uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">
-              Next project
-            </span>
-            <span className="font-display text-3xl sm:text-5xl font-medium tracking-tight flex items-center gap-3">
-              <span>{next.title}</span>
-              <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-2" aria-hidden>
-                →
+        <div className="mt-24 border-t border-border pt-12 pb-16">
+          <FadeUp>
+            <Link
+              to="/work/$slug"
+              params={{ slug: next.slug }}
+              className="group flex items-baseline justify-between py-6 rounded-lg transition-colors hover:text-primary"
+            >
+              <span className="text-xs uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">
+                Next project
               </span>
-            </span>
-          </Link>
-        </FadeUp>
-      </div>
+              <span className="font-display text-3xl sm:text-5xl font-medium tracking-tight flex items-center gap-3">
+                <span>{next.title}</span>
+                <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-2" aria-hidden>
+                  →
+                </span>
+              </span>
+            </Link>
+          </FadeUp>
+        </div>
+      </article>
     </Page>
   );
 }
