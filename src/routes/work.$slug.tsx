@@ -69,99 +69,185 @@ function CaseStudy() {
       <ReadingProgress />
       <article>
         {/* Centered Editorial Header */}
-        <header className="container-site max-w-5xl mx-auto pb-12 pt-16 md:pt-20">
+        <header className="container-site max-w-5xl mx-auto pb-10 pt-14 md:pt-20">
           <FadeUp>
-            <Link
-              to="/work"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary group"
-            >
-              <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1" aria-hidden>
-                ←
-              </span>
-              <span>All work</span>
-            </Link>
-            <h1 className="mt-8 font-display text-5xl tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">{p.title}</h1>
-            <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{p.summary}</p>
-            <dl className="mt-12 grid gap-6 border-y border-border py-6 sm:grid-cols-3">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <Link
+                to="/work"
+                className="inline-flex items-center gap-2 text-xs font-mono tracking-wider uppercase text-muted-foreground transition-colors hover:text-foreground group"
+              >
+                <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1" aria-hidden>
+                  ←
+                </span>
+                <span>Back to all work</span>
+              </Link>
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex items-center rounded-full border border-border/80 bg-muted/40 px-3 py-0.5 text-xs font-mono text-muted-foreground">
+                  {p.year}
+                </span>
+                <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary">
+                  {p.category}
+                </span>
+              </div>
+            </div>
+
+            <h1 className="mt-8 font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight leading-[1.08]">
+              {p.title}
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg sm:text-xl leading-relaxed text-muted-foreground font-sans">
+              {p.summary}
+            </p>
+
+            {/* Elevated Metadata Matrix */}
+            <dl className="mt-10 grid grid-cols-2 gap-6 border-y border-border/70 py-6 sm:grid-cols-4">
               <div>
-                <dt className="text-xs uppercase tracking-widest text-muted-foreground">Role</dt>
-                <dd className="mt-1 font-medium">{p.role}</dd>
+                <dt className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">Role</dt>
+                <dd className="mt-1.5 text-sm font-medium text-foreground">{p.role}</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-widest text-muted-foreground">Category</dt>
-                <dd className="mt-1 font-medium">{p.category}</dd>
+                <dt className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">Timeline</dt>
+                <dd className="mt-1.5 text-sm font-medium text-foreground">{p.year}</dd>
               </div>
               <div>
-                <dt className="text-xs uppercase tracking-widest text-muted-foreground">Stack</dt>
-                <dd className="mt-1 font-medium">{p.stack.join(", ")}</dd>
+                <dt className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">Discipline</dt>
+                <dd className="mt-1.5 text-sm font-medium text-foreground">{p.category}</dd>
+              </div>
+              <div>
+                <dt className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground">Technologies</dt>
+                <dd className="mt-1.5 flex flex-wrap gap-1.5">
+                  {p.stack.map((t) => (
+                    <span
+                      key={t}
+                      className="inline-block rounded border border-border/50 bg-muted/40 px-1.5 py-0.5 text-[11px] font-mono text-foreground/80"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </dd>
               </div>
             </dl>
           </FadeUp>
         </header>
 
-        {/* Full-width Screen Showcase Visual with Creative Squircle Border Radius (strictly on the image) */}
-        <section className="w-full my-6 sm:my-10 md:my-14 px-3 sm:px-6 md:px-10 lg:px-14">
+        {/* Refined Case Study Visual Showcase (Well-proportioned, not oversized, image-only radius) */}
+        <section className="container-site max-w-5xl mx-auto my-8 sm:my-12">
           <ImageReveal delay={0.05} duration={0.6}>
-            <div className="w-full flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <ProjectVisual
                 project={p}
                 fit="contain"
                 eager
-                className="w-full max-w-[1400px] mx-auto bg-transparent"
-                imageClassName="w-full h-auto block rounded-[1.75rem] sm:rounded-[2.75rem] md:rounded-[3.5rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.18)] ring-1 ring-foreground/10"
+                className="w-full max-w-4xl mx-auto bg-transparent"
+                imageClassName="w-full h-auto block rounded-2xl sm:rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.14)] ring-1 ring-foreground/10"
               />
             </div>
           </ImageReveal>
         </section>
 
-        {/* Centered Case Study Narrative */}
-        <div className="container-site max-w-5xl mx-auto mt-16 sm:mt-20 space-y-16">
+        {/* Elevated Case Study Narrative */}
+        <div className="container-site max-w-5xl mx-auto mt-16 sm:mt-20 space-y-20">
           <FadeUp>
-            <section id="challenge" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border pb-16">
-              <Eyebrow>Challenge</Eyebrow>
-              <p className="font-display text-2xl leading-snug sm:text-3xl md:text-4xl">{p.challenge}</p>
+            <section id="challenge" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border/70 pb-16">
+              <div>
+                <Eyebrow>01 / Challenge</Eyebrow>
+                <span className="text-xs text-muted-foreground font-mono mt-1 block">The core problem</span>
+              </div>
+              <div>
+                <p className="font-display text-2xl leading-snug sm:text-3xl md:text-4xl text-foreground font-normal">
+                  {p.challenge}
+                </p>
+              </div>
             </section>
           </FadeUp>
 
           <FadeUp>
-            <section id="approach" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border pb-16">
-              <Eyebrow>Approach</Eyebrow>
-              <ol className="space-y-6 text-lg">
-                {p.approach.map((a, i) => (
-                  <li key={a} className="flex gap-4 items-baseline">
-                    <span className="font-display text-2xl text-primary font-semibold">0{i + 1}</span>
-                    <span className="leading-relaxed text-foreground/90">{a}</span>
-                  </li>
-                ))}
-              </ol>
+            <section id="approach" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border/70 pb-16">
+              <div>
+                <Eyebrow>02 / Approach</Eyebrow>
+                <span className="text-xs text-muted-foreground font-mono mt-1 block">Architecture & execution</span>
+              </div>
+              <div className="space-y-6">
+                <ol className="grid gap-4 sm:gap-5">
+                  {p.approach.map((a, i) => (
+                    <li
+                      key={a}
+                      className="group relative flex gap-4 sm:gap-6 items-start p-5 sm:p-6 rounded-2xl border border-border/60 bg-muted/20 transition-colors hover:bg-muted/40"
+                    >
+                      <span className="font-mono text-sm text-primary font-semibold shrink-0 pt-0.5">
+                        0{i + 1}
+                      </span>
+                      <p className="leading-relaxed text-foreground/90 text-base sm:text-lg">
+                        {a}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </section>
           </FadeUp>
 
           <FadeUp>
             <section id="outcome" className="grid gap-6 md:grid-cols-[1fr_2.5fr]">
-              <Eyebrow>Outcome</Eyebrow>
-              <p className="text-lg leading-relaxed text-muted-foreground">{p.outcome}</p>
+              <div>
+                <Eyebrow>03 / Impact</Eyebrow>
+                <span className="text-xs text-muted-foreground font-mono mt-1 block">Results & delivery</span>
+              </div>
+              <div className="rounded-2xl border border-primary/20 bg-primary/[0.03] p-6 sm:p-8">
+                <p className="text-lg sm:text-xl leading-relaxed text-foreground/90 font-sans">
+                  {p.outcome}
+                </p>
+              </div>
             </section>
           </FadeUp>
         </div>
 
-        {/* Next Project Footer */}
-        <div className="container-site max-w-5xl mx-auto mt-24 border-t border-border pt-12 pb-16">
+        {/* Elevated Next Project & Conversation Section */}
+        <div className="container-site max-w-5xl mx-auto mt-24 border-t border-border/70 pt-12 pb-20">
           <FadeUp>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-12 border-b border-border/50">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                  Interested in similar architecture?
+                </span>
+                <p className="mt-1 text-base text-foreground font-medium">
+                  Have a product or web application in mind? Let's discuss scope and timelines.
+                </p>
+              </div>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+              >
+                Get in touch →
+              </Link>
+            </div>
+
             <Link
               to="/work/$slug"
               params={{ slug: next.slug }}
-              className="group flex items-baseline justify-between py-6 rounded-lg transition-colors hover:text-primary"
+              className="group mt-12 block p-6 sm:p-8 rounded-2xl border border-border/60 bg-muted/20 transition-all hover:bg-muted/40 hover:border-border"
             >
-              <span className="text-xs uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors">
-                Next project
-              </span>
-              <span className="font-display text-3xl sm:text-5xl font-medium tracking-tight flex items-center gap-3">
-                <span>{next.title}</span>
-                <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-2" aria-hidden>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                  Next Case Study
+                </span>
+                <span className="text-xs font-mono text-muted-foreground">
+                  {next.year} · {next.category}
+                </span>
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <h3 className="font-display text-3xl sm:text-5xl font-medium tracking-tight text-foreground group-hover:text-primary transition-colors">
+                  {next.title}
+                </h3>
+                <span
+                  className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary"
+                  aria-hidden
+                >
                   →
                 </span>
-              </span>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground max-w-xl line-clamp-1">
+                {next.summary}
+              </p>
             </Link>
           </FadeUp>
         </div>
