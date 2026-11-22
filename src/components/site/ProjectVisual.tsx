@@ -24,7 +24,14 @@ export function ProjectVisual({
 
   if (project.image && !imageError) {
     return (
-      <div className={cn("tone-" + project.tone, "relative overflow-hidden bg-muted/40", frame, className)}>
+      <div
+        className={cn(
+          "relative overflow-hidden",
+          fit === "contain" ? "bg-transparent" : cn("tone-" + project.tone, "bg-muted/40"),
+          frame,
+          className
+        )}
+      >
         <img
           src={project.image}
           alt={project.title}

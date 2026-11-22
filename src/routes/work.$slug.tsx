@@ -99,16 +99,16 @@ function CaseStudy() {
           </FadeUp>
         </header>
 
-        {/* Full-width Screen Showcase Visual (Full-bleed width, zero cropping) */}
-        <section className={cn("tone-" + p.tone, "w-full my-6 sm:my-10 md:my-14 overflow-hidden border-y border-border/80 bg-muted/30")}>
+        {/* Full-width Screen Showcase Visual (Clean edge-to-edge width, no artificial background) */}
+        <section className="w-full my-6 sm:my-10 md:my-14 overflow-hidden">
           <ImageReveal delay={0.05} duration={0.6}>
-            <div className="w-full flex items-center justify-center py-4 sm:py-8 md:py-12 px-0 sm:px-4 md:px-8">
+            <div className="w-full flex items-center justify-center">
               <ProjectVisual
                 project={p}
                 fill
                 fit="contain"
                 eager
-                className="w-full h-auto max-h-[88vh] aspect-[16/10] sm:aspect-[16/9] mx-auto rounded-none sm:rounded-xl shadow-sm"
+                className="w-full h-auto max-h-[88vh] aspect-[16/10] sm:aspect-[16/9] mx-auto shadow-none bg-transparent"
               />
             </div>
           </ImageReveal>
