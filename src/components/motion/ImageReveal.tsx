@@ -12,8 +12,8 @@ interface ImageRevealProps {
 export function ImageReveal({
   children,
   className = "",
-  delay = 0.1,
-  duration = 0.8,
+  delay = 0.05,
+  duration = 0.7,
 }: ImageRevealProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -23,9 +23,8 @@ export function ImageReveal({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{
         duration,
         delay,

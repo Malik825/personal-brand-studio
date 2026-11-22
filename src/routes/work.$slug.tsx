@@ -82,9 +82,9 @@ function CaseStudy() {
         </header>
 
         <div className="container-site">
-          <ImageReveal delay={0.1} duration={0.8}>
+          <ImageReveal delay={0.05} duration={0.6}>
             <div className="overflow-hidden rounded-xl border border-border">
-              <ProjectVisual project={p} />
+              <ProjectVisual project={p} eager />
             </div>
           </ImageReveal>
         </div>

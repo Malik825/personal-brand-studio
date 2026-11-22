@@ -12,6 +12,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { CommandPalette } from "@/components/site/CommandPalette";
+import { AssistantDrawer } from "@/components/site/AssistantDrawer";
 
 import appCss from "../styles.css?url";
 
@@ -150,6 +151,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CommandPalette />
+      <AssistantDrawer />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <PageTransitionContainer>
         <Outlet />
