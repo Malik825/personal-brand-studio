@@ -81,7 +81,7 @@ export class SanityContentProvider implements ContentProvider {
 
   async getProjects(): Promise<Project[]> {
     try {
-      const query = `*[_type == "project"] | order(year desc){
+      const query = `*[_type == "project"] | order(coalesce(order, 999) asc, year desc){
         "slug": slug.current,
         title,
         category,
@@ -93,6 +93,7 @@ export class SanityContentProvider implements ContentProvider {
         challenge,
         approach,
         outcome,
+        order,
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Project[]>(query);

@@ -199,25 +199,25 @@ export const projectsData: Project[] = [
     image: "/images/urban-vault.jpg",
   },
   {
-    slug: "a1tips",
-    title: "A1TIPS",
-    category: "Subscription platform",
-    year: "2023",
-    role: "Full product build",
+    slug: "tipsdeck",
+    title: "TipsDeck",
+    category: "Sports analytics & prediction platform",
+    year: "2024",
+    role: "Full-stack & product engineering",
     summary:
-      "A subscription platform delivering sports analytics and insights to paying members.",
-    stack: ["React", "TypeScript", "Payments"],
+      "A subscription-based sports analytics and prediction platform delivering algorithmic probability metrics, daily football insights, and automated membership tiers.",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
     tone: "navy",
     challenge:
-      "Members needed timely, easy-to-read insights, and the business needed a reliable subscription flow behind it.",
+      "Delivering real-time sports probability models and data-dense fixtures without layout shifts or cognitive clutter, coupled with automated subscription access control.",
     approach: [
-      "Designed data-dense views that stay readable on small screens.",
-      "Built the subscription and membership journey end to end.",
-      "Separated content from presentation so insights could be published quickly.",
+      "Architected high-density match insight cards optimized for mobile readability and quick odds scanning.",
+      "Integrated automated Stripe and payment webhooks for frictionless subscription tier activation.",
+      "Structured data caching for live fixture odds and statistical performance metrics.",
     ],
     outcome:
-      "A subscription product that balances content delivery with business needs. Detailed results to be added.",
-    image: "/images/a1tips.png",
+      "A high-conversion sports intelligence platform providing actionable data to active subscribers with sub-second page loads.",
+    image: "/images/tipsdeck.png",
   },
 ];
 

@@ -85,6 +85,18 @@ function answerFromKnowledgeBase(query: string): string {
     );
   }
 
+  // TipsDeck project
+  if (q.includes("tipsdeck") || q.includes("sports") || q.includes("tips") || q.includes("football") || q.includes("prediction")) {
+    const td = projectsData.find((p) => p.slug === "tipsdeck");
+    return (
+      `**TipsDeck — Sports Analytics & Prediction Platform**\n\n` +
+      `• **Role**: ${td?.role ?? "Full-stack & product engineering"}\n` +
+      `• **Stack**: React, TypeScript, Tailwind CSS, Supabase, Stripe\n` +
+      `• **Challenge**: Delivering real-time sports probability models and data-dense fixtures without layout shifts or cognitive clutter, coupled with automated subscription access control.\n` +
+      `• **Key Outcome**: High-density match insight cards optimized for quick mobile scanning with automated membership activation.`
+    );
+  }
+
   // Projects general
   if (q.includes("project") || q.includes("work") || q.includes("portfolio") || q.includes("case stud")) {
     const list = projectsData
@@ -209,7 +221,7 @@ Context about Sule Malik:
   3. Sushi Craft: Omakase dining reservation platform built with Next.js 15, Radix UI, Motion.
   4. DerivConnect: High-throughput real-time trading terminal built with WebSockets, lightweight-charts, React.
   5. Urban Vault: Minimalist architectural e-commerce store with fluid cart transitions.
-  6. A1 Tips: Real-time football prediction and sports analytics engine with interactive probability modeling.
+  6. TipsDeck: Real-time sports analytics and prediction platform with algorithmic probability modeling and subscription tiers.
 - Availability: Open to select full-time product engineering opportunities, contract roles, and technical advisory.
 - Contact: Email is ${siteConfig.email}. LinkedIn is ${siteConfig.socials.linkedin}. GitHub is ${siteConfig.socials.github}.
 

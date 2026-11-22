@@ -168,37 +168,46 @@ function Panel({
 
 function SwipeTrack({ projects, alwaysVisible }: { projects: Project[]; alwaysVisible: boolean }) {
   return (
-    <div className={alwaysVisible ? "py-20" : "py-20 lg:hidden"}>
+    <div className={alwaysVisible ? "py-16 md:py-20" : "py-16 md:py-20 lg:hidden"}>
       <div className="container-site">
         <Eyebrow>{showcaseCopy.eyebrow}</Eyebrow>
         <p className="mt-6 max-w-xl font-display text-4xl leading-tight md:text-5xl">{showcaseCopy.title}</p>
-        <p className="mt-4 text-sm text-muted-foreground">{showcaseCopy.mobileHint}</p>
+        <p className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">
+          {projects.length} Selected Case Studies
+        </p>
       </div>
 
-      <ul
-        aria-label={showcaseCopy.eyebrow}
-        className="scrollbar-none mt-10 flex snap-x snap-mandatory scroll-pl-5 gap-5 overflow-x-auto px-5 pb-4 md:scroll-pl-20 md:px-20"
-      >
+      <div className="container-site mt-10 space-y-12">
         {projects.map((p, i) => (
-          <li key={p.slug} className="w-[82vw] max-w-md shrink-0 snap-start">
-            <Link to="/work/$slug" params={{ slug: p.slug }} className="group block">
-              <div className="overflow-hidden rounded-sm">
-                <ProjectVisual project={p} className="border-0" />
+          <article key={p.slug} className="border-b border-border/70 pb-12 last:border-b-0">
+            <Link to="/work/$slug" params={{ slug: p.slug }} className="group block space-y-4">
+              <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/20">
+                <ProjectVisual project={p} eager={i === 0} />
               </div>
-              <p className="mt-5 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                <span className="text-primary">{pad(i + 1)}</span> · {p.category}
-              </p>
-              <h3 className="mt-2 font-display text-3xl tracking-tight transition-colors group-hover:text-primary">
-                {p.title}
-              </h3>
-              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
+              <div className="space-y-2">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  <span className="text-primary font-semibold">{pad(i + 1)}</span> · {p.category}
+                </p>
+                <h3 className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-3xl">
+                  {p.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                  {p.summary}
+                </p>
+                <div className="pt-1 inline-flex items-center gap-1.5 text-xs font-medium text-foreground group-hover:text-primary transition-colors">
+                  <span>Explore case study</span>
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
+                    →
+                  </span>
+                </div>
+              </div>
             </Link>
-          </li>
+          </article>
         ))}
-      </ul>
+      </div>
 
-      <div className="container-site mt-6">
-        <Link to="/work" className="link-underline group inline-flex items-center gap-2">
+      <div className="container-site mt-4">
+        <Link to="/work" className="link-underline group inline-flex items-center gap-2 text-sm font-medium">
           {showcaseCopy.allWork} ({projects.length})
           <span className="inline-block transition-transform duration-300 group-hover:translate-x-1" aria-hidden>
             →

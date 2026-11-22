@@ -30,6 +30,7 @@ export type Project = {
   approach: string[];
   outcome: string;
   image?: string;
+  order?: number;
 };
 
 /** A writing/blog article. */
