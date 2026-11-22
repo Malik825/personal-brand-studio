@@ -1,4 +1,5 @@
 import { convertToModelMessages, createUIMessageStream, createUIMessageStreamResponse, type UIMessage } from "ai";
+import { nanoid } from "nanoid";
 import { getAbout, getExperience, getProjects, getSite } from "@/content";
 import { assistantCopy, portfolioGrounding } from "@/content/assistant";
 import { portfolioRequestSchema } from "./portfolio-request";
@@ -91,15 +92,34 @@ export async function handlePortfolioChat(request: Request, env: Record<string, 
         .join(" ") || "overview";
 
     const reply = answerFromKnowledgeBase(lastUserQuery);
+    const textId = nanoid();
 
     const stream = createUIMessageStream({
       originalMessages: messages,
       execute: async ({ writer }) => {
         writer.write({
-          type: "text-delta",
-          textDelta: reply,
+          type: "text-start",
+          id: textId,
+        });
+
+        const tokens = reply.match(/\S+\s*/g) || [reply];
+        for (let i = 0; i < tokens.length; i += 3) {
+          if (request.signal.aborted) break;
+          const chunk = tokens.slice(i, i + 3).join("");
+          writer.write({
+            type: "text-delta",
+            id: textId,
+            delta: chunk,
+          });
+          await new Promise((r) => setTimeout(r, 12));
+        }
+
+        writer.write({
+          type: "text-end",
+          id: textId,
         });
       },
+      onError: () => assistantCopy.unavailable,
     });
 
     return createUIMessageStreamResponse({ stream, headers });

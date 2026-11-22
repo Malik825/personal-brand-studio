@@ -146,15 +146,11 @@ export function Footer() {
 }
 
 export function Page({ children }: { children: ReactNode }) {
-  const isChat = useRouterState({ select: s => s.location.pathname.startsWith("/ask") });
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-      {!isChat && <Button asChild className="fixed bottom-5 right-5 z-40 rounded-full bg-foreground text-background shadow-lg hover:bg-primary" size="lg">
-        <Link to="/ask"><MessageCircle /><span>{assistantCopy.nav}</span></Link>
-      </Button>}
     </div>
   );
 }

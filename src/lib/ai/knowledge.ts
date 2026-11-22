@@ -3,7 +3,79 @@ import { projectsData, experienceData, siteConfig } from "@/content/providers/st
 export function answerFromKnowledgeBase(query: string): string {
   const q = query.toLowerCase().trim();
 
-  // Tech stack & skills
+  // 1. Simple greetings
+  if (
+    q === "hello" ||
+    q === "hi" ||
+    q === "hey" ||
+    q.startsWith("hello ") ||
+    q.startsWith("hi ") ||
+    q.startsWith("hey ") ||
+    q === "good morning" ||
+    q === "good afternoon" ||
+    q === "good evening"
+  ) {
+    return (
+      `Hello! Great to meet you. I'm Sule Malik's portfolio companion.\n\n` +
+      `Sule is a product-minded software engineer specializing in high-performance web applications (React 19, TypeScript, Next.js, TanStack Start) and mobile apps (React Native, Expo).\n\n` +
+      `How can I help you today? You can ask about:\n` +
+      `• **Engineering Stack & Architecture**\n` +
+      `• **Featured Projects** (Roam, Life Compass, Sushi Craft, DerivConnect, TipsDeck)\n` +
+      `• **Building a Website or Application for your business**\n` +
+      `• **Hiring, Contract Engagements & Contact Info**`
+    );
+  }
+
+  // 2. Pricing, cost, rates, quotes
+  if (
+    q.includes("price") ||
+    q.includes("cost") ||
+    q.includes("rate") ||
+    q.includes("quote") ||
+    q.includes("budget") ||
+    q.includes("how much") ||
+    q.includes("fee")
+  ) {
+    return (
+      `Engagement pricing depends on project scope, complexity, and timeline:\n\n` +
+      `• **Fixed-Scope Websites & MVPs**: Clear milestones, predictable budget, and end-to-end delivery from design implementation to production deployment.\n` +
+      `• **Contract / Fractional Engineering**: Focused technical leadership, frontend performance optimization, or architecture consulting on a sprint or monthly retainer basis.\n\n` +
+      `To get an accurate estimate for your specific project, head over to the **[Contact Page](/contact)** or reach out directly at [${siteConfig.email}](mailto:${siteConfig.email}).`
+    );
+  }
+
+  // 3. Building a website, app, business inquiries, client requests (e.g. farm, store, company)
+  if (
+    q.includes("website") ||
+    q.includes("web site") ||
+    q.includes("app") ||
+    q.includes("build") ||
+    q.includes("make") ||
+    q.includes("create") ||
+    q.includes("develop") ||
+    q.includes("farm") ||
+    q.includes("pautry") ||
+    q.includes("poultry") ||
+    q.includes("store") ||
+    q.includes("shop") ||
+    q.includes("ecommerce") ||
+    q.includes("e-commerce") ||
+    q.includes("business") ||
+    q.includes("client") ||
+    q.includes("product") ||
+    q.includes("landing page") ||
+    q.includes("redesign")
+  ) {
+    return (
+      `Sule builds bespoke, high-performance websites and digital applications tailored specifically to your business goals.\n\n` +
+      `Whether you need an engaging modern web presence for an agricultural enterprise, farm, or local business, a direct-to-consumer store, an automated booking portal, or an end-to-end custom platform:\n\n` +
+      `• **Modern Engineering**: Lightning-fast load times, flawless mobile responsiveness, and clean typography that establishes instant credibility with customers.\n` +
+      `• **Capabilities**: Product catalog / inventory showcases, customer inquiry & ordering flows, location maps, WhatsApp/email lead capture, and secure payment processing.\n` +
+      `• **Next Steps**: Tell Sule about your vision! Share your requirements on the **[Contact Page](/contact)** or send an email directly to [${siteConfig.email}](mailto:${siteConfig.email}) to discuss scope, timeline, and pricing.`
+    );
+  }
+
+  // 4. Tech stack & skills
   if (
     q.includes("stack") ||
     q.includes("tech") ||
@@ -22,7 +94,7 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
-  // Roam project
+  // 5. Roam project
   if (q.includes("roam") || q.includes("mobile app") || q.includes("travel")) {
     const roam = projectsData.find((p) => p.slug === "roam");
     return (
@@ -30,11 +102,12 @@ export function answerFromKnowledgeBase(query: string): string {
       `• **Role**: ${roam?.role ?? "Mobile & frontend engineering"}\n` +
       `• **Stack**: React Native, Expo, NativeWind, TypeScript, Clerk, PostHog\n` +
       `• **Challenge**: Delivering a smooth 60fps native experience across iOS and Android with complex gesture interactions and offline-resilient auth state.\n` +
-      `• **Key Outcome**: Frictionless stay discovery and booking journeys with biometric persistence and unified design tokens.`
+      `• **Key Outcome**: Frictionless stay discovery and booking journeys with biometric persistence and unified design tokens.\n\n` +
+      `Read the complete case study on the [Roam project page](/work/roam).`
     );
   }
 
-  // Life Compass project
+  // 6. Life Compass project
   if (q.includes("life compass") || q.includes("compass") || q.includes("tracker") || q.includes("productivity")) {
     const lc = projectsData.find((p) => p.slug === "life-compass");
     return (
@@ -42,33 +115,36 @@ export function answerFromKnowledgeBase(query: string): string {
       `• **Role**: ${lc?.role ?? "Product engineering & architecture"}\n` +
       `• **Stack**: React 19, TanStack Start, TypeScript, Tailwind CSS, Supabase, Recharts\n` +
       `• **Challenge**: Consolidating fragmented trackers (goals, learning hours, habit consistency, finance) into a single cohesive dashboard without cognitive overload.\n` +
-      `• **Key Outcome**: Modular tracking widgets with weekly review aggregation, Supabase RLS, and real-time syncing.`
+      `• **Key Outcome**: Modular tracking widgets with weekly review aggregation, Supabase RLS, and real-time syncing.\n\n` +
+      `Read the complete case study on the [Life Compass project page](/work/life-compass).`
     );
   }
 
-  // Sushi Craft project
+  // 7. Sushi Craft project
   if (q.includes("sushi") || q.includes("sushi craft") || q.includes("omakase") || q.includes("restaurant")) {
     const sc = projectsData.find((p) => p.slug === "sushi-craft");
     return (
       `**Sushi Craft — Omakase Dining & Table Reservation System**\n\n` +
       `• **Role**: ${sc?.role ?? "Frontend engineering & UI craft"}\n` +
       `• **Stack**: Next.js 15, TypeScript, Tailwind CSS, Motion, Radix UI\n` +
-      `• **Key Outcome**: An immersive editorial dining portal with real-time seat slot selection, multi-course pairing guides, and fluid menu animations.`
+      `• **Key Outcome**: An immersive editorial dining portal with real-time seat slot selection, multi-course pairing guides, and fluid menu animations.\n\n` +
+      `Read the complete case study on the [Sushi Craft project page](/work/sushi-craft).`
     );
   }
 
-  // DerivConnect project
+  // 8. DerivConnect project
   if (q.includes("deriv") || q.includes("trading") || q.includes("derivconnect") || q.includes("fintech")) {
     const dc = projectsData.find((p) => p.slug === "derivconnect");
     return (
       `**DerivConnect — Multi-Asset Trading Terminal**\n\n` +
       `• **Role**: ${dc?.role ?? "Full-stack engineering & real-time systems"}\n` +
       `• **Stack**: React, TypeScript, WebSockets, Tailwind CSS, lightweight-charts\n` +
-      `• **Key Outcome**: High-throughput tick processing with sub-50ms render latency, resilient connection recovery, and customizable charting workspaces.`
+      `• **Key Outcome**: High-throughput tick processing with sub-50ms render latency, resilient connection recovery, and customizable charting workspaces.\n\n` +
+      `Read the complete case study on the [DerivConnect project page](/work/derivconnect).`
     );
   }
 
-  // TipsDeck project
+  // 9. TipsDeck project
   if (q.includes("tipsdeck") || q.includes("sports") || q.includes("tips") || q.includes("football") || q.includes("prediction")) {
     const td = projectsData.find((p) => p.slug === "tipsdeck");
     return (
@@ -76,14 +152,15 @@ export function answerFromKnowledgeBase(query: string): string {
       `• **Role**: ${td?.role ?? "Full-stack & product engineering"}\n` +
       `• **Stack**: React, TypeScript, Tailwind CSS, Supabase, Stripe\n` +
       `• **Challenge**: Delivering real-time sports probability models and data-dense fixtures without layout shifts or cognitive clutter, coupled with automated subscription access control.\n` +
-      `• **Key Outcome**: High-density match insight cards optimized for quick mobile scanning with automated membership activation.`
+      `• **Key Outcome**: High-density match insight cards optimized for quick mobile scanning with automated membership activation.\n\n` +
+      `Read the complete case study on the [TipsDeck project page](/work/tipsdeck).`
     );
   }
 
-  // Projects general
+  // 10. Projects general
   if (q.includes("project") || q.includes("work") || q.includes("portfolio") || q.includes("case stud")) {
     const list = projectsData
-      .map((p) => `• **${p.title}** (${p.year}) — ${p.category} [${p.stack.slice(0, 3).join(", ")}]`)
+      .map((p) => `• **${p.title}** (${p.year}) — ${p.category} [${p.stack.slice(0, 3).join(", ")}] — [View Case Study](/work/${p.slug})`)
       .join("\n");
     return (
       `Sule has engineered high-impact products across mobile, fintech, and developer tooling:\n\n${list}\n\n` +
@@ -91,7 +168,7 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
-  // Experience, career & background
+  // 11. Experience, career & background
   if (
     q.includes("experience") ||
     q.includes("background") ||
@@ -109,7 +186,7 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
-  // Philosophy & approach
+  // 12. Philosophy & approach
   if (q.includes("philosophy") || q.includes("approach") || q.includes("values") || q.includes("how do you work")) {
     return (
       `**Engineering Philosophy**\n\n` +
@@ -120,7 +197,7 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
-  // Availability, hiring & contact
+  // 13. Availability, hiring & contact
   if (
     q.includes("hire") ||
     q.includes("available") ||
@@ -128,7 +205,6 @@ export function answerFromKnowledgeBase(query: string): string {
     q.includes("contact") ||
     q.includes("email") ||
     q.includes("freelance") ||
-    q.includes("rate") ||
     q.includes("open to")
   ) {
     return (
@@ -139,13 +215,26 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
-  // Default helpful overview
+  // 14. Location, timezone & remote work
+  if (
+    q.includes("where") ||
+    q.includes("location") ||
+    q.includes("timezone") ||
+    q.includes("remote") ||
+    q.includes("relocate")
+  ) {
+    return (
+      `Sule is based in **${siteConfig.location}** and works with distributed global teams across Europe, North America, and beyond.\n\n` +
+      `• **Work Mode**: Fully equipped for remote collaboration, asynchronous communication, and distributed sprint rhythms.\n` +
+      `• **Get in touch**: Connect on [LinkedIn](${siteConfig.linkedin}) or visit the [Contact Page](/contact).`
+    );
+  }
+
+  // 15. Intelligent dynamic fallback (acknowledges the query without repeating the static intro)
   return (
-    `Hello! I'm Sule Malik's portfolio companion. I can answer questions about:\n\n` +
-    `• **Engineering Stack**: React 19, React Native, TypeScript, TanStack Start, Supabase, Tailwind CSS\n` +
-    `• **Featured Projects**: Roam (mobile travel app), Life Compass (personal OS), Sushi Craft, DerivConnect, TipsDeck\n` +
-    `• **Experience & Background**: Engineering roles, design system craft, and production leadership\n` +
-    `• **Availability & Contact**: Hiring availability, contract collaboration, and direct contact details\n\n` +
-    `What would you like to know?`
+    `Thank you for your message! While I'm focused primarily on Sule Malik's engineering portfolio, architecture, and experience, Sule would be happy to discuss your specific question or project idea directly.\n\n` +
+    `• **Discuss a project or custom website**: Share your details on the **[Contact Form](/contact)** or email [${siteConfig.email}](mailto:${siteConfig.email}).\n` +
+    `• **Explore past engineering work**: Review featured case studies on the **[Work](/work)** page.\n` +
+    `• **Ask about Sule's stack**: Feel free to ask about React 19, React Native, TypeScript, Supabase, or production leadership.`
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageSquare, X, Send, Sparkles, RotateCcw, ArrowUpRight } from "lucide-react";
+import { MessageSquare, X, Send, Sparkles, RotateCcw, ArrowUpRight, Maximize2 } from "lucide-react";
 import { sendChatMessage } from "@/server/chat";
 
 interface Message {
@@ -28,6 +29,7 @@ const SUGGESTED_PROMPTS = [
 ];
 
 export function AssistantDrawer() {
+  const isChat = useRouterState({ select: (s) => s.location.pathname.startsWith("/ask") });
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
@@ -115,6 +117,8 @@ export function AssistantDrawer() {
 
   const latestSource = messages[messages.length - 1]?.source;
 
+  if (isChat) return null;
+
   return (
     <>
       {/* Floating Trigger Button */}
@@ -169,6 +173,15 @@ export function AssistantDrawer() {
                 </div>
               </div>
               <div className="flex items-center gap-1">
+                <Link
+                  to="/ask"
+                  onClick={() => setIsOpen(false)}
+                  title="Open full page chat"
+                  aria-label="Open full page chat"
+                  className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                >
+                  <Maximize2 className="size-3.5" />
+                </Link>
                 <button
                   onClick={resetChat}
                   title="Reset conversation"
