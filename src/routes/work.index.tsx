@@ -119,7 +119,7 @@ function Work() {
               >
                 <div className={i % 2 ? "lg:order-2" : ""}>
                   <ImageReveal delay={0.1}>
-                    <div className="overflow-hidden rounded-xl border border-border transition-colors duration-300 group-hover:border-primary/40">
+                    <div className="overflow-hidden rounded-2xl border border-border transition-colors duration-300 group-hover:border-primary/40">
                       <ProjectVisual project={p} />
                     </div>
                   </ImageReveal>

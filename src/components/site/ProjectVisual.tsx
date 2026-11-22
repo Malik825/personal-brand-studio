@@ -18,7 +18,7 @@ export function ProjectVisual({
   eager?: boolean;
 }) {
   const [imageError, setImageError] = useState(false);
-  const frame = fill ? "h-full w-full" : "aspect-[4/3] border border-foreground/10";
+  const frame = fill ? "h-full w-full" : "aspect-[4/3] rounded-2xl border border-foreground/10";
 
   if (project.image && !imageError) {
     return (

@@ -139,7 +139,7 @@ function Panel({
         </div>
 
         {/* Image with inner parallax */}
-        <div className="relative min-h-0 flex-1 overflow-hidden rounded-sm border border-border bg-card">
+        <div className="relative min-h-0 flex-1 overflow-hidden rounded-2xl border border-border bg-card">
           <motion.div style={{ x: imageShift }} className="absolute inset-y-0 -left-[6%] -right-[6%]">
             <ProjectVisual project={p} fill />
           </motion.div>
@@ -177,34 +177,47 @@ function SwipeTrack({ projects, alwaysVisible }: { projects: Project[]; alwaysVi
         </p>
       </div>
 
-      <div className="container-site mt-10 space-y-12">
+      <ol className="container-site mt-10 lg:grid lg:grid-cols-2 lg:gap-8">
         {projects.map((p, i) => (
-          <article key={p.slug} className="border-b border-border/70 pb-12 last:border-b-0">
-            <Link to="/work/$slug" params={{ slug: p.slug }} className="group block space-y-4">
-              <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/20">
-                <ProjectVisual project={p} eager={i === 0} />
+          <li
+            key={p.slug}
+            // Sticky stacking: each card settles slightly lower than the last,
+            // so earlier cards peek out above like a deck. Pure CSS — scroll stays native.
+            className="sticky pb-6 lg:static lg:pb-0"
+            style={{ top: `${16 + i * 10}px` }}
+          >
+            <Link
+              to="/work/$slug"
+              params={{ slug: p.slug }}
+              className="group block rounded-3xl border border-border bg-card p-2.5 outline-none transition-colors duration-300 hover:border-foreground/25 focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="overflow-hidden rounded-2xl">
+                <ProjectVisual project={p} eager={i === 0} className="border-0" />
               </div>
-              <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  <span className="text-primary font-semibold">{pad(i + 1)}</span> · {p.category}
+              <div className="space-y-2 px-2 pb-2 pt-4">
+                <p className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  <span>
+                    <span className="font-semibold text-primary">{pad(i + 1)}</span> · {p.category}
+                  </span>
+                  <span>{p.year}</span>
                 </p>
-                <h3 className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-3xl">
-                  {p.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
-                  {p.summary}
-                </p>
-                <div className="pt-1 inline-flex items-center gap-1.5 text-xs font-medium text-foreground group-hover:text-primary transition-colors">
-                  <span>Explore case study</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
+                <div className="flex items-end justify-between gap-4">
+                  <h3 className="font-display text-2xl tracking-tight text-foreground transition-colors group-hover:text-primary sm:text-3xl">
+                    {p.title}
+                  </h3>
+                  <span
+                    className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border text-sm transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground"
+                    aria-hidden
+                  >
                     →
                   </span>
                 </div>
+                <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
               </div>
             </Link>
-          </article>
+          </li>
         ))}
-      </div>
+      </ol>
 
       <div className="container-site mt-4">
         <Link to="/work" className="link-underline group inline-flex items-center gap-2 text-sm font-medium">
