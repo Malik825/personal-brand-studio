@@ -5,14 +5,26 @@ import { portfolioRequestSchema } from "./portfolio-request";
 import { createResponsesCall } from "./ai/responses";
 import { withLovableAiGatewayRunIdHeader } from "./ai/run-id";
 import { createChatCompletionsCall, resolveChatProvider } from "./ai/provider";
+import { answerFromKnowledgeBase } from "./ai/knowledge";
 
 export async function handlePortfolioChat(request: Request, env: Record<string, string | undefined>): Promise<Response> {
   const headers = { "Cache-Control": "no-store" };
   const origin = request.headers.get("origin");
-  if (!origin || origin !== new URL(request.url).origin) return new Response("Forbidden", { status: 403, headers });
+  const requestUrl = new URL(request.url);
+
+  // Allow same-origin, www, apex, preview domains and local dev
+  const isAllowedOrigin =
+    !origin ||
+    origin === requestUrl.origin ||
+    origin.endsWith("sulemalik.com") ||
+    origin.endsWith(".vercel.app") ||
+    origin.includes("localhost") ||
+    origin.includes("127.0.0.1");
+
+  if (!isAllowedOrigin) return new Response("Forbidden", { status: 403, headers });
+
   const provider = resolveChatProvider(env);
   const apiKey = env["LOVABLE_API_KEY"];
-  if (!provider && !apiKey) return new Response(assistantCopy.configurationError, { status: 401, headers });
   try {
     const raw = await request.text();
     if (raw.length > 180000) return new Response(assistantCopy.invalidRequest, { status: 413, headers });
@@ -48,25 +60,49 @@ export async function handlePortfolioChat(request: Request, env: Record<string, 
     }
 
     // Legacy Lovable AI Gateway path (only when LOVABLE_API_KEY is set).
-    const call = createResponsesCall(request, { apiKey: apiKey!, baseURL: "https://ai.gateway.lovable.dev/v1", model: "openai/gpt-6-astra" }, modelMessages, instructions);
+    if (apiKey) {
+      const call = createResponsesCall(request, { apiKey, baseURL: "https://ai.gateway.lovable.dev/v1", model: "openai/gpt-6-astra" }, modelMessages, instructions);
+      const stream = createUIMessageStream({
+        originalMessages: messages,
+        execute: async ({ writer }) => {
+          writer.merge(call.result.toUIMessageStream({ sendReasoning: true }));
+          const text = await call.result.text;
+          if (!text.trim() && !request.signal.aborted) writer.write({ type: "error", errorText: assistantCopy.unavailable });
+        },
+        onError: () => assistantCopy.unavailable,
+        onFinish: () => { /* Transcript persistence belongs to the visitor's browser. */ },
+      });
+      const response = createUIMessageStreamResponse({ stream, headers });
+      const wrapped = await withLovableAiGatewayRunIdHeader(response, call.gateway);
+      const failure = call.getFailure();
+      if (failure) {
+        await wrapped.body?.cancel();
+        return new Response(failure.message, { status: failure.status, headers: wrapped.headers });
+      }
+      return wrapped;
+    }
+
+    // Built-in Grounded Knowledge Base fallback: streams factual answers with zero keys!
+    const lastUserQuery =
+      messages
+        .filter((m) => m.role === "user")
+        .slice(-1)[0]
+        ?.parts.map((p) => p.text)
+        .join(" ") || "overview";
+
+    const reply = answerFromKnowledgeBase(lastUserQuery);
+
     const stream = createUIMessageStream({
       originalMessages: messages,
       execute: async ({ writer }) => {
-        writer.merge(call.result.toUIMessageStream({ sendReasoning: true }));
-        const text = await call.result.text;
-        if (!text.trim() && !request.signal.aborted) writer.write({ type: "error", errorText: assistantCopy.unavailable });
+        writer.write({
+          type: "text-delta",
+          textDelta: reply,
+        });
       },
-      onError: () => assistantCopy.unavailable,
-      onFinish: () => { /* Transcript persistence belongs to the visitor's browser. */ },
     });
-    const response = createUIMessageStreamResponse({ stream, headers });
-    const wrapped = await withLovableAiGatewayRunIdHeader(response, call.gateway);
-    const failure = call.getFailure();
-    if (failure) {
-      await wrapped.body?.cancel();
-      return new Response(failure.message, { status: failure.status, headers: wrapped.headers });
-    }
-    return wrapped;
+
+    return createUIMessageStreamResponse({ stream, headers });
   } catch (error) {
     if (request.signal.aborted) return new Response(null, { status: 499, headers });
     return new Response(error instanceof SyntaxError ? assistantCopy.invalidRequest : assistantCopy.unavailable, { status: error instanceof SyntaxError ? 400 : 503, headers });
