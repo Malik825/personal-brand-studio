@@ -13,7 +13,7 @@ interface ChatRequest {
 
 interface ChatResponse {
   reply: string;
-  source: "grok" | "openai" | "knowledge-base";
+  source: "huggingface" | "groq" | "grok" | "openai" | "knowledge-base";
 }
 
 // Fallback intelligent intent matcher when OPENAI_API_KEY is not configured
@@ -192,6 +192,8 @@ export const sendChatMessage = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<ChatResponse> => {
     const { message, history = [] } = data;
+    const hfToken = process.env.HF_TOKEN || process.env.HUGGINGFACE_API_KEY;
+    const groqKey = process.env.GROQ_API_KEY;
     const grokKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY;
     const openAiKey = process.env.OPENAI_API_KEY;
 
@@ -225,7 +227,63 @@ Guidelines:
       { role: "user" as const, content: message },
     ];
 
-    // 1. Try Grok AI (xAI) if configured
+    // 1. Try Hugging Face Serverless API (Free tier) if configured
+    if (hfToken && hfToken.startsWith("hf_") && !hfToken.includes("your-")) {
+      try {
+        const { createOpenAI } = await import("@ai-sdk/openai");
+        const { generateText } = await import("ai");
+
+        const hf = createOpenAI({
+          baseURL: "https://router.huggingface.co/v1",
+          apiKey: hfToken,
+        });
+
+        const { text } = await generateText({
+          model: hf("Qwen/Qwen2.5-72B-Instruct"),
+          system: systemPrompt,
+          messages: formattedMessages,
+          maxTokens: 500,
+          temperature: 0.3,
+        });
+
+        return {
+          reply: text,
+          source: "huggingface",
+        };
+      } catch (err) {
+        console.warn("[ChatServerFn] Hugging Face call failed, falling back to next provider:", err);
+      }
+    }
+
+    // 2. Try Groq (Free tier with ultra-fast Llama 3.3 70B) if configured
+    if (groqKey && groqKey.startsWith("gsk_") && !groqKey.includes("your-")) {
+      try {
+        const { createOpenAI } = await import("@ai-sdk/openai");
+        const { generateText } = await import("ai");
+
+        const groq = createOpenAI({
+          baseURL: "https://api.groq.com/openai/v1",
+          apiKey: groqKey,
+        });
+
+        const { text } = await generateText({
+          model: groq("llama-3.3-70b-versatile"),
+          system: systemPrompt,
+          messages: formattedMessages,
+          maxTokens: 600,
+          temperature: 0.3,
+        });
+
+        return {
+          reply: text,
+          source: "groq",
+        };
+      } catch (err) {
+        console.warn("[ChatServerFn] Groq call failed, falling back to next provider:", err);
+      }
+    }
+
+    // 3. Try Grok AI (xAI) if configured
     if (grokKey && grokKey.length > 10 && !grokKey.includes("your-")) {
       try {
         const { createOpenAI } = await import("@ai-sdk/openai");
@@ -253,7 +311,7 @@ Guidelines:
       }
     }
 
-    // 2. Try OpenAI if configured
+    // 4. Try OpenAI if configured
     if (openAiKey && openAiKey.startsWith("sk-") && !openAiKey.includes("your-")) {
       try {
         const { createOpenAI } = await import("@ai-sdk/openai");
@@ -278,7 +336,7 @@ Guidelines:
       }
     }
 
-    // 3. Fallback: fast, instant knowledge base response
+    // 5. Fallback: fast, instant knowledge base response
     const reply = answerFromKnowledgeBase(message);
     return {
       reply,

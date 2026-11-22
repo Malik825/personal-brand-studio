@@ -7,7 +7,7 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
-  source?: "grok" | "openai" | "knowledge-base";
+  source?: "huggingface" | "groq" | "grok" | "openai" | "knowledge-base";
 }
 
 const INITIAL_MESSAGES: Message[] = [
@@ -156,7 +156,11 @@ export function AssistantDrawer() {
                   <h3 className="font-display text-sm font-semibold text-foreground">Sule&apos;s Assistant</h3>
                   <p className="text-[10px] text-muted-foreground flex items-center gap-1.5">
                     <span className="size-1.5 rounded-full bg-emerald-500" />
-                    {latestSource === "grok"
+                    {latestSource === "huggingface"
+                      ? "Hugging Face AI online"
+                      : latestSource === "groq"
+                      ? "Groq AI online"
+                      : latestSource === "grok"
                       ? "Grok AI online"
                       : latestSource === "openai"
                       ? "GPT-4o online"
