@@ -10,8 +10,9 @@ import type {
 export const siteConfig: SiteConfig = {
   name: "Sule Malik",
   role: "Product-minded software engineer",
-  email: "hello@sulemalik.com",
-  linkedin: "https://www.linkedin.com/in/sulemalik",
+  email: "abdulmaliksuleman75@gmail.com",
+  linkedin: "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
+  github: "https://github.com/malik825",
   location: "Available for remote work worldwide",
   stack: ["React", "React Native", "Next.js", "Angular", "TypeScript"],
 };
@@ -93,7 +94,7 @@ export const projectsData: Project[] = [
     ],
     outcome:
       "A centralized personal development dashboard empowering structured daily reflection and measurable long-term career progression.",
-    image: "/images/life-compass.jpg",
+    image: "https://cdn.sanity.io/images/wcfopvjq/production/6a10ad3906f4470d7e4362b58f653d524ee153c7-3000x2000.png",
   },
   {
     slug: "sushi-craft",

@@ -150,10 +150,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "description":
                 "Sule Malik is a product-minded software engineer specializing in building high-performance web and mobile products with clean component architectures.",
               "url": "https://sulemalik.com",
-              "email": "hello@sulemalik.com",
+              "email": "abdulmaliksuleman75@gmail.com",
               "sameAs": [
-                "https://www.linkedin.com/in/sulemalik",
-                "https://github.com/Malik825"
+                "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
+                "https://github.com/malik825"
               ],
               "knowsAbout": [
                 "React 19",

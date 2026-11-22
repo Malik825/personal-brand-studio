@@ -5,10 +5,10 @@
 Sule Malik bridges design and product engineering. He designs, architectures, and builds scalable web and mobile applications with exceptional performance, accessible design systems, and robust full-stack integrations.
 
 - Website: https://sulemalik.com
-- Contact: hello@sulemalik.com
+- Contact: abdulmaliksuleman75@gmail.com
 - Contact Form: https://sulemalik.com/contact
-- LinkedIn: https://www.linkedin.com/in/sulemalik
-- GitHub: https://github.com/Malik825
+- LinkedIn: https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/
+- GitHub: https://github.com/malik825
 - Location: Available for remote product engineering roles globally.
 
 ## Core Technical Stack

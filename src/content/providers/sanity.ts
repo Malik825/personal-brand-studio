@@ -68,6 +68,7 @@ export class SanityContentProvider implements ContentProvider {
         role,
         email,
         linkedin,
+        github,
         location,
         stack
       }`;

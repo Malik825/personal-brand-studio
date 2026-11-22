@@ -12,6 +12,7 @@ export type SiteConfig = {
   role: string;
   email: string;
   linkedin: string;
+  github?: string;
   location: string;
   stack: string[];
 };

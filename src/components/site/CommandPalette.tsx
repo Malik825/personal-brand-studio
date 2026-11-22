@@ -5,6 +5,7 @@ import {
   FolderGit2,
   Mail,
   Linkedin,
+  Github,
   Compass,
   ArrowRight,
   ExternalLink,
@@ -210,6 +211,20 @@ export function CommandPalette({ open: controlledOpen, onOpenChange }: CommandPa
             </div>
             <ExternalLink className="size-3.5 text-muted-foreground opacity-60" />
           </CommandItem>
+          {site.github && (
+            <CommandItem
+              onSelect={() =>
+                runCommand(() => window.open(site.github, "_blank", "noopener,noreferrer"))
+              }
+              className="flex items-center justify-between rounded-md px-3 py-2.5 cursor-pointer aria-selected:bg-accent"
+            >
+              <div className="flex items-center gap-2.5">
+                <Github className="size-4 text-muted-foreground" />
+                <span>GitHub Repositories</span>
+              </div>
+              <ExternalLink className="size-3.5 text-muted-foreground opacity-60" />
+            </CommandItem>
+          )}
         </CommandGroup>
       </CommandList>
       <div className="flex items-center justify-between border-t border-border px-4 py-2.5 text-xs text-muted-foreground">
