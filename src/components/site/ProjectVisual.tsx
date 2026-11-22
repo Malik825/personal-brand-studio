@@ -11,11 +11,13 @@ export function ProjectVisual({
   className,
   fill = false,
   eager = false,
+  fit = "cover",
 }: {
   project: Project;
   className?: string;
   fill?: boolean;
   eager?: boolean;
+  fit?: "cover" | "contain";
 }) {
   const [imageError, setImageError] = useState(false);
   const frame = fill ? "h-full w-full" : "aspect-[4/3] rounded-2xl border border-foreground/10";
@@ -29,7 +31,10 @@ export function ProjectVisual({
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           onError={() => setImageError(true)}
-          className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+          className={cn(
+            "h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]",
+            fit === "contain" ? "object-contain" : "object-cover"
+          )}
         />
       </div>
     );

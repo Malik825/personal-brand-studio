@@ -51,9 +51,11 @@ export function ProjectListSkeleton() {
 export function CaseStudySkeleton() {
   return (
     <Busy label="Loading case study">
-      <IntroSkeleton />
-      <div className="container-site max-w-5xl mx-auto" aria-hidden>
-        <div className={`${bar} aspect-[16/9] rounded-xl`} />
+      <div className="container-site max-w-5xl mx-auto">
+        <IntroSkeleton />
+      </div>
+      <div className="w-full my-6 sm:my-10 md:my-14 border-y border-border/80" aria-hidden>
+        <div className={`${bar} aspect-[16/9] w-full`} />
       </div>
     </Busy>
   );

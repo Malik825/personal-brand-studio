@@ -6,6 +6,7 @@ import { ReadingProgress } from "@/components/site/ReadingProgress";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { ImageReveal } from "@/components/motion/ImageReveal";
 import { getProject, getProjects } from "@/content";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }) => {
@@ -66,8 +67,9 @@ function CaseStudy() {
   return (
     <Page>
       <ReadingProgress />
-      <article className="container-site max-w-5xl mx-auto">
-        <header className="pb-12 pt-16 md:pt-20">
+      <article>
+        {/* Centered Editorial Header */}
+        <header className="container-site max-w-5xl mx-auto pb-12 pt-16 md:pt-20">
           <FadeUp>
             <Link
               to="/work"
@@ -97,15 +99,23 @@ function CaseStudy() {
           </FadeUp>
         </header>
 
-        <div>
+        {/* Full-width Screen Showcase Visual (Full-bleed width, zero cropping) */}
+        <section className={cn("tone-" + p.tone, "w-full my-6 sm:my-10 md:my-14 overflow-hidden border-y border-border/80 bg-muted/30")}>
           <ImageReveal delay={0.05} duration={0.6}>
-            <div className="overflow-hidden rounded-2xl border border-border bg-muted/20 shadow-sm aspect-[16/10] sm:aspect-[16/9] w-full">
-              <ProjectVisual project={p} fill eager />
+            <div className="w-full flex items-center justify-center py-4 sm:py-8 md:py-12 px-0 sm:px-4 md:px-8">
+              <ProjectVisual
+                project={p}
+                fill
+                fit="contain"
+                eager
+                className="w-full h-auto max-h-[88vh] aspect-[16/10] sm:aspect-[16/9] mx-auto rounded-none sm:rounded-xl shadow-sm"
+              />
             </div>
           </ImageReveal>
-        </div>
+        </section>
 
-        <div className="mt-20 space-y-16">
+        {/* Centered Case Study Narrative */}
+        <div className="container-site max-w-5xl mx-auto mt-16 sm:mt-20 space-y-16">
           <FadeUp>
             <section id="challenge" className="grid gap-6 md:grid-cols-[1fr_2.5fr] border-b border-border pb-16">
               <Eyebrow>Challenge</Eyebrow>
@@ -135,7 +145,8 @@ function CaseStudy() {
           </FadeUp>
         </div>
 
-        <div className="mt-24 border-t border-border pt-12 pb-16">
+        {/* Next Project Footer */}
+        <div className="container-site max-w-5xl mx-auto mt-24 border-t border-border pt-12 pb-16">
           <FadeUp>
             <Link
               to="/work/$slug"
