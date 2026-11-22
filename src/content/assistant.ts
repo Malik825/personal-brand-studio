@@ -1,4 +1,4 @@
-import { experience, projects, site } from "./index";
+import type { AboutContent, Experience, Project, SiteConfig } from "./types";
 
 export const aboutSections: ReadonlyArray<{ t: string; b: string }> = [
   { t: "Background", b: "I'm a software engineer who has spent my career building customer-facing web products — SaaS platforms, booking systems, e-commerce and subscription services. I work mostly on the frontend and product layer, where engineering decisions meet real users." },
@@ -34,16 +34,17 @@ export const assistantCopy = {
   invalidRequest: "Please send a text question about the portfolio.",
   unavailable: "Portfolio answers are currently unavailable.",
   configurationError: "AI access isn’t configured for this portfolio.",
+  sourceLabel: "Portfolio sources",
+  questionTooLong: "Please keep your question under 2,000 characters.",
   metadata: { title: "Ask the portfolio — Sule Malik", description: "Ask questions about Sule Malik’s engineering experience, project decisions and technical work." },
 } as const;
 
-export function portfolioGrounding() {
+export function portfolioGrounding(site: SiteConfig, projects: Project[], experience: Experience[], about: AboutContent) {
   return {
     profile: { name: site.name, role: site.role, location: site.location, stack: site.stack, url: "/about" },
-    background: aboutSections,
-    capabilities,
+    background: about,
     experience,
-    projects: projects.map(({ tone: _tone, outcome: _outcome, ...project }) => ({ ...project, url: `/work/${project.slug}`, results: "Detailed results have not been published." })),
+    projects: projects.map(({ tone: _tone, image: _image, outcome, ...project }) => ({ ...project, url: `/work/${project.slug}`, results: /placeholder|to be added/i.test(outcome) ? "Detailed results have not been published." : outcome })),
     contact: { url: "/contact", status: "Email and LinkedIn are placeholders and are not verified contact details." },
   };
 }

@@ -14,10 +14,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as WritingRouteImport } from './routes/writing'
+import { Route as AskIndexRouteImport } from './routes/ask.index'
+import { Route as AskThreadIdRouteImport } from './routes/ask.$threadId'
 import { Route as WorkIndexRouteImport } from './routes/work.index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 import { Route as WritingIndexRouteImport } from './routes/writing.index'
 import { Route as WritingSlugRouteImport } from './routes/writing.$slug'
+import { Route as ApiPublicPortfolioChatRouteImport } from './routes/api.public.portfolio-chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,6 +47,16 @@ const WritingRoute = WritingRouteImport.update({
   path: '/writing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AskIndexRoute = AskIndexRouteImport.update({
+  id: '/ask/',
+  path: '/ask/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AskThreadIdRoute = AskThreadIdRouteImport.update({
+  id: '/ask/$threadId',
+  path: '/ask/$threadId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorkIndexRoute = WorkIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -64,6 +77,11 @@ const WritingSlugRoute = WritingSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => WritingRoute,
 } as any)
+const ApiPublicPortfolioChatRoute = ApiPublicPortfolioChatRouteImport.update({
+  id: '/api/public/portfolio-chat',
+  path: '/api/public/portfolio-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,19 +89,25 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/work': typeof WorkRouteWithChildren
   '/writing': typeof WritingRouteWithChildren
+  '/ask/$threadId': typeof AskThreadIdRoute
   '/work/$slug': typeof WorkSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
+  '/ask/': typeof AskIndexRoute
   '/work/': typeof WorkIndexRoute
   '/writing/': typeof WritingIndexRoute
+  '/api/public/portfolio-chat': typeof ApiPublicPortfolioChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/ask/$threadId': typeof AskThreadIdRoute
   '/work/$slug': typeof WorkSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
+  '/ask': typeof AskIndexRoute
   '/work': typeof WorkIndexRoute
   '/writing': typeof WritingIndexRoute
+  '/api/public/portfolio-chat': typeof ApiPublicPortfolioChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,10 +116,13 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/work': typeof WorkRouteWithChildren
   '/writing': typeof WritingRouteWithChildren
+  '/ask/$threadId': typeof AskThreadIdRoute
   '/work/$slug': typeof WorkSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
+  '/ask/': typeof AskIndexRoute
   '/work/': typeof WorkIndexRoute
   '/writing/': typeof WritingIndexRoute
+  '/api/public/portfolio-chat': typeof ApiPublicPortfolioChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,19 +132,25 @@ export interface FileRouteTypes {
     | '/contact'
     | '/work'
     | '/writing'
+    | '/ask/$threadId'
     | '/work/$slug'
     | '/writing/$slug'
+    | '/ask/'
     | '/work/'
     | '/writing/'
+    | '/api/public/portfolio-chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/ask/$threadId'
     | '/work/$slug'
     | '/writing/$slug'
+    | '/ask'
     | '/work'
     | '/writing'
+    | '/api/public/portfolio-chat'
   id:
     | '__root__'
     | '/'
@@ -125,10 +158,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/work'
     | '/writing'
+    | '/ask/$threadId'
     | '/work/$slug'
     | '/writing/$slug'
+    | '/ask/'
     | '/work/'
     | '/writing/'
+    | '/api/public/portfolio-chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,6 +173,9 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   WorkRoute: typeof WorkRouteWithChildren
   WritingRoute: typeof WritingRouteWithChildren
+  AskThreadIdRoute: typeof AskThreadIdRoute
+  AskIndexRoute: typeof AskIndexRoute
+  ApiPublicPortfolioChatRoute: typeof ApiPublicPortfolioChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -176,6 +215,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WritingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ask/': {
+      id: '/ask/'
+      path: '/ask'
+      fullPath: '/ask/'
+      preLoaderRoute: typeof AskIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ask/$threadId': {
+      id: '/ask/$threadId'
+      path: '/ask/$threadId'
+      fullPath: '/ask/$threadId'
+      preLoaderRoute: typeof AskThreadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/work/': {
       id: '/work/'
       path: '/'
@@ -203,6 +256,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/writing/$slug'
       preLoaderRoute: typeof WritingSlugRouteImport
       parentRoute: typeof WritingRoute
+    }
+    '/api/public/portfolio-chat': {
+      id: '/api/public/portfolio-chat'
+      path: '/api/public/portfolio-chat'
+      fullPath: '/api/public/portfolio-chat'
+      preLoaderRoute: typeof ApiPublicPortfolioChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -238,6 +298,9 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   WorkRoute: WorkRouteWithChildren,
   WritingRoute: WritingRouteWithChildren,
+  AskThreadIdRoute: AskThreadIdRoute,
+  AskIndexRoute: AskIndexRoute,
+  ApiPublicPortfolioChatRoute: ApiPublicPortfolioChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

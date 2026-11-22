@@ -99,10 +99,12 @@ export class SanityContentProvider implements ContentProvider {
       if (data && data.length > 0) {
         return data.map((p) => {
           const fallback = staticProjects.find((sp) => sp.slug === p.slug);
+          const image = p.image || fallback?.image;
+          const { image: _image, ...fields } = p;
           return {
             ...fallback,
-            ...p,
-            image: p.image || fallback?.image,
+            ...fields,
+            ...(image ? { image } : {}),
           };
         });
       }
@@ -132,10 +134,12 @@ export class SanityContentProvider implements ContentProvider {
       const data = await this.client.fetch<Project | null>(query, { slug });
       const fallback = staticProjects.find((p) => p.slug === slug);
       if (data) {
+        const image = data.image || fallback?.image;
+        const { image: _image, ...fields } = data;
         return {
           ...fallback,
-          ...data,
-          image: data.image || fallback?.image,
+          ...fields,
+          ...(image ? { image } : {}),
         };
       }
       return fallback;
