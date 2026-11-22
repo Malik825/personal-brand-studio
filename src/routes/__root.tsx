@@ -203,8 +203,43 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function TopRouteProgressBar() {
+  const isNavigating = useRouterState({ select: (s) => s.status === "pending" });
+  const shouldReduceMotion = useReducedMotion();
+
+  if (!isNavigating || shouldReduceMotion) return null;
+
+  return (
+    <div className="fixed top-0 inset-x-0 z-[100] h-[2px] bg-primary/20 pointer-events-none" aria-hidden>
+      <motion.div
+        className="h-full bg-primary"
+        initial={{ width: "0%" }}
+        animate={{ width: "85%" }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      />
+    </div>
+  );
+}
+
 function PageTransitionContainer({ children }: { children: ReactNode }) {
-  return <div className="w-full flex-1">{children}</div>;
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return <div className="w-full flex-1">{children}</div>;
+  }
+
+  return (
+    <motion.div
+      key={pathname}
+      initial={{ opacity: 0.4 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full flex-1 flex flex-col justify-between"
+    >
+      {children}
+    </motion.div>
+  );
 }
 
 function RootComponent() {
@@ -212,6 +247,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <TopRouteProgressBar />
       <CommandPalette />
       <AssistantDrawer />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

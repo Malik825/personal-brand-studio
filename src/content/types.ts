@@ -45,6 +45,9 @@ export type Article = {
   /** Array of paragraph strings for now; will become Portable Text blocks with Sanity. */
   body: string[];
   image?: string;
+  featured?: boolean;
+  tags?: string[];
+  takeaways?: string[];
 };
 
 /** A work-experience entry. */

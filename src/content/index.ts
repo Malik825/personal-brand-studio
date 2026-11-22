@@ -28,6 +28,7 @@ export const getAbout = () => contentProvider.getAbout();
 // Static fallbacks & defaults
 // ---------------------------------------------------------------------------
 export const site = siteConfig;
+export { siteConfig };
 export const projects = projectsData;
 export const articles = articlesData;
 export const experience = experienceData;
