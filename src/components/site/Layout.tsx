@@ -104,19 +104,7 @@ export function Header() {
     </div>
   );
 
-  if (shouldReduceMotion) {
-    return <header>{content}</header>;
-  }
-
-  return (
-    <motion.header
-      initial={{ opacity: 0, y: -14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: cinematicEase }}
-    >
-      {content}
-    </motion.header>
-  );
+  return <header className="w-full">{content}</header>;
 }
 
 export function Footer() {
