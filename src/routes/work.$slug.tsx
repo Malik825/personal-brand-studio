@@ -22,24 +22,40 @@ export const Route = createFileRoute("/work/$slug")({
 
     return { project, nextProject };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData?.project
-      ? [
-          { title: `${loaderData.project.title} case study — Sule Malik` },
-          { name: "description", content: loaderData.project.summary },
-          {
-            property: "og:title",
-            content: `${loaderData.project.title} case study — Sule Malik`,
-          },
-          {
-            property: "og:description",
-            content: loaderData.project.summary,
-          },
-          { property: "og:type", content: "article" },
-          { name: "twitter:card", content: "summary_large_image" },
-        ]
-      : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
-  }),
+  head: ({ loaderData }) => {
+    const p = loaderData?.project;
+    const imageUrl = p?.image
+      ? p.image.startsWith("http")
+        ? p.image
+        : `https://sulemalik.com${p.image}`
+      : "https://sulemalik.com/og-image.jpg";
+
+    return {
+      meta: p
+        ? [
+            { title: `${p.title} case study — Sule Malik` },
+            { name: "description", content: p.summary },
+            {
+              property: "og:title",
+              content: `${p.title} case study — Sule Malik`,
+            },
+            {
+              property: "og:description",
+              content: p.summary,
+            },
+            { property: "og:type", content: "article" },
+            { property: "og:url", content: `https://sulemalik.com/work/${p.slug}` },
+            { property: "og:image", content: imageUrl },
+            { property: "og:image:alt", content: `${p.title} preview` },
+            { name: "twitter:card", content: "summary_large_image" },
+            { name: "twitter:title", content: `${p.title} case study — Sule Malik` },
+            { name: "twitter:description", content: p.summary },
+            { name: "twitter:image", content: imageUrl },
+          ]
+        : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
+      links: p ? [{ rel: "canonical", href: `https://sulemalik.com/work/${p.slug}` }] : [],
+    };
+  },
   component: CaseStudy,
   pendingComponent: CaseStudySkeleton,
 });

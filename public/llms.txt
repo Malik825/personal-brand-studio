@@ -1,0 +1,33 @@
+# Sule Malik — Personal Brand & Engineering Portfolio
+> Product-minded software engineer specializing in React 19, React Native, TypeScript, Next.js, and TanStack Start.
+
+## Summary
+Sule Malik bridges design and product engineering. He designs, architectures, and builds scalable web and mobile applications with exceptional performance, accessible design systems, and robust full-stack integrations.
+
+- Website: https://sulemalik.com
+- Contact: hello@sulemalik.com
+- Contact Form: https://sulemalik.com/contact
+- LinkedIn: https://www.linkedin.com/in/sulemalik
+- GitHub: https://github.com/Malik825
+- Location: Available for remote product engineering roles globally.
+
+## Core Technical Stack
+- Frontend: React 19, TypeScript, Next.js 15, Angular, Tailwind CSS, Motion / Framer Motion.
+- Mobile: React Native, Expo, NativeWind, React Native Reanimated, Gesture Handler.
+- Architecture: TanStack Start, TanStack Router, React Query, Zustand.
+- Backend & Database: Supabase (PostgreSQL, Row-Level Security, Realtime), Node.js, GraphQL.
+- Content Architecture: Sanity.io Headless CMS (typed Content Lake).
+
+## Featured Projects & Case Studies
+- [Roam](https://sulemalik.com/work/roam): Mobile stay booking and travel exploration platform built with React Native, Expo, NativeWind, Clerk, and PostHog.
+- [Life Compass](https://sulemalik.com/work/life-compass): Personal operating system & developer productivity dashboard built with React 19, TanStack Start, Supabase, and Recharts.
+- [Sushi Craft](https://sulemalik.com/work/sushi-craft): Omakase dining portal & reservation system built with Next.js 15, Radix UI, and Motion.
+- [DerivConnect](https://sulemalik.com/work/derivconnect): Automated trade replication terminal linking MT5 broker accounts directly to master signal execution with WebSockets and Supabase.
+- [TipsDeck](https://sulemalik.com/work/tipsdeck): Subscription sports analytics and match probability modeling platform built with React, TypeScript, and Supabase.
+- [Urban Vault](https://sulemalik.com/work/urban-vault): Minimalist architectural streetwear e-commerce storefront.
+
+## Engineering Philosophy
+"Think deeply. Build intentionally. Ship thoughtfully."
+1. Clarity over cleverness: Clean domain boundaries, explicit types, and self-documenting code.
+2. Performance as a core feature: 60fps animations, sub-second TTFB, and zero layout shift.
+3. Accessible design systems: Polished micro-interactions and WCAG-compliant color contrast.
