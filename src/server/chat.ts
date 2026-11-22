@@ -13,7 +13,7 @@ interface ChatRequest {
 
 interface ChatResponse {
   reply: string;
-  source: "openai" | "knowledge-base";
+  source: "grok" | "openai" | "knowledge-base";
 }
 
 // Fallback intelligent intent matcher when OPENAI_API_KEY is not configured
@@ -192,16 +192,10 @@ export const sendChatMessage = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<ChatResponse> => {
     const { message, history = [] } = data;
-    const apiKey = process.env.OPENAI_API_KEY;
+    const grokKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY;
+    const openAiKey = process.env.OPENAI_API_KEY;
 
-    if (apiKey && apiKey.startsWith("sk-") && !apiKey.includes("your-openai-api-key")) {
-      try {
-        const { createOpenAI } = await import("@ai-sdk/openai");
-        const { generateText } = await import("ai");
-
-        const openai = createOpenAI({ apiKey });
-
-        const systemPrompt = `You are the digital portfolio assistant for Sule Malik, a product-minded software engineer based globally.
+    const systemPrompt = `You are the digital portfolio assistant for Sule Malik, a product-minded software engineer based globally.
 Your task is to answer inquiries from prospective clients, engineering leaders, and recruiters accurately, warmly, and concisely.
 
 Context about Sule Malik:
@@ -213,6 +207,7 @@ Context about Sule Malik:
   3. Sushi Craft: Omakase dining reservation platform built with Next.js 15, Radix UI, Motion.
   4. DerivConnect: High-throughput real-time trading terminal built with WebSockets, lightweight-charts, React.
   5. Urban Vault: Minimalist architectural e-commerce store with fluid cart transitions.
+  6. A1 Tips: Real-time football prediction and sports analytics engine with interactive probability modeling.
 - Availability: Open to select full-time product engineering opportunities, contract roles, and technical advisory.
 - Contact: Email is ${siteConfig.email}. LinkedIn is ${siteConfig.socials.linkedin}. GitHub is ${siteConfig.socials.github}.
 
@@ -222,18 +217,54 @@ Guidelines:
 - Use Markdown formatting with links and bolding where helpful.
 - If asked about something completely outside Sule's work or skills, politely steer back to Sule's engineering background.`;
 
-        const messages = [
-          ...history.map((h) => ({
-            role: h.role,
-            content: h.content,
-          })),
-          { role: "user" as const, content: message },
-        ];
+    const formattedMessages = [
+      ...history.map((h) => ({
+        role: h.role,
+        content: h.content,
+      })),
+      { role: "user" as const, content: message },
+    ];
+
+    // 1. Try Grok AI (xAI) if configured
+    if (grokKey && grokKey.length > 10 && !grokKey.includes("your-")) {
+      try {
+        const { createOpenAI } = await import("@ai-sdk/openai");
+        const { generateText } = await import("ai");
+
+        const xai = createOpenAI({
+          baseURL: "https://api.x.ai/v1",
+          apiKey: grokKey,
+        });
+
+        const { text } = await generateText({
+          model: xai("grok-2-latest"),
+          system: systemPrompt,
+          messages: formattedMessages,
+          maxTokens: 600,
+          temperature: 0.3,
+        });
+
+        return {
+          reply: text,
+          source: "grok",
+        };
+      } catch (err) {
+        console.warn("[ChatServerFn] Grok call failed, attempting fallback:", err);
+      }
+    }
+
+    // 2. Try OpenAI if configured
+    if (openAiKey && openAiKey.startsWith("sk-") && !openAiKey.includes("your-")) {
+      try {
+        const { createOpenAI } = await import("@ai-sdk/openai");
+        const { generateText } = await import("ai");
+
+        const openai = createOpenAI({ apiKey: openAiKey });
 
         const { text } = await generateText({
           model: openai("gpt-4o-mini"),
           system: systemPrompt,
-          messages,
+          messages: formattedMessages,
           maxTokens: 500,
           temperature: 0.3,
         });
@@ -247,7 +278,7 @@ Guidelines:
       }
     }
 
-    // Fallback: fast, instant knowledge base response
+    // 3. Fallback: fast, instant knowledge base response
     const reply = answerFromKnowledgeBase(message);
     return {
       reply,
