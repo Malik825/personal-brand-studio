@@ -9,12 +9,14 @@ import { cn } from "@/lib/utils";
 export function ProjectVisual({
   project,
   className,
+  imageClassName,
   fill = false,
   eager = false,
   fit = "cover",
 }: {
   project: Project;
   className?: string;
+  imageClassName?: string;
   fill?: boolean;
   eager?: boolean;
   fit?: "cover" | "contain";
@@ -23,11 +25,29 @@ export function ProjectVisual({
   const frame = fill ? "h-full w-full" : "aspect-[4/3] rounded-2xl border border-foreground/10";
 
   if (project.image && !imageError) {
+    if (fit === "contain") {
+      return (
+        <div className={cn("w-full flex items-center justify-center bg-transparent", className)}>
+          <img
+            src={project.image}
+            alt={project.title}
+            loading={eager ? "eager" : "lazy"}
+            decoding="async"
+            onError={() => setImageError(true)}
+            className={cn(
+              "w-full h-auto block transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              imageClassName
+            )}
+          />
+        </div>
+      );
+    }
+
     return (
       <div
         className={cn(
           "relative overflow-hidden",
-          fit === "contain" ? "bg-transparent" : cn("tone-" + project.tone, "bg-muted/40"),
+          cn("tone-" + project.tone, "bg-muted/40"),
           frame,
           className
         )}
@@ -39,8 +59,8 @@ export function ProjectVisual({
           decoding="async"
           onError={() => setImageError(true)}
           className={cn(
-            "h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]",
-            fit === "contain" ? "object-contain" : "object-cover"
+            "h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]",
+            imageClassName
           )}
         />
       </div>

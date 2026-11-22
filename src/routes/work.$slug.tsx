@@ -99,16 +99,16 @@ function CaseStudy() {
           </FadeUp>
         </header>
 
-        {/* Full-width Screen Showcase Visual (Clean edge-to-edge width, no artificial background) */}
-        <section className="w-full my-6 sm:my-10 md:my-14 overflow-hidden">
+        {/* Full-width Screen Showcase Visual with Creative Squircle Border Radius (strictly on the image) */}
+        <section className="w-full my-6 sm:my-10 md:my-14 px-3 sm:px-6 md:px-10 lg:px-14">
           <ImageReveal delay={0.05} duration={0.6}>
             <div className="w-full flex items-center justify-center">
               <ProjectVisual
                 project={p}
-                fill
                 fit="contain"
                 eager
-                className="w-full h-auto max-h-[88vh] aspect-[16/10] sm:aspect-[16/9] mx-auto shadow-none bg-transparent"
+                className="w-full max-w-[1400px] mx-auto bg-transparent"
+                imageClassName="w-full h-auto block rounded-[1.75rem] sm:rounded-[2.75rem] md:rounded-[3.5rem] shadow-[0_25px_70px_-15px_rgba(0,0,0,0.18)] ring-1 ring-foreground/10"
               />
             </div>
           </ImageReveal>

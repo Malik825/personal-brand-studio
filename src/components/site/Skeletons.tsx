@@ -54,8 +54,8 @@ export function CaseStudySkeleton() {
       <div className="container-site max-w-5xl mx-auto">
         <IntroSkeleton />
       </div>
-      <div className="w-full my-6 sm:my-10 md:my-14" aria-hidden>
-        <div className={`${bar} aspect-[16/9] w-full`} />
+      <div className="w-full my-6 sm:my-10 md:my-14 px-3 sm:px-6 md:px-10 lg:px-14" aria-hidden>
+        <div className={`${bar} aspect-[16/9] w-full rounded-[1.75rem] sm:rounded-[2.75rem] md:rounded-[3.75rem]`} />
       </div>
     </Busy>
   );

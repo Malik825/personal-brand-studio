@@ -56,6 +56,10 @@ export function answerFromKnowledgeBase(query: string): string {
     q.includes("farm") ||
     q.includes("pautry") ||
     q.includes("poultry") ||
+    q.includes("chicken") ||
+    q.includes("livestock") ||
+    q.includes("agriculture") ||
+    q.includes("agro") ||
     q.includes("store") ||
     q.includes("shop") ||
     q.includes("ecommerce") ||
