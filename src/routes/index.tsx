@@ -61,7 +61,7 @@ function Home() {
       {/* ================= HERO SECTION ================= */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden container-site grid gap-12 pb-24 pt-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16 lg:pt-20"
+        className="relative overflow-hidden container-site grid gap-10 pb-20 pt-10 lg:grid-cols-[1fr_1.12fr] lg:items-center lg:gap-14 xl:gap-20 lg:pt-16"
       >
         {/* Layered decorative depth: soft glow and a thin ring drift at different speeds */}
         {!shouldReduceMotion && (
@@ -93,7 +93,7 @@ function Home() {
           </motion.div>
 
           {/* Main headline reveals line by line using staggered text animation */}
-          <h1 className="mt-8 font-display text-5xl leading-[0.98] tracking-tight sm:text-6xl xl:text-[5.5rem]">
+          <h1 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-[2.85rem] xl:text-[3.4rem] leading-[1.12] sm:leading-[1.08] tracking-tight">
             <span className="block overflow-hidden">
               <motion.span
                 className="block"
@@ -131,7 +131,7 @@ function Home() {
             initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.56, ease: cinematicEase }}
-            className="mt-8 max-w-xl text-lg leading-relaxed text-foreground/90"
+            className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-foreground/85"
           >
             I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I architect and engineer high-performance web systems, fluid mobile apps, and scalable digital commerce platforms that solve real business problems.
           </motion.p>
@@ -197,7 +197,7 @@ function Home() {
         {/* Hero portrait with smooth clip-path masked reveal and scroll parallax */}
         <motion.figure
           style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
-          className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto lg:mx-0 lg:justify-self-end will-change-transform"
+          className="relative w-full max-w-md sm:max-w-lg lg:max-w-[520px] xl:max-w-[580px] mx-auto lg:mx-0 lg:justify-self-end will-change-transform"
         >
           <motion.div
             initial={
