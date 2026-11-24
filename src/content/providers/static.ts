@@ -19,7 +19,74 @@ export const siteConfig: SiteConfig = {
 
 export const aboutContent: AboutContent = {
   intro:
-    "I sit between engineering, product and design — and I build software that works for the people using it and the business behind it.",
+    "I sit between engineering, product, and design — building resilient software that works intuitively for real people and drives measurable impact for the business behind it.",
+  bio: [
+    "I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. Over the course of my career, I've engineered customer-facing web platforms, fluid cross-platform mobile apps, recurring SaaS architectures, and high-conversion e-commerce boutiques.",
+    "My focus is on the product engineering intersection: where architectural rigor, design fidelity, and user needs converge. I don't just deliver tickets; I interrogate edge cases, optimize performance down to sub-100ms interactions, and build maintainable codebases designed to evolve.",
+    "I work seamlessly with distributed teams across Europe, North America, and Africa, maintaining high-agency written communication and end-to-end accountability from initial spike to production rollout.",
+  ],
+  principles: [
+    {
+      number: "01",
+      title: "Clarity Over Cleverness",
+      tagline: "Architecture that outlasts trends",
+      body: "Good software is clear before it is clever. I favor simple architectures, explicit data flows, and modular components that are effortless to refactor, because real products evolve much faster than rigid plans.",
+    },
+    {
+      number: "02",
+      title: "Product-Led Problem Solving",
+      tagline: "Code as a business lever",
+      body: "Before writing code, I obsess over who the feature is for and what measurable success looks like. That context shapes every trade-off: what to build first, what to simplify, and what to leave out.",
+    },
+    {
+      number: "03",
+      title: "Craft & Micro-Interactions",
+      tagline: "The tactile user experience",
+      body: "Motion and responsiveness aren't cosmetic additions; they are communication. Fluid 60fps gestures, optimistic updates, and instant visual feedback turn utility into delightful, trustworthy software.",
+    },
+    {
+      number: "04",
+      title: "Autonomous Collaboration",
+      tagline: "Async rigor across time zones",
+      body: "Experienced in remote-first environments across GMT, EST, and CET. High agency means clear written documentation, continuous visibility, and taking end-to-end ownership from concept to production.",
+    },
+  ],
+  capabilityGroups: [
+    {
+      category: "Frontend & Mobile",
+      items: [
+        "React 19",
+        "React Native (Expo)",
+        "TypeScript",
+        "Next.js",
+        "TanStack Start / Router",
+        "Tailwind CSS",
+        "Angular",
+      ],
+    },
+    {
+      category: "Architecture & Performance",
+      items: [
+        "Design Systems",
+        "Web Vitals Optimization",
+        "Headless CMS (Sanity.io)",
+        "State Machines",
+        "Offline-Resilient Sync",
+        "Gesture Orchestration",
+      ],
+    },
+    {
+      category: "Data & Cloud Infrastructure",
+      items: [
+        "Supabase (PostgreSQL)",
+        "Edge Functions",
+        "REST & GraphQL APIs",
+        "Paystack / Mobile Money",
+        "Webhooks & Automation",
+        "Nitro / Vercel Deployments",
+      ],
+    },
+  ],
   sections: [
     {
       title: "Background",

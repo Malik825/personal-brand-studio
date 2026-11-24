@@ -64,11 +64,26 @@ export type AboutSection = {
   body: string;
 };
 
+export type CapabilityGroup = {
+  category: string;
+  items: string[];
+};
+
+export type OperatingPrinciple = {
+  number: string;
+  title: string;
+  tagline: string;
+  body: string;
+};
+
 /** All content rendered on the About page. */
 export type AboutContent = {
   intro: string;
+  bio?: string[];
   sections: AboutSection[];
   capabilities: string[];
+  capabilityGroups?: CapabilityGroup[];
+  principles?: OperatingPrinciple[];
 };
 
 // ---------------------------------------------------------------------------
