@@ -32,6 +32,11 @@ export type Project = {
   outcome: string;
   image?: string;
   order?: number;
+  featured?: boolean;
+  metric?: {
+    value: string;
+    label: string;
+  };
 };
 
 /** A writing/blog article. */

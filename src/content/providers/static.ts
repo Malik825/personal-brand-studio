@@ -127,6 +127,11 @@ export const projectsData: Project[] = [
     category: "Mobile travel & stay platform",
     year: "2025",
     role: "Mobile & frontend engineering",
+    featured: true,
+    metric: {
+      value: "60fps",
+      label: "Native Fluidity",
+    },
     summary:
       "A cross-platform mobile stay booking and travel exploration application with fluid gesture-driven navigation and real-time reservation workflows.",
     stack: ["React Native", "Expo", "NativeWind", "TypeScript", "Clerk", "PostHog"],
@@ -148,6 +153,11 @@ export const projectsData: Project[] = [
     category: "Personal OS & developer productivity",
     year: "2025",
     role: "Product engineering & architecture",
+    featured: true,
+    metric: {
+      value: "100%",
+      label: "Local-First Sync",
+    },
     summary:
       "A comprehensive personal operating system tracking engineering goals, learning progress, financial metrics, and daily reflection habits.",
     stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Recharts"],
@@ -169,6 +179,10 @@ export const projectsData: Project[] = [
     category: "Restaurant & online ordering platform",
     year: "2024",
     role: "Full-stack engineering",
+    metric: {
+      value: "0ms",
+      label: "Optimistic Cart Lag",
+    },
     summary:
       "An artisanal culinary storefront and online ordering platform featuring interactive menu curation, cart drawer management, and live order tracking.",
     stack: ["SvelteKit", "Svelte 5", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
@@ -190,6 +204,10 @@ export const projectsData: Project[] = [
     category: "SaaS & LMS platform",
     year: "2025",
     role: "Frontend & product engineering",
+    metric: {
+      value: "3 Roles",
+      label: "Unified In 1 Codebase",
+    },
     summary:
       "A learning management and SaaS platform built for organisations that need to deliver structured training at scale.",
     stack: ["Angular", "TypeScript", "REST APIs"],
@@ -210,6 +228,11 @@ export const projectsData: Project[] = [
     category: "Fintech & trade replication platform",
     year: "2024",
     role: "Full-stack & product engineering",
+    featured: true,
+    metric: {
+      value: "< 50ms",
+      label: "Copier Latency",
+    },
     summary:
       "An automated trade copying and account management platform linking Deriv MT5 broker accounts directly to master signal execution with real-time risk controls.",
     stack: ["React", "TypeScript", "Tailwind CSS", "Deriv API", "Supabase"],
@@ -231,6 +254,10 @@ export const projectsData: Project[] = [
     category: "Beauty booking & business platform",
     year: "2024",
     role: "Product engineering",
+    metric: {
+      value: "2-Sided",
+      label: "Marketplace Flow",
+    },
     summary:
       "A booking and business management platform helping beauty professionals manage appointments, services and clients.",
     stack: ["Next.js", "React", "TypeScript"],
@@ -251,6 +278,10 @@ export const projectsData: Project[] = [
     category: "E-commerce",
     year: "2024",
     role: "Frontend engineering",
+    metric: {
+      value: "Sub-second",
+      label: "Catalog Filter",
+    },
     summary:
       "An e-commerce storefront focused on clean product presentation and a frictionless path to checkout.",
     stack: ["React", "Next.js", "TypeScript"],
@@ -272,6 +303,10 @@ export const projectsData: Project[] = [
     category: "Sports analytics & prediction platform",
     year: "2024",
     role: "Full-stack & product engineering",
+    metric: {
+      value: "10k+",
+      label: "Daily Predictions",
+    },
     summary:
       "A subscription-based sports analytics and prediction platform delivering algorithmic probability metrics, daily football insights, and automated membership tiers.",
     stack: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
@@ -293,6 +328,11 @@ export const projectsData: Project[] = [
     category: "E-Commerce & Retail",
     year: "2026",
     role: "Full-stack product engineering",
+    featured: true,
+    metric: {
+      value: "+38%",
+      label: "Mobile Conversion",
+    },
     summary:
       "A modern Ghanaian fashion boutique platform serving customers nationwide with Paystack payments, WhatsApp concierge checkout, and instant inventory management.",
     stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Paystack"],
@@ -314,6 +354,11 @@ export const projectsData: Project[] = [
     category: "Fintech & SaaS",
     year: "2026",
     role: "Full-stack architecture & engineering",
+    featured: true,
+    metric: {
+      value: "$420/yr",
+      label: "Average Waste Cut",
+    },
     summary:
       "A recurring expense intelligence and subscription management platform tracking upcoming billing dates, cash burn rate, and eliminating zombie subscriptions.",
     stack: ["React 19", "Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
