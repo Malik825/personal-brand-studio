@@ -88,7 +88,7 @@ export async function handlePortfolioChat(request: Request, env: Record<string, 
       messages
         .filter((m) => m.role === "user")
         .slice(-1)[0]
-        ?.parts.map((p) => p.text)
+        ?.parts.filter((p) => p.type === "text").map((p) => p.text)
         .join(" ") || "overview";
 
     const reply = answerFromKnowledgeBase(lastUserQuery);
