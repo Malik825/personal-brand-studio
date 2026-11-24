@@ -14,4 +14,5 @@
 - [x] Fix hero portrait asset import to `.png` and handle portable text paragraphs in Sanity provider
 - [x] Add image upload support to Sanity schemas (projects and articles)
 - [ ] Add AI Gateway portfolio assistant with separate browser-saved conversations
+- [ ] Homepage design exploration: pick one of the five rendered directions (magazine cover, printed index, dark console, brutalist type, bento grid) and build it
 - [ ] Update placeholder contact details in `src/content/providers/static.ts` and Sanity when ready
