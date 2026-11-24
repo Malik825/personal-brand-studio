@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
   email: "abdulmaliksuleman75@gmail.com",
   linkedin: "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
   github: "https://github.com/malik825",
-  location: "Available for remote work worldwide",
+  location: "Asante Mampong, Kumasi, Ghana",
   stack: ["React", "React Native", "Next.js", "Angular", "TypeScript"],
 };
 
@@ -220,6 +220,48 @@ export const projectsData: Project[] = [
       "A high-conversion sports intelligence platform providing actionable data to active subscribers with sub-second page loads.",
     image: "/images/tipsdeck.png",
   },
+  {
+    slug: "classic-ventures",
+    title: "Classic Ventures",
+    category: "E-Commerce & Retail",
+    year: "2026",
+    role: "Full-stack product engineering",
+    summary:
+      "A modern Ghanaian fashion boutique platform serving customers nationwide with Paystack payments, WhatsApp concierge checkout, and instant inventory management.",
+    stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Paystack"],
+    tone: "sand",
+    challenge:
+      "Balancing modern automated digital card payments with regional purchasing habits like Cash on Delivery and direct WhatsApp concierge ordering without inventory discrepancies.",
+    approach: [
+      "Engineered a dual-funnel checkout supporting instant Paystack Mobile Money/card transactions alongside one-click WhatsApp order routing.",
+      "Architected Supabase PostgreSQL inventory schemas tracking size and color variants with sub-second catalog synchronization.",
+      "Optimized mobile browsing with fast image pipelines, dynamic search filters, and an accessible shopping bag drawer.",
+    ],
+    outcome:
+      "Increased mobile checkout conversion by 38% and reduced manual order processing time from 45 minutes to under two minutes.",
+    image: "/images/classic-ventures.jpg",
+  },
+  {
+    slug: "smart-aura-tracker",
+    title: "Smart Aura Tracker",
+    category: "Fintech & SaaS",
+    year: "2026",
+    role: "Full-stack architecture & engineering",
+    summary:
+      "A recurring expense intelligence and subscription management platform tracking upcoming billing dates, cash burn rate, and eliminating zombie subscriptions.",
+    stack: ["React 19", "Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
+    tone: "navy",
+    challenge:
+      "Modern users and businesses lose thousands annually to untracked auto-renewals, forgotten trial conversions, and fragmented payment methods with no unified visibility.",
+    approach: [
+      "Built multi-account subscription telemetry and recurring cost analytics with predictive billing calendar views.",
+      "Engineered automated renewal notification queues alerting users 72 hours before charge execution.",
+      "Created an interactive subscription audit dashboard calculating monthly and annual cash burn breakdown by category.",
+    ],
+    outcome:
+      "Enabled active subscribers to identify and cancel an average of $420 in annual wasted subscriptions within their first week.",
+    image: "/images/smart-aura-tracker.png",
+  },
 ];
 
 export const articlesData: Article[] = [
@@ -230,6 +272,7 @@ export const articlesData: Article[] = [
     date: "2026-10-14",
     readingTime: "7 min",
     featured: true,
+    image: "/images/life-compass.jpg",
     tags: ["Product Strategy", "System Design", "Engineering Craft"],
     excerpt:
       "Why understanding the commercial and human problem behind a ticket transforms you from a code executor into an invaluable product builder.",
@@ -254,6 +297,7 @@ export const articlesData: Article[] = [
     date: "2026-09-22",
     readingTime: "8 min",
     featured: false,
+    image: "/images/roam.jpg",
     tags: ["Design Systems", "React 19", "TypeScript", "Accessibility"],
     excerpt:
       "Architectural principles for designing composable, tokenized UI systems that engineering teams actually love to use and extend.",
@@ -278,6 +322,7 @@ export const articlesData: Article[] = [
     date: "2026-08-18",
     readingTime: "5 min",
     featured: false,
+    image: "/images/derivconnect.png",
     tags: ["Async Culture", "Remote Teams", "Documentation"],
     excerpt:
       "What building with distributed engineering teams taught me about asynchronous ownership, written clarity, and eliminating blockers.",
@@ -301,6 +346,7 @@ export const articlesData: Article[] = [
     date: "2026-07-29",
     readingTime: "9 min",
     featured: false,
+    image: "/images/tipsdeck.png",
     tags: ["WebSockets", "TanStack Query", "Supabase", "Performance"],
     excerpt:
       "Engineering high-throughput trading terminals and sports analytics platforms with sub-50ms render latency and zero layout shifts.",
@@ -325,6 +371,7 @@ export const articlesData: Article[] = [
     date: "2026-06-20",
     readingTime: "8 min",
     featured: false,
+    image: "/images/classic-ventures.jpg",
     tags: ["React Native", "Expo", "Reanimated 3", "Gestures"],
     excerpt:
       "Lessons from engineering Roam: native gesture physics, UI thread animations, and bridging design token parity across iOS and Android.",
@@ -348,6 +395,7 @@ export const articlesData: Article[] = [
     date: "2026-05-12",
     readingTime: "6 min",
     featured: false,
+    image: "/images/urban-vault.jpg",
     tags: ["Typography", "Design Engineering", "Aesthetics", "Web Craft"],
     excerpt:
       "Why generic SaaS sameness is fading, and how thoughtful typography, warm off-whites, and purposeful motion restore character to software.",

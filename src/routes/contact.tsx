@@ -181,7 +181,7 @@ export function Contact() {
                 <div>
                   <h4 className="text-xs uppercase tracking-widest text-muted-foreground">Location & Remote Work</h4>
                   <p className="mt-1 text-sm font-medium text-foreground">
-                    Lagos, Nigeria (UTC+1) · Available worldwide for remote roles with flexible overlap across GMT, EST, and CET.
+                    Asante Mampong, Kumasi, Ghana (UTC+0) · Available worldwide for remote roles with flexible overlap across GMT, EST, and CET.
                   </p>
                 </div>
               </div>

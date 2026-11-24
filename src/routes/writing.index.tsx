@@ -163,6 +163,16 @@ function Writing() {
                   </div>
                 </div>
 
+                {featured.image && (
+                  <div className="relative mb-8 overflow-hidden rounded-2xl border border-border/60 aspect-[2/1] sm:aspect-[2.4/1] bg-muted/20">
+                    <img
+                      src={featured.image}
+                      alt={featured.title}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </div>
+                )}
+
                 <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-foreground group-hover:text-primary transition-colors leading-[1.12]">
                   {featured.title}
                 </h2>
@@ -203,16 +213,28 @@ function Writing() {
                 <Link
                   to="/writing/$slug"
                   params={{ slug: a.slug }}
-                  className="group grid gap-4 py-8 sm:py-10 px-3 -mx-3 rounded-2xl transition-colors duration-200 hover:bg-card/40 md:grid-cols-[11rem_1fr_auto] md:items-baseline"
+                  className="group grid gap-6 py-8 sm:py-10 px-3 -mx-3 rounded-2xl transition-colors duration-200 hover:bg-card/40 md:grid-cols-[10rem_1fr_auto] md:items-start"
                 >
-                  {/* Date & Metadata */}
-                  <div className="space-y-1">
-                    <span className="block text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">
-                      {formatDate(a.date)}
-                    </span>
-                    <span className="inline-flex items-center rounded border border-border/50 bg-muted/40 px-2 py-0.5 text-[11px] font-mono text-muted-foreground">
-                      {a.topic}
-                    </span>
+                  {/* Date, Metadata & Thumbnail */}
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <span className="block text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">
+                        {formatDate(a.date)}
+                      </span>
+                      <span className="inline-flex items-center rounded border border-border/50 bg-muted/40 px-2 py-0.5 text-[11px] font-mono text-muted-foreground">
+                        {a.topic}
+                      </span>
+                    </div>
+                    {a.image && (
+                      <div className="relative overflow-hidden rounded-xl border border-border/60 aspect-[16/10] bg-muted/20 w-32 md:w-full">
+                        <img
+                          src={a.image}
+                          alt={a.title}
+                          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Title & Excerpt */}

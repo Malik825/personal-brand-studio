@@ -118,6 +118,20 @@ function ArticlePage() {
           </div>
         </FadeUp>
 
+        {/* Article Cover Image */}
+        {a.image && (
+          <FadeUp delay={0.1}>
+            <div className="my-10 overflow-hidden rounded-2xl sm:rounded-3xl border border-border/80 shadow-sm aspect-[16/9] bg-muted/20">
+              <img
+                src={a.image}
+                alt={a.title}
+                className="h-full w-full object-cover"
+                loading="eager"
+              />
+            </div>
+          </FadeUp>
+        )}
+
         {/* Article Body */}
         <div className="mt-12 space-y-7 text-lg sm:text-xl leading-[1.85] text-foreground/90 font-sans">
           {a.body.map((p, idx) => (
@@ -248,6 +262,16 @@ function ArticlePage() {
                   params={{ slug: rel.slug }}
                   className="group block rounded-2xl border border-border/70 bg-card/30 p-6 transition-all hover:bg-card/60 hover:border-border hover:shadow-md"
                 >
+                  {rel.image && (
+                    <div className="relative mb-4 overflow-hidden rounded-xl border border-border/60 aspect-[16/9] bg-muted/20">
+                      <img
+                        src={rel.image}
+                        alt={rel.title}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center justify-between text-xs font-mono text-muted-foreground mb-3">
                     <span className="rounded bg-muted/40 px-2 py-0.5 border border-border/40 text-[10px]">
                       {rel.topic}

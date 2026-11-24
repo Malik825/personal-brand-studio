@@ -61,7 +61,7 @@ function Home() {
       {/* ================= HERO SECTION ================= */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden container-site grid gap-12 pb-24 pt-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:pt-20"
+        className="relative overflow-hidden container-site grid gap-12 pb-24 pt-12 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16 lg:pt-20"
       >
         {/* Layered decorative depth: soft glow and a thin ring drift at different speeds */}
         {!shouldReduceMotion && (
@@ -133,9 +133,7 @@ function Home() {
             transition={{ duration: 0.7, delay: 0.56, ease: cinematicEase }}
             className="mt-8 max-w-xl text-lg leading-relaxed text-foreground/90"
           >
-            I'm Sule Malik — a product-minded software engineer focused on creating scalable
-            applications, thoughtful user experiences and software that solves real business
-            problems.
+            I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I architect and engineer high-performance web systems, fluid mobile apps, and scalable digital commerce platforms that solve real business problems.
           </motion.p>
 
           {/* Core technologies badges with stagger */}
@@ -199,7 +197,7 @@ function Home() {
         {/* Hero portrait with smooth clip-path masked reveal and scroll parallax */}
         <motion.figure
           style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
-          className="relative lg:justify-self-end will-change-transform"
+          className="relative w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto lg:mx-0 lg:justify-self-end will-change-transform"
         >
           <motion.div
             initial={
