@@ -144,10 +144,19 @@ export function Footer() {
 }
 
 export function Page({ children }: { children: ReactNode }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <Header />
-      <main className="flex-1">{children}</main>
+      <motion.main
+        className="flex-1"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.28, ease: cinematicEase }}
+      >
+        {children}
+      </motion.main>
       <Footer />
     </div>
   );

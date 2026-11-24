@@ -86,21 +86,24 @@ function Home() {
         <div className="block lg:hidden">
           <motion.figure
             style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: cinematicEase }}
             className="group relative overflow-hidden rounded-3xl min-h-[32rem] sm:min-h-[36rem] flex flex-col justify-end p-6 sm:p-9 shadow-xl border border-border/40"
           >
-            <img
+            <motion.img
               src={portrait}
               alt="Sule Malik"
               width={960}
               height={1280}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              initial={shouldReduceMotion ? false : { scale: 1.05 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.2, delay: 0.1, ease: cinematicEase }}
+              className="absolute inset-0 h-full w-full object-cover"
             />
             {/* Scrim gradient for text legibility */}
             <div
-              className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none"
               aria-hidden
             />
             <figcaption className="relative z-10 text-white">
@@ -118,18 +121,21 @@ function Home() {
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                   to="/work"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition-transform duration-300 hover:-translate-y-0.5 shadow-sm"
+                  className="btn-solid bg-white text-black hover:bg-white/90 shadow-sm"
                 >
                   <span>View my work</span>
                   <span aria-hidden>→</span>
                 </Link>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-black/25 backdrop-blur-sm px-4 py-2 text-xs text-white/90">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-black/30 backdrop-blur-sm px-4 py-2 text-xs text-white/90 transition-transform duration-200 active:scale-95 hover:border-white/60"
+                >
                   <span className="relative flex size-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
                     <span className="relative inline-flex size-2 rounded-full bg-success" />
                   </span>
                   Open to opportunities
-                </span>
+                </Link>
               </div>
             </figcaption>
           </motion.figure>
