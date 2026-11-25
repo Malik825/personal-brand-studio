@@ -34,9 +34,17 @@ export const articles = articlesData;
 export const experience = experienceData;
 export const about = aboutContent;
 
-export const formatDate = (d: string) =>
-  new Date(d).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+export const formatDate = (d?: string) => {
+  if (!d) return "";
+  try {
+    const date = new Date(d);
+    if (isNaN(date.getTime())) return d;
+    return date.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return d || "";
+  }
+};

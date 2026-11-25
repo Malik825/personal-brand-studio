@@ -59,7 +59,7 @@ const DOMAIN_FILTERS: { id: DomainCategory; label: string }[] = [
 function matchesDomain(project: Project, domain: DomainCategory): boolean {
   if (domain === "all") return true;
   const cat = (project.category || "").toLowerCase();
-  const stack = project.stack.map((s) => s.toLowerCase());
+  const stack = (project.stack || []).map((s) => s.toLowerCase());
 
   switch (domain) {
     case "mobile":
@@ -106,8 +106,8 @@ function Work() {
   // Extract core technology tags across projects with counts
   const tagCounts = useMemo(() => {
     const map = new Map<string, number>();
-    projects.forEach((p) => {
-      p.stack.forEach((tech) => {
+    (projects || []).forEach((p) => {
+      (p.stack || []).forEach((tech) => {
         map.set(tech, (map.get(tech) || 0) + 1);
       });
     });
@@ -116,20 +116,20 @@ function Work() {
 
   // Combined filtering: Domain + Tag + Search
   const filteredProjects = useMemo(() => {
-    return projects.filter((p) => {
+    return (projects || []).filter((p) => {
       // Domain filter
       if (!matchesDomain(p, activeDomain)) return false;
 
       // Technology tag filter
-      if (selectedTag && !p.stack.includes(selectedTag)) return false;
+      if (selectedTag && !(p.stack || []).includes(selectedTag)) return false;
 
       // Search query filter (title, summary, category, stack)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
-        const inTitle = p.title.toLowerCase().includes(q);
-        const inSummary = p.summary.toLowerCase().includes(q);
-        const inCategory = p.category.toLowerCase().includes(q);
-        const inStack = p.stack.some((tech) => tech.toLowerCase().includes(q));
+        const inTitle = (p.title || "").toLowerCase().includes(q);
+        const inSummary = (p.summary || "").toLowerCase().includes(q);
+        const inCategory = (p.category || "").toLowerCase().includes(q);
+        const inStack = (p.stack || []).some((tech) => tech.toLowerCase().includes(q));
         if (!inTitle && !inSummary && !inCategory && !inStack) return false;
       }
 
@@ -271,7 +271,7 @@ function Work() {
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {flagshipProject.stack.map((t) => (
+                    {(flagshipProject.stack || []).map((t) => (
                       <span
                         key={t}
                         className="rounded-full border border-border/80 bg-background/50 px-3 py-1 text-xs text-foreground/85"
@@ -524,7 +524,7 @@ function Work() {
 
                       {/* Technology Chips */}
                       <div className="flex flex-wrap gap-1.5 pt-2">
-                        {p.stack.map((t) => (
+                        {(p.stack || []).map((t) => (
                           <span
                             key={t}
                             className={`rounded-full px-3 py-1 text-xs font-mono transition-colors ${
@@ -613,7 +613,7 @@ function Work() {
 
                   <div className="mt-6 border-t border-border/60 pt-4 flex items-center justify-between">
                     <div className="flex flex-wrap gap-1 max-w-[70%]">
-                      {p.stack.slice(0, 3).map((t) => (
+                      {(p.stack || []).slice(0, 3).map((t) => (
                         <span
                           key={t}
                           className="rounded-full bg-card/90 border border-border/60 px-2 py-0.5 text-[10px] font-mono text-muted-foreground"
@@ -621,9 +621,9 @@ function Work() {
                           {t}
                         </span>
                       ))}
-                      {p.stack.length > 3 && (
+                      {(p.stack || []).length > 3 && (
                         <span className="text-[10px] font-mono text-muted-foreground py-0.5">
-                          +{p.stack.length - 3}
+                          +{(p.stack || []).length - 3}
                         </span>
                       )}
                     </div>

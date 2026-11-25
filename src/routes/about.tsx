@@ -39,10 +39,15 @@ function About() {
   const { about, site } = Route.useLoaderData();
   const shouldReduceMotion = useReducedMotion();
 
-  const bioParagraphs = about.bio || [
-    about.intro,
-    ...about.sections.map((s) => s.body),
-  ];
+  const bioParagraphs =
+    about.bio && about.bio.length > 0
+      ? about.bio
+      : [
+          about.intro || "",
+          ...(Array.isArray(about.sections)
+            ? about.sections.map((s) => s.body)
+            : []),
+        ].filter(Boolean);
 
   const principles = about.principles || [
     {
@@ -148,7 +153,7 @@ function About() {
                   <MapPin className="size-4 text-primary shrink-0" />
                   <div className="min-w-0">
                     <p className="text-xs font-mono font-medium text-foreground truncate">
-                      {site.location}
+                      {site?.location || "Asante Mampong, Kumasi, Ghana"}
                     </p>
                     <p className="text-[11px] text-muted-foreground">
                       Remote Worldwide · GMT/EST/CET

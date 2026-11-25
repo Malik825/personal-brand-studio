@@ -56,43 +56,43 @@ function Writing() {
   // Unique topics with counts
   const topics = useMemo(() => {
     const map = new Map<string, number>();
-    articles.forEach((a) => {
+    (articles || []).forEach((a) => {
       if (a.topic) {
         map.set(a.topic, (map.get(a.topic) || 0) + 1);
       }
     });
     return [
-      { name: "All", count: articles.length },
+      { name: "All", count: (articles || []).length },
       ...Array.from(map.entries()).map(([name, count]) => ({ name, count })),
     ];
   }, [articles]);
 
   // Total reading time calculation
   const totalMinutes = useMemo(() => {
-    return articles.reduce((acc, a) => {
+    return (articles || []).reduce((acc, a) => {
       const mins = parseInt(a.readingTime) || 6;
-      return acc + mins;
+      return acc + (isNaN(mins) ? 6 : mins);
     }, 0);
   }, [articles]);
 
   // Filtered articles
   const filtered = useMemo(() => {
-    return articles.filter((a) => {
+    return (articles || []).filter((a) => {
       const matchesTopic = selectedTopic === "All" || a.topic === selectedTopic;
       const q = searchQuery.toLowerCase().trim();
       const matchesQuery =
         !q ||
-        a.title.toLowerCase().includes(q) ||
-        a.excerpt.toLowerCase().includes(q) ||
-        a.topic.toLowerCase().includes(q) ||
-        a.tags?.some((t) => t.toLowerCase().includes(q));
+        (a.title || "").toLowerCase().includes(q) ||
+        (a.excerpt || "").toLowerCase().includes(q) ||
+        (a.topic || "").toLowerCase().includes(q) ||
+        (Array.isArray(a.tags) && a.tags.some((t) => t.toLowerCase().includes(q)));
       return matchesTopic && matchesQuery;
     });
   }, [articles, selectedTopic, searchQuery]);
 
   // Featured article (only when no active search and All is selected)
   const featured = useMemo(() => {
-    if (selectedTopic !== "All" || searchQuery.trim()) return null;
+    if (selectedTopic !== "All" || searchQuery.trim() || !(articles && articles.length > 0)) return null;
     return articles.find((a) => a.featured) || articles[0];
   }, [articles, selectedTopic, searchQuery]);
 
@@ -234,7 +234,7 @@ function Writing() {
                     </div>
                   )}
 
-                  {featured.tags && (
+                  {Array.isArray(featured.tags) && featured.tags.length > 0 && (
                     <div className="mt-6 flex flex-wrap gap-2">
                       {featured.tags.map((tag) => (
                         <span
@@ -422,7 +422,7 @@ function Writing() {
                         {a.excerpt}
                       </p>
 
-                      {a.tags && (
+                      {Array.isArray(a.tags) && a.tags.length > 0 && (
                         <div className="pt-2 flex flex-wrap gap-1.5">
                           {a.tags.map((t) => (
                             <span

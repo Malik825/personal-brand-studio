@@ -73,7 +73,14 @@ export class SanityContentProvider implements ContentProvider {
         stack
       }`;
       const data = await this.client.fetch<SiteConfig | null>(query);
-      return data || staticSite;
+      if (data) {
+        return {
+          ...staticSite,
+          ...data,
+          stack: Array.isArray(data.stack) && data.stack.length > 0 ? data.stack : staticSite.stack,
+        };
+      }
+      return staticSite;
     } catch (err) {
       console.warn("[Sanity] Failed to fetch siteSettings, falling back to static:", err);
       return staticSite;
@@ -106,6 +113,8 @@ export class SanityContentProvider implements ContentProvider {
           return {
             ...fallback,
             ...fields,
+            stack: Array.isArray(p.stack) && p.stack.length > 0 ? p.stack : (fallback?.stack || []),
+            approach: Array.isArray(p.approach) && p.approach.length > 0 ? p.approach : (fallback?.approach || []),
             ...(image ? { image } : {}),
           };
         });
@@ -161,14 +170,30 @@ export class SanityContentProvider implements ContentProvider {
         readingTime,
         excerpt,
         body,
+        tags,
+        takeaways,
+        featured,
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Article[]>(query);
       if (data && data.length > 0) {
-        return data.map((a) => ({
-          ...a,
-          body: extractBodyParagraphs(a.body),
-        }));
+        return data.map((a) => {
+          const fallback = staticArticles.find((sa) => sa.slug === a.slug);
+          const image = a.image || fallback?.image;
+          const { image: _image, ...fields } = a;
+          const extracted = extractBodyParagraphs(a.body);
+          return {
+            ...fallback,
+            ...fields,
+            body: extracted.length > 0 ? extracted : (fallback?.body || []),
+            tags: Array.isArray(a.tags) && a.tags.length > 0 ? a.tags : (fallback?.tags || []),
+            takeaways: Array.isArray(a.takeaways) && a.takeaways.length > 0 ? a.takeaways : (fallback?.takeaways || []),
+            featured: a.featured ?? fallback?.featured ?? false,
+            readingTime: a.readingTime || fallback?.readingTime || "6 min",
+            date: a.date || fallback?.date || new Date().toISOString(),
+            ...(image ? { image } : {}),
+          };
+        });
       }
       return staticArticles;
     } catch (err) {
@@ -187,16 +212,30 @@ export class SanityContentProvider implements ContentProvider {
         readingTime,
         excerpt,
         body,
+        tags,
+        takeaways,
+        featured,
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Article | null>(query, { slug });
+      const fallback = staticArticles.find((a) => a.slug === slug);
       if (data) {
+        const image = data.image || fallback?.image;
+        const { image: _image, ...fields } = data;
+        const extracted = extractBodyParagraphs(data.body);
         return {
-          ...data,
-          body: extractBodyParagraphs(data.body),
+          ...fallback,
+          ...fields,
+          body: extracted.length > 0 ? extracted : (fallback?.body || []),
+          tags: Array.isArray(data.tags) && data.tags.length > 0 ? data.tags : (fallback?.tags || []),
+          takeaways: Array.isArray(data.takeaways) && data.takeaways.length > 0 ? data.takeaways : (fallback?.takeaways || []),
+          featured: data.featured ?? fallback?.featured ?? false,
+          readingTime: data.readingTime || fallback?.readingTime || "6 min",
+          date: data.date || fallback?.date || new Date().toISOString(),
+          ...(image ? { image } : {}),
         };
       }
-      return staticArticles.find((a) => a.slug === slug);
+      return fallback;
     } catch (err) {
       console.warn(`[Sanity] Failed to fetch article "${slug}", falling back to static:`, err);
       return staticArticles.find((a) => a.slug === slug);
@@ -230,7 +269,18 @@ export class SanityContentProvider implements ContentProvider {
         capabilities
       }`;
       const data = await this.client.fetch<AboutContent | null>(query);
-      return data || staticAbout;
+      if (data) {
+        return {
+          ...staticAbout,
+          ...data,
+          bio: data.bio || staticAbout.bio,
+          principles: data.principles || staticAbout.principles,
+          capabilityGroups: data.capabilityGroups || staticAbout.capabilityGroups,
+          sections: Array.isArray(data.sections) && data.sections.length > 0 ? data.sections : staticAbout.sections,
+          capabilities: Array.isArray(data.capabilities) && data.capabilities.length > 0 ? data.capabilities : staticAbout.capabilities,
+        };
+      }
+      return staticAbout;
     } catch (err) {
       console.warn("[Sanity] Failed to fetch about content, falling back to static:", err);
       return staticAbout;
