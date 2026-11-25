@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
-import { MessageSquare, X, Send, Sparkles, RotateCcw, ArrowUpRight, Maximize2 } from "lucide-react";
+import { MessageSquareCode, X, Send, RotateCcw, ArrowUpRight, Maximize2 } from "lucide-react";
 import { sendChatMessage } from "@/server/chat";
 
 interface Message {
@@ -143,7 +143,7 @@ export function AssistantDrawer() {
 
               {/* Icon container with mobile badge */}
               <div className="relative flex items-center justify-center">
-                <Sparkles className="size-5 sm:size-3.5 text-primary transition-transform duration-300 group-hover:rotate-12" />
+                <MessageSquareCode className="size-5 sm:size-4 text-primary transition-transform duration-300 group-hover:scale-105" />
                 <span className="sm:hidden absolute -top-1 -right-1 flex size-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
@@ -175,7 +175,7 @@ export function AssistantDrawer() {
             <div className="flex items-center justify-between border-b border-border/70 px-4 py-3.5">
               <div className="flex items-center gap-2.5">
                 <div className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Sparkles className="size-3.5" />
+                  <MessageSquareCode className="size-3.5" />
                 </div>
                 <div>
                   <h3 className="font-display text-sm font-semibold text-foreground">Sule&apos;s Assistant</h3>
