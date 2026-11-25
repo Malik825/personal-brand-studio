@@ -33,8 +33,17 @@ export const Route = createFileRoute("/contact")({
         content: "Get in touch with Sule Malik about engineering roles, technical advisory, or product work.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sulemalik.com/contact" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Contact — Sule Malik" },
+      {
+        name: "twitter:description",
+        content: "Get in touch with Sule Malik about engineering roles, technical advisory, or product work.",
+      },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "https://sulemalik.com/contact" }],
   }),
   component: Contact,
 });
@@ -328,10 +337,11 @@ export function Contact() {
                 <div className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
+                      <label htmlFor="contact-name" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
                         Your Name <span className="text-primary">*</span>
                       </label>
                       <input
+                        id="contact-name"
                         required
                         type="text"
                         value={name}
@@ -341,10 +351,11 @@ export function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
+                      <label htmlFor="contact-email" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
                         Work Email <span className="text-primary">*</span>
                       </label>
                       <input
+                        id="contact-email"
                         required
                         type="email"
                         value={email}
@@ -356,10 +367,11 @@ export function Contact() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
+                    <label htmlFor="contact-company" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
                       Company or Organisation <span className="text-muted-foreground/60 text-[10px] normal-case">(optional)</span>
                     </label>
                     <input
+                      id="contact-company"
                       type="text"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
@@ -372,7 +384,7 @@ export function Contact() {
                 {/* 4. Project Details */}
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                    <label htmlFor="contact-message" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
                       Project or Role Overview <span className="text-primary">*</span>
                     </label>
                     <span className="text-[11px] text-muted-foreground">
@@ -380,6 +392,7 @@ export function Contact() {
                     </span>
                   </div>
                   <textarea
+                    id="contact-message"
                     required
                     rows={4}
                     value={message}

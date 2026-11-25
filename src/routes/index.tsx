@@ -8,6 +8,7 @@ import { ScrollType } from "@/components/motion/ScrollType";
 import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
+import { HomeSkeleton } from "@/components/site/Skeletons";
 import { getExperience, getProjects, getSite } from "@/content";
 import { closingScrollType, philosophyMarquee, techMarquee } from "@/content/marquees";
 
@@ -35,10 +36,21 @@ export const Route = createFileRoute("/")({
           "I build digital products with engineering precision and product thinking.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sulemalik.com/" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Sule Malik — Product-minded software engineer" },
+      {
+        name: "twitter:description",
+        content:
+          "I build digital products with engineering precision and product thinking.",
+      },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "https://sulemalik.com/" }],
   }),
   component: Home,
+  pendingComponent: HomeSkeleton,
 });
 
 function Home() {

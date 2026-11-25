@@ -55,6 +55,27 @@ export const Route = createFileRoute("/work/$slug")({
           ]
         : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
       links: p ? [{ rel: "canonical", href: `https://sulemalik.com/work/${p.slug}` }] : [],
+      scripts: p
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "CreativeWork",
+                "name": p.title,
+                "headline": `${p.title} Case Study`,
+                "description": p.summary,
+                "image": imageUrl,
+                "url": `https://sulemalik.com/work/${p.slug}`,
+                "author": {
+                  "@type": "Person",
+                  "name": "Sule Malik",
+                  "url": "https://sulemalik.com",
+                },
+              }),
+            },
+          ]
+        : [],
     };
   },
   component: CaseStudy,

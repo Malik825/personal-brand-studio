@@ -1,11 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { site } from "@/content";
 import { cinematicEase } from "@/components/motion/variants";
-import { assistantCopy } from "@/content/assistant";
-import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -17,94 +15,147 @@ const nav = [
 
 export function Header() {
   const shouldReduceMotion = useReducedMotion();
+  const [isVisible, setIsVisible] = useState(true);
+  const [isFixed, setIsFixed] = useState(false);
+  const lastScrollY = useRef(0);
 
-  const content = (
-    <div className="container-site">
-      <div className="flex items-center justify-between gap-4 border-b border-foreground/20 py-6">
-        <Link
-          to="/"
-          className="group font-display text-2xl tracking-tight transition-transform duration-200 hover:scale-[1.01]"
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY.current;
+
+      // At or near top of the page
+      if (currentScrollY <= 40) {
+        setIsVisible(true);
+        setIsFixed(false);
+      } else {
+        setIsFixed(true);
+        // Scrolling down -> hide navbar
+        if (delta > 6) {
+          setIsVisible(false);
+        }
+        // Scrolling up ("scroll top") -> reveal navbar
+        else if (delta < -6) {
+          setIsVisible(true);
+        }
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header
+      className={cn(
+        "sticky top-0 z-40 w-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        isFixed
+          ? isVisible
+            ? "translate-y-0 border-b border-border/60 bg-background/85 backdrop-blur-md shadow-xs"
+            : "-translate-y-full border-b border-transparent bg-background/85"
+          : "translate-y-0 border-b-0 bg-transparent"
+      )}
+    >
+      <div className="container-site">
+        <div
+          className={cn(
+            "flex items-center justify-between gap-4 transition-all duration-300 ease-out",
+            isFixed
+              ? "py-2.5 sm:py-3"
+              : "border-b border-foreground/20 py-5 sm:py-6"
+          )}
         >
-          Sule Malik<span className="text-primary transition-colors group-hover:text-primary/80">.</span>
-        </Link>
-        <nav aria-label="Main" className="hidden gap-8 text-sm md:flex">
+          <Link
+            to="/"
+            className="group font-display text-2xl tracking-tight transition-transform duration-200 hover:scale-[1.01]"
+          >
+            Sule Malik<span className="text-primary transition-colors group-hover:text-primary/80">.</span>
+          </Link>
+          <nav aria-label="Main" className="hidden gap-8 text-sm md:flex">
+            {nav.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                activeOptions={{ exact: n.to === "/" }}
+                className="group relative py-1 outline-none focus-visible:text-primary"
+              >
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={
+                        isActive
+                          ? "font-medium text-primary"
+                          : "text-foreground/80 transition-colors duration-200 group-hover:text-primary"
+                      }
+                    >
+                      {n.label}
+                    </span>
+                    {/* Hover underline: grows from the left, retracts to the right */}
+                    <span
+                      aria-hidden
+                      className={
+                        "absolute inset-x-0 -bottom-0.5 h-px bg-primary transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] " +
+                        (isActive
+                          ? "scale-x-100"
+                          : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100")
+                      }
+                    />
+                  </>
+                )}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                document.dispatchEvent(
+                  new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
+                );
+              }}
+              className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs text-muted-foreground transition-all duration-200 hover:border-foreground/30 hover:text-foreground cursor-pointer"
+              aria-label="Open command palette"
+            >
+              <span>Search</span>
+              <kbd className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+                ⌘K
+              </kbd>
+            </button>
+            <Link to="/contact" className="btn-solid group">
+              <span>Let&apos;s talk</span>
+              <span
+                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
+                aria-hidden
+              >
+                &rarr;
+              </span>
+            </Link>
+          </div>
+        </div>
+        <nav
+          aria-label="Mobile"
+          className={cn(
+            "flex gap-5 overflow-x-auto text-sm md:hidden scrollbar-none transition-all duration-300",
+            isFixed ? "py-1.5" : "py-2.5"
+          )}
+        >
           {nav.map((n) => (
             <Link
               key={n.to}
               to={n.to}
               activeOptions={{ exact: n.to === "/" }}
-              className="group relative py-1 outline-none focus-visible:text-primary"
+              activeProps={{ className: "text-primary font-medium" }}
+              className="shrink-0 transition-colors hover:text-primary"
             >
-              {({ isActive }) => (
-                <>
-                  <span
-                    className={
-                      isActive
-                        ? "font-medium text-primary"
-                        : "text-foreground/80 transition-colors duration-200 group-hover:text-primary"
-                    }
-                  >
-                    {n.label}
-                  </span>
-                  {/* Hover underline: grows from the left, retracts to the right */}
-                  <span
-                    aria-hidden
-                    className={
-                      "absolute inset-x-0 -bottom-0.5 h-px bg-primary transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] " +
-                      (isActive
-                        ? "scale-x-100"
-                        : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100")
-                    }
-                  />
-                </>
-              )}
+              {n.label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              document.dispatchEvent(
-                new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true })
-              );
-            }}
-            className="hidden sm:inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs text-muted-foreground transition-all duration-200 hover:border-foreground/30 hover:text-foreground cursor-pointer"
-            aria-label="Open command palette"
-          >
-            <span>Search</span>
-            <kbd className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
-              ⌘K
-            </kbd>
-          </button>
-          <Link to="/contact" className="btn-solid group">
-            <span>Let's talk</span>
-            <span
-              className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
-              aria-hidden
-            >
-              →
-            </span>
-          </Link>
-        </div>
       </div>
-      <nav aria-label="Mobile" className="flex gap-5 overflow-x-auto py-3 text-sm md:hidden scrollbar-none">
-        {nav.map((n) => (
-          <Link
-            key={n.to}
-            to={n.to}
-            activeOptions={{ exact: n.to === "/" }}
-            activeProps={{ className: "text-primary font-medium" }}
-            className="shrink-0 transition-colors hover:text-primary"
-          >
-            {n.label}
-          </Link>
-        ))}
-      </nav>
-    </div>
+    </header>
   );
-
-  return <header className="w-full">{content}</header>;
 }
 
 export function Footer() {
@@ -122,8 +173,9 @@ export function Footer() {
           <a
             href={site.linkedin}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
             className="transition-colors duration-200 hover:text-primary"
+            aria-label="LinkedIn profile (opens in a new tab)"
           >
             LinkedIn
           </a>
@@ -131,8 +183,9 @@ export function Footer() {
             <a
               href={site.github}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               className="transition-colors duration-200 hover:text-primary"
+              aria-label="GitHub profile (opens in a new tab)"
             >
               GitHub
             </a>
@@ -148,9 +201,18 @@ export function Page({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col justify-between">
+      {/* WCAG 2.1 AA Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:shadow-lg focus:outline-none"
+      >
+        Skip to main content
+      </a>
       <Header />
       <motion.main
-        className="flex-1"
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 outline-none"
         initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.28, ease: cinematicEase }}

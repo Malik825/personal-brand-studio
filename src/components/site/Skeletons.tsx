@@ -96,3 +96,54 @@ export function ArticleSkeleton() {
     </Busy>
   );
 }
+
+export function HomeSkeleton() {
+  return (
+    <Busy label="Loading home page">
+      <div className="container-site pb-16 pt-8 sm:pb-20 sm:pt-12 lg:pb-24 lg:pt-16" aria-hidden>
+        {/* Mobile skeleton card (< lg) */}
+        <div className="block lg:hidden">
+          <div className={`${bar} min-h-[32rem] sm:min-h-[36rem] w-full rounded-3xl p-6 sm:p-9 flex flex-col justify-end space-y-4`}>
+            <div className={`${bar} h-3 w-28 bg-foreground/15`} />
+            <div className={`${bar} h-10 w-4/5 bg-foreground/15`} />
+            <div className={`${bar} h-4 w-full bg-foreground/15`} />
+            <div className={`${bar} h-4 w-3/4 bg-foreground/15`} />
+            <div className="pt-2 flex gap-3">
+              <div className={`${bar} h-10 w-32 rounded-full bg-foreground/20`} />
+              <div className={`${bar} h-10 w-40 rounded-full bg-foreground/20`} />
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop skeleton split (>= lg) */}
+        <div className="hidden lg:grid lg:grid-cols-[1fr_1.12fr] lg:items-center lg:gap-14 xl:gap-20">
+          <div className="space-y-6">
+            <div className={`${bar} h-3 w-44`} />
+            <div className="space-y-3">
+              <div className={`${bar} h-12 w-full max-w-xl`} />
+              <div className={`${bar} h-12 w-4/5`} />
+              <div className={`${bar} h-12 w-2/3`} />
+            </div>
+            <div className="space-y-2 pt-2">
+              <div className={`${bar} h-4 w-full max-w-lg`} />
+              <div className={`${bar} h-4 w-5/6 max-w-md`} />
+            </div>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {[64, 80, 72, 88, 60].map((w, idx) => (
+                <div key={idx} style={{ width: `${w}px` }} className={`${bar} h-8 rounded-full`} />
+              ))}
+            </div>
+            <div className="flex gap-3 pt-4">
+              <div className={`${bar} h-11 w-36 rounded-full`} />
+              <div className={`${bar} h-11 w-44 rounded-full`} />
+            </div>
+          </div>
+
+          <div className="w-full max-w-md sm:max-w-lg lg:max-w-[520px] xl:max-w-[580px] lg:justify-self-end">
+            <div className={`${bar} aspect-[3/4] w-full rounded-3xl shadow-xl`} />
+          </div>
+        </div>
+      </div>
+    </Busy>
+  );
+}

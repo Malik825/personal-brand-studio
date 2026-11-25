@@ -29,8 +29,18 @@ export const Route = createFileRoute("/about")({
           "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sulemalik.com/about" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "About — Sule Malik" },
+      {
+        name: "twitter:description",
+        content:
+          "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
+      },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "https://sulemalik.com/about" }],
   }),
   component: About,
 });

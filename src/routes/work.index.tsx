@@ -39,8 +39,18 @@ export const Route = createFileRoute("/work/")({
           "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sulemalik.com/work" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Selected Work & Systems — Sule Malik" },
+      {
+        name: "twitter:description",
+        content:
+          "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
+      },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "https://sulemalik.com/work" }],
   }),
   component: Work,
   pendingComponent: ProjectListSkeleton,

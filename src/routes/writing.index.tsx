@@ -39,8 +39,18 @@ export const Route = createFileRoute("/writing/")({
           "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sulemalik.com/writing" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Writing & Field Notes — Sule Malik" },
+      {
+        name: "twitter:description",
+        content:
+          "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
+      },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
+    links: [{ rel: "canonical", href: "https://sulemalik.com/writing" }],
   }),
   component: Writing,
   pendingComponent: ArticleListSkeleton,
@@ -277,6 +287,8 @@ function Writing() {
                         src={featured.image}
                         alt={featured.title}
                         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        loading="eager"
+                        decoding="async"
                       />
                     </Link>
                   </div>
@@ -408,6 +420,7 @@ function Writing() {
                             alt={a.title}
                             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                             loading="lazy"
+                            decoding="async"
                           />
                         </div>
                       )}

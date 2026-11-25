@@ -45,6 +45,12 @@ export const Route = createFileRoute("/writing/$slug")({
   },
   head: ({ loaderData }) => {
     const a = loaderData?.article;
+    const imageUrl = a?.image
+      ? a.image.startsWith("http")
+        ? a.image
+        : `https://sulemalik.com${a.image}`
+      : "https://sulemalik.com/og-image.png";
+
     return {
       meta: a
         ? [
@@ -54,11 +60,48 @@ export const Route = createFileRoute("/writing/$slug")({
             { property: "og:description", content: a.excerpt },
             { property: "og:type", content: "article" },
             { property: "og:url", content: `https://sulemalik.com/writing/${a.slug}` },
+            { property: "og:image", content: imageUrl },
+            { property: "og:image:alt", content: a.title },
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:title", content: `${a.title} — Sule Malik` },
             { name: "twitter:description", content: a.excerpt },
+            { name: "twitter:image", content: imageUrl },
+            { name: "article:published_time", content: a.date },
+            { name: "article:author", content: a.author?.name || "Sule Malik" },
+            { name: "article:section", content: a.topic },
           ]
         : [{ title: "Article unavailable" }, { name: "robots", content: "noindex" }],
+      links: a ? [{ rel: "canonical", href: `https://sulemalik.com/writing/${a.slug}` }] : [],
+      scripts: a
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "headline": a.title,
+                "description": a.excerpt,
+                "image": [imageUrl],
+                "datePublished": a.date,
+                "dateModified": a.date,
+                "author": {
+                  "@type": "Person",
+                  "name": a.author?.name || "Sule Malik",
+                  "url": "https://sulemalik.com",
+                },
+                "publisher": {
+                  "@type": "Person",
+                  "name": "Sule Malik",
+                  "url": "https://sulemalik.com",
+                },
+                "mainEntityOfPage": {
+                  "@type": "WebPage",
+                  "@id": `https://sulemalik.com/writing/${a.slug}`,
+                },
+              }),
+            },
+          ]
+        : [],
     };
   },
   component: ArticlePage,
@@ -127,6 +170,7 @@ function ArticlePage() {
                     alt={a.author.name}
                     className="size-8 rounded-full object-cover border border-primary/25 shadow-xs"
                     loading="eager"
+                    decoding="async"
                   />
                 ) : (
                   <div className="flex size-7 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-[11px] border border-primary/20">
@@ -268,6 +312,7 @@ function ArticlePage() {
                   alt={a.title}
                   className="h-full w-full object-cover"
                   loading="eager"
+                  decoding="async"
                 />
               </figure>
             )}
@@ -394,6 +439,8 @@ function ArticlePage() {
                     src={a.author.image}
                     alt={a.author.name}
                     className="size-16 sm:size-20 rounded-2xl object-cover border border-border shadow-sm shrink-0"
+                    loading="lazy"
+                    decoding="async"
                   />
                 )}
                 <div>
@@ -513,6 +560,7 @@ function ArticlePage() {
                         alt={rel.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   )}
