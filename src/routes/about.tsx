@@ -131,39 +131,57 @@ function About() {
             </FadeUp>
           </div>
 
-          {/* Architectural Portrait Showcase */}
+          {/* Architectural Portrait Showcase & Dossier */}
           <FadeUp delay={0.15}>
-            <div className="relative mx-auto w-full max-w-md lg:max-w-[480px]">
-              <div className="overflow-hidden portrait-editorial aspect-[4/5] w-full shadow-2xl ring-1 ring-border/80 bg-muted/20">
-                <motion.img
-                  src={portrait}
-                  alt="Sule Malik"
-                  width={960}
-                  height={1280}
-                  initial={shouldReduceMotion ? false : { scale: 1.05 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 1.1, ease: cinematicEase }}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+            <div className="relative mx-auto w-full max-w-md lg:max-w-[460px]">
+              {/* Outer Editorial Mount Card */}
+              <div className="relative overflow-hidden rounded-3xl border border-border/80 bg-card/40 p-3 sm:p-4 shadow-2xl backdrop-blur-sm">
+                {/* Image Frame with Tight Architectural Headshot Crop */}
+                <div className="relative overflow-hidden rounded-2xl aspect-[4/5] w-full bg-muted/20 border border-border/60">
+                  <motion.img
+                    src={portrait}
+                    alt="Sule Malik — Product-minded software engineer"
+                    width={960}
+                    height={1280}
+                    initial={shouldReduceMotion ? false : { scale: 1.25 }}
+                    animate={{ scale: 1.2 }}
+                    transition={{ duration: 1.2, ease: cinematicEase }}
+                    className="h-full w-full object-cover object-[center_14%] contrast-[1.03] saturate-[0.92]"
+                  />
+                  {/* Subtle vignette scrim */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none"
+                    aria-hidden
+                  />
 
-              {/* Location & Status Floating Badge */}
-              <div className="absolute -bottom-4 sm:-bottom-5 left-4 right-4 sm:left-6 sm:right-6 rounded-2xl border border-border/80 bg-card/95 backdrop-blur-md p-4 shadow-lg flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <MapPin className="size-4 text-primary shrink-0" />
-                  <div className="min-w-0">
-                    <p className="text-xs font-mono font-medium text-foreground truncate">
-                      {site?.location || "Asante Mampong, Kumasi, Ghana"}
-                    </p>
-                    <p className="text-[11px] text-muted-foreground">
-                      Remote Worldwide · GMT/EST/CET
-                    </p>
+                  {/* Architectural Figure Badge */}
+                  <div className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[10px] font-mono uppercase tracking-wider text-white/90">
+                    Fig. 01 / Portrait
+                  </div>
+                  <div className="absolute top-3 right-3 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-2.5 py-1 text-[10px] font-mono text-white/90 flex items-center gap-1.5">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    UTC+0
                   </div>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-mono font-medium text-primary shrink-0">
-                  <span className="size-1.5 rounded-full bg-primary animate-pulse" />
-                  Active
-                </span>
+
+                {/* Telemetry Snapshot Footer */}
+                <div className="mt-3.5 space-y-2.5 px-2 pb-1">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 text-foreground">
+                      <MapPin className="size-3.5 text-primary" />
+                      <span className="font-mono text-xs">{site?.location || "Asante Mampong, Ghana"}</span>
+                    </div>
+                    <span className="text-[11px] font-mono text-muted-foreground">GMT / EST / CET</span>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-border/60 pt-2.5 text-xs text-muted-foreground">
+                    <span className="font-mono text-[11px]">Availability</span>
+                    <span className="font-mono text-[11px] text-foreground font-medium flex items-center gap-1.5">
+                      <span className="size-1.5 rounded-full bg-primary" />
+                      Open for opportunities
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </FadeUp>
