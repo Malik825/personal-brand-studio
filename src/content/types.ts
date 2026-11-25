@@ -39,6 +39,18 @@ export type Project = {
   };
 };
 
+/** Section inside a long-form article. */
+export type ArticleSection = {
+  id: string;
+  title: string;
+  paragraphs: string[];
+  callout?: {
+    label: string;
+    text: string;
+  };
+  quote?: string;
+};
+
 /** A writing/blog article. */
 export type Article = {
   slug: string;
@@ -49,10 +61,12 @@ export type Article = {
   topic: string;
   /** Array of paragraph strings for now; will become Portable Text blocks with Sanity. */
   body: string[];
-  image?: string;
-  featured?: boolean;
-  tags?: string[];
-  takeaways?: string[];
+  image?: string | undefined;
+  featured?: boolean | undefined;
+  tags?: string[] | undefined;
+  takeaways?: string[] | undefined;
+  sections?: ArticleSection[] | undefined;
+  relatedProjectSlug?: string | undefined;
 };
 
 /** A work-experience entry. */
@@ -84,11 +98,11 @@ export type OperatingPrinciple = {
 /** All content rendered on the About page. */
 export type AboutContent = {
   intro: string;
-  bio?: string[];
+  bio?: string[] | undefined;
   sections: AboutSection[];
   capabilities: string[];
-  capabilityGroups?: CapabilityGroup[];
-  principles?: OperatingPrinciple[];
+  capabilityGroups?: CapabilityGroup[] | undefined;
+  principles?: OperatingPrinciple[] | undefined;
 };
 
 // ---------------------------------------------------------------------------

@@ -385,6 +385,7 @@ export const articlesData: Article[] = [
     readingTime: "7 min",
     featured: true,
     image: "/images/life-compass.jpg",
+    relatedProjectSlug: "life-compass",
     tags: ["Product Strategy", "System Design", "Engineering Craft"],
     excerpt:
       "Why understanding the commercial and human problem behind a ticket transforms you from a code executor into an invaluable product builder.",
@@ -394,6 +395,41 @@ export const articlesData: Article[] = [
       "Product thinking is not about attending more committee meetings or writing PRDs. It is about technical stewardship. It means recognizing that every line of code committed is a liability that requires maintenance, security patches, and cognitive overhead. The highest-leverage engineering contribution is often identifying which 80% of a feature can be eliminated without compromising the core outcome.",
       "In daily practice, this means establishing a rhythm of proactive inquiry: asking product managers what metric defines success before starting implementation, instrumenting telemetry events alongside component states, and testing early preview branches against raw customer workflows.",
       "When engineers embrace product thinking, velocity compounds. Architecture discussions become grounded in customer value rather than theoretical purity, code reviews catch usability oversights before QA, and teams ship software that customers genuinely love.",
+    ],
+    sections: [
+      {
+        id: "the-solution-trap",
+        title: "Escaping the preconceived solution trap",
+        paragraphs: [
+          "Most Jira tickets and Linear issues arrive pre-solved: 'Add a multi-select dropdown to the account billing tab' or 'Build a modal for manual data export.' But the best software engineering rarely starts with accepting the solution as written. It begins by asking what acute user frustration or business bottleneck triggered that request in the first place.",
+          "When you interrogate the origin of a request, you frequently discover that the stakeholder asked for a bridge when they actually needed a tunnel — or simply a clearer signpost. Building the requested dropdown takes three days of edge-case handling; fixing the account billing default takes ten minutes of configuration.",
+        ],
+        callout: {
+          label: "Rule of thumb",
+          text: "Never write a single line of schema or UI code until you can explain in plain English what metric moves if this ticket succeeds.",
+        },
+      },
+      {
+        id: "code-as-liability",
+        title: "Every committed line is ongoing liability",
+        paragraphs: [
+          "Junior engineers measure productivity in lines of code written; senior engineers measure leverage in lines of code deleted or avoided. Every new dependency, abstraction layer, and database column adds surface area for security vulnerabilities, bundle bloat, and cognitive friction for the next engineer.",
+          "Product-minded engineering means recognizing that technical stewardship is commercial stewardship. Instead of spending three weeks designing a distributed caching cluster for an unverified feature, build the simplest version with a single indexed Supabase query, instrument PostHog analytics, and let customer usage prove whether horizontal scale is actually needed.",
+        ],
+        quote: "The highest-leverage engineering contribution is identifying which 80% of a feature can be eliminated without compromising the customer outcome.",
+      },
+      {
+        id: "daily-cadence",
+        title: "Establishing a product engineering cadence",
+        paragraphs: [
+          "In daily practice, this transformation requires three simple habits. First: pair with design early during wireframing to identify technical inflection points before high-fidelity mockups solidify. Second: instrument telemetry and error budgets alongside component states as part of your definition of done.",
+          "Third: ship interactive preview deployments to stakeholders within 48 hours of starting a milestone. When design and product partners can touch real software with real data, feedback is immediate, misalignments dissolve, and the final release ships with zero surprises.",
+        ],
+        callout: {
+          label: "Architectural Note",
+          text: "Feature flags combined with staging preview URLs let you validate complex UX flows in production with select test users before declaring general availability.",
+        },
+      },
     ],
     takeaways: [
       "Always clarify the underlying customer problem before implementing the ticket's suggested solution.",
@@ -410,6 +446,7 @@ export const articlesData: Article[] = [
     readingTime: "8 min",
     featured: false,
     image: "/images/roam.jpg",
+    relatedProjectSlug: "roam",
     tags: ["Design Systems", "React 19", "TypeScript", "Accessibility"],
     excerpt:
       "Architectural principles for designing composable, tokenized UI systems that engineering teams actually love to use and extend.",
@@ -419,6 +456,37 @@ export const articlesData: Article[] = [
       "Design tokens must be layered into three distinct tiers: Global primitive tokens (raw palette values like `#0F172A`), Semantic alias tokens (`--surface-elevated`, `--text-muted`), and Component scoped tokens. When a redesign occurs, switching a semantic token instantly updates thousands of components across multiple repositories without a single breaking code refactor.",
       "Strict TypeScript typing is paramount, but types should guide rather than obstruct. Utilizing discriminated unions (`type ButtonProps = RegularButton | IconButton | SubmitButton`) provides developers with instantaneous autocompletion and compile-time guarantees, preventing impossible UI states before code ever reaches staging.",
       "Finally, treat your component library as an open-source product. Provide rich interactive documentation, visual regression testing via Playwright, and deprecation cycles that span multiple minor releases with clear codemods.",
+    ],
+    sections: [
+      {
+        id: "the-prop-explosion-trap",
+        title: "The pathology of prop explosion",
+        paragraphs: [
+          "Most component libraries start with pure intentions: a clean Button component with four props: `variant`, `size`, `onClick`, and `children`. Within eighteen months, feature requests and emergency fixes mutate it into a 40-prop hydra: `isSubmitting`, `leftIcon`, `rightIconBadge`, `customTrackingKey`, `tooltipText`, and `forceUppercase`.",
+          "Every added boolean prop multiplies the internal combinatorial branch paths that your tests and CSS must account for. When two booleans interact unexpectedly, you get visual regressions that only surface in edge-case production scenarios.",
+        ],
+        callout: {
+          label: "Design Principle",
+          text: "If a component requires more than 6 props to render a variation, decompose it into compound slots or headless primitives.",
+        },
+      },
+      {
+        id: "token-tiering",
+        title: "Three-tier design token architecture",
+        paragraphs: [
+          "Resilient component libraries enforce strict token isolation across three distinct tiers. Tier 1: Global Primitives (raw hex codes, font weights, and spacing units like `slate-900: #0f172a`). Never consume Tier 1 tokens directly in components.",
+          "Tier 2: Semantic Alias Tokens (`surface-canvas`, `text-primary`, `border-subtle`). These bind brand intent to primitive values and provide automatic dark mode support. Tier 3: Component-Scoped Tokens (`button-primary-bg: var(--accent)`). When your brand palette evolves, changing one Tier 2 token updates the entire system without editing component source code.",
+        ],
+        quote: "Good design systems don't constrain creative freedom; they eliminate decision fatigue on repetitive layout problems.",
+      },
+      {
+        id: "headless-foundations",
+        title: "Headless primitives and accessibility",
+        paragraphs: [
+          "Never attempt to write your own keyboard focus traps, ARIA live region announcers, or dropdown collision detection from scratch. Primitives like Radix UI, React Aria, and Base UI represent thousands of hours of accessibility audits across screen readers and operating systems.",
+          "By building on top of headless primitives, your engineering team can dedicate 100% of their energy to typographic scale, micro-interactions, fluid animation curves, and domain-specific ergonomics.",
+        ],
+      },
     ],
     takeaways: [
       "Favor compound components and slot composition over adding boolean flags to monolithic components.",
@@ -435,6 +503,7 @@ export const articlesData: Article[] = [
     readingTime: "5 min",
     featured: false,
     image: "/images/derivconnect.png",
+    relatedProjectSlug: "derivconnect",
     tags: ["Async Culture", "Remote Teams", "Documentation"],
     excerpt:
       "What building with distributed engineering teams taught me about asynchronous ownership, written clarity, and eliminating blockers.",
@@ -443,6 +512,37 @@ export const articlesData: Article[] = [
       "Asynchronous momentum requires shifting from conversational work to documented work. Every architecture decision, sprint kickoff, and API contract must be written down in clear, self-contained documents with explicit rationale and trade-offs. If a decision requires an hour-long meeting, it usually means the underlying problem statement has not been written with sufficient clarity.",
       "Pull requests become your primary communication medium. A stellar PR does not merely present a diff; it provides an executive summary of the change, links to linear tickets, embeds an interactive preview URL, and anticipates review questions with inline self-comments explaining complex algorithms.",
       "The most critical habit in distributed engineering is 'blocker elimination before sign-off.' Before concluding your work day, audit what teammates in subsequent time zones require to move forward. Provide PR review approvals, clarify API mock data, and leave concise progress summaries so work transitions seamlessly 24 hours a day.",
+    ],
+    sections: [
+      {
+        id: "the-async-shift",
+        title: "The transition from conversational to documented work",
+        paragraphs: [
+          "In co-located offices, engineering teams lean on conversational shorthand: tap a colleague on the shoulder, sketch a database diagram on a whiteboard, and verbally agree on an API payload. When teammates operate across UTC-8, UTC+0, and UTC+8, this habit collapses into severe communication bottlenecks.",
+          "High-velocity distributed engineering requires converting conversations into durable artifacts. Lightweight Architecture Decision Records (ADRs) capture the context, alternatives evaluated, and chosen path. New team members can onboard in days simply by reading the decision log.",
+        ],
+        callout: {
+          label: "Team Convention",
+          text: "If a technical topic requires more than 4 back-and-forth Slack messages, draft a 1-page markdown RFC with explicit acceptance criteria.",
+        },
+      },
+      {
+        id: "pull-request-craft",
+        title: "Pull requests as executive summaries",
+        paragraphs: [
+          "A great pull request is not a raw code dump; it is an executive brief. It opens with the 'Why' (linking to the customer issue), explains the technical trade-offs considered, and embeds a 20-second video walkthrough or preview branch link.",
+          "Author review comments are equally vital: by self-reviewing your PR and commenting on complex non-obvious algorithms before requesting team review, you answer 80% of reviewer questions in advance, shrinking review turnaround from days to hours.",
+        ],
+        quote: "Review turnaround time is the single strongest predictor of distributed engineering velocity.",
+      },
+      {
+        id: "the-handoff-ritual",
+        title: "The golden hour: pre-signoff unblocking",
+        paragraphs: [
+          "The final 30 minutes of a distributed engineer's workday should be dedicated to unblocking colleagues who are about to wake up. Clear pending PR reviews, publish mock contracts for downstream frontend engineers, and summarize work completed in a two-bullet Slack update.",
+          "When every team member practices proactive handoff, the engineering machine operates continuously around the clock with zero friction.",
+        ],
+      },
     ],
     takeaways: [
       "Document the 'why' behind architectural decisions using lightweight Architecture Decision Records (ADRs).",
@@ -459,6 +559,7 @@ export const articlesData: Article[] = [
     readingTime: "9 min",
     featured: false,
     image: "/images/tipsdeck.png",
+    relatedProjectSlug: "tipsdeck",
     tags: ["WebSockets", "TanStack Query", "Supabase", "Performance"],
     excerpt:
       "Engineering high-throughput trading terminals and sports analytics platforms with sub-50ms render latency and zero layout shifts.",
@@ -468,6 +569,37 @@ export const articlesData: Article[] = [
       "Instead, buffer incoming ticks in a mutable, lightweight ring buffer outside of React state. Synchronize data into the render layer using a RAF loop (`requestAnimationFrame`) or React 19's `useTransition`, batching 60 updates into a single cohesive render pass. This guarantees a silky 60fps experience even during peak market volatility.",
       "For user-initiated actions—such as placing a trade, locking in a tip, or toggling an alert—implement optimistic UI updates with immediate rollback guards. Mutate TanStack Query cache synchronously, show the resulting state instantly, and roll back gracefully with a polite notification only in the rare event of upstream server rejection.",
       "Finally, engineer resilient reconnect backoff algorithms. When mobile devices switch from Wi-Fi to cellular data, WebSocket connections drop abruptly. A smart exponential jitter retry mechanism combined with cached state re-hydration ensures users never experience broken sessions.",
+    ],
+    sections: [
+      {
+        id: "socket-decoupling",
+        title: "Decoupling socket ingestion from the React render tree",
+        paragraphs: [
+          "In financial trading terminals and live sports intelligence systems, WebSockets stream hundreds of payload packets per second. The most common novice mistake is calling `setState(event.data)` directly on every incoming socket message.",
+          "Dispatching 120 React reconciliations per second starves the JavaScript main thread, causing missed user clicks, delayed scroll responses, and device heating. To maintain 60 FPS, decouple the transport layer from the view layer.",
+        ],
+        callout: {
+          label: "Performance Architecture",
+          text: "Ingest high-frequency packets into an external mutable RingBuffer, then flush updates to React on requestAnimationFrame (60Hz) using React 19 useTransition.",
+        },
+      },
+      {
+        id: "optimistic-mutations",
+        title: "Optimistic UI mutations with surgical rollback",
+        paragraphs: [
+          "Users expect instant tactile feedback when placing a trade, submitting a prediction, or saving a preference. Waiting 250ms for a round-trip HTTP ACK makes modern web applications feel sluggish and unresponsive.",
+          "With TanStack Query, mutate the cache synchronously inside `onMutate`, render the updated state immediately, and snapshot the previous cache context. If the server responds with a 4xx or 5xx status, revert the snapshot and notify the user with a subtle toast without breaking layout flow.",
+        ],
+        quote: "Sub-50ms optimistic feedback turns web applications into extensions of the user's nervous system.",
+      },
+      {
+        id: "reconnection-resilience",
+        title: "Network resilience with jittered backoff",
+        paragraphs: [
+          "Mobile networks fluctuate constantly when users traverse elevators, subway stations, or cellular towers. When a WebSocket drops, naive retry loops flood the edge server with thousands of simultaneous reconnect requests, creating a self-inflicted denial-of-service attack.",
+          "Implement exponential backoff augmented with randomized full jitter (`t = min(cap, base * 2^attempt) + random()`). When the socket reconnects, rehydrate delta state using sequence IDs rather than fetching the entire database dataset.",
+        ],
+      },
     ],
     takeaways: [
       "Never map high-frequency socket events 1:1 to React component state; use external buffers batched via RAF.",
@@ -484,6 +616,7 @@ export const articlesData: Article[] = [
     readingTime: "8 min",
     featured: false,
     image: "/images/classic-ventures.jpg",
+    relatedProjectSlug: "roam",
     tags: ["React Native", "Expo", "Reanimated 3", "Gestures"],
     excerpt:
       "Lessons from engineering Roam: native gesture physics, UI thread animations, and bridging design token parity across iOS and Android.",
@@ -492,6 +625,37 @@ export const articlesData: Article[] = [
       "In Roam—a mobile travel and stay booking application—we established a strict engineering rule: zero gesture animations across the asynchronous JavaScript bridge. By leveraging React Native Reanimated 3 and Gesture Handler, every pan gesture, swipe-to-dismiss modal, and card scale transformation runs entirely as worklets on the native UI thread.",
       "Physics-based spring animations (`withSpring`) consistently outperform duration-based easing (`withTiming`). Real objects in the physical world do not decelerate in fixed 300ms intervals; their movement depends on the velocity and mass imparted by the user's finger. Integrating haptic feedback pulses at threshold detents transforms a digital interaction into a tactile pleasure.",
       "Memory management is equally critical. Heavy list views with unoptimized images quickly trigger out-of-memory crashes on mid-range Android devices. Implementing FlashList with aggressive image downsampling and pre-cached SQLite storage ensured smooth scrolling through thousands of property listings with minimal heap footprint.",
+    ],
+    sections: [
+      {
+        id: "ui-thread-worklets",
+        title: "Worklets and the death of bridge crossing",
+        paragraphs: [
+          "In early React Native architectures, finger touches on the screen had to be serialized into JSON, transmitted across the asynchronous C++ bridge to the JavaScript engine, processed in state, and transmitted back to the native view layer. If the JS thread was busy rendering a list, gesture animations stuttered noticeably.",
+          "In modern React Native with Reanimated 3, gestures execute directly on the native UI thread via worklets. The touch event never crosses the bridge; transforms update in 16ms intervals locked to the device's hardware refresh rate.",
+        ],
+        callout: {
+          label: "Rule of Thumb",
+          text: "Any gesture-driven animation that depends on continuous user finger tracking must run 100% on the native thread.",
+        },
+      },
+      {
+        id: "spring-physics",
+        title: "Physics-based springs vs arbitrary easing",
+        paragraphs: [
+          "Human perception instinctively identifies synthetic animation. In the physical universe, objects carry mass, encounter friction, and preserve momentum. When a user flings a bottom sheet upwards with rapid finger velocity, it should not decelerate at a fixed 300ms duration curve.",
+          "By employing `withSpring` with velocity inheritance (`velocity: event.velocityY`), the UI respects the kinetic energy of the user's gesture. Adding subtle haptic ticks at snap points reinforces the physical illusion.",
+        ],
+        quote: "Tactile haptics paired with spring velocity turn digital pixels into tangible glass and metal.",
+      },
+      {
+        id: "memory-footprint",
+        title: "Aggressive list recycling and memory discipline",
+        paragraphs: [
+          "While flagship iPhones can absorb unoptimized React Native code through sheer CPU brute force, mid-tier Android devices running with 3GB of RAM will crash with out-of-memory errors on un-recycled lists.",
+          "Migrating from React Native FlatList to Shopify's FlashList reduced view hierarchy allocations by 70%. Pairing this with Expo Image's aggressive disk caching and downsampled thumbnail dimensions allowed Roam to scroll 5,000 property cards at 60 FPS without dropping frames.",
+        ],
+      },
     ],
     takeaways: [
       "Execute gesture-driven animations exclusively on the native thread using Reanimated 3 worklets.",
@@ -508,6 +672,7 @@ export const articlesData: Article[] = [
     readingTime: "6 min",
     featured: false,
     image: "/images/urban-vault.jpg",
+    relatedProjectSlug: "classic-ventures",
     tags: ["Typography", "Design Engineering", "Aesthetics", "Web Craft"],
     excerpt:
       "Why generic SaaS sameness is fading, and how thoughtful typography, warm off-whites, and purposeful motion restore character to software.",
@@ -516,6 +681,37 @@ export const articlesData: Article[] = [
       "The renaissance of the editorial web is a conscious rebellion against sameness. It draws inspiration from Swiss graphic design, classic print publications, and architectural restraint. It celebrates high-contrast serif typography for headings (such as Newsreader) paired with crisp, geometric grotesk typefaces for technical telemetry (such as Instrument Sans).",
       "Color palettes are shifting away from blinding `#FFFFFF` towards warm cream and sand foundations (`#FBF9F5`). This subtle reduction in contrast reduces eye strain during extended reading sessions and establishes an inviting, museum-grade canvas for showcasing engineering case studies.",
       "Motion in an editorial interface is not decorative noise; it is spatial storytelling. Subtle fade-ups and stagger sequences guide the reader's eye naturally through content hierarchy, while hairline borders and monospace metadata tags provide subtle structural scaffolding without visual clutter.",
+    ],
+    sections: [
+      {
+        id: "the-saas-monoculture",
+        title: "The decline of the generic SaaS template",
+        paragraphs: [
+          "Between 2018 and 2024, digital design succumbed to an aesthetic monoculture. Every enterprise landing page converged on the same template: pure white `#FFFFFF` canvases, Inter or Roboto sans-serif fonts, purple gradient badges, and floating illustration squiggles.",
+          "While this uniformity lowered barriers to launching MVPs, it turned software into an interchangeable utility. Products lost their brand identity, emotional resonance, and architectural dignity.",
+        ],
+        callout: {
+          label: "Aesthetic Note",
+          text: "Typography accounts for over 90% of web interface composition; deliberate font pairings communicate authority before words are even processed.",
+        },
+      },
+      {
+        id: "serif-counterpoint",
+        title: "Editorial counterpoint: serif headlines and technical grotesks",
+        paragraphs: [
+          "The editorial resurgence pairs expressive, high-contrast serif typography (such as Newsreader or Playfair) for high-impact headlines with razor-sharp geometric grotesk typefaces (such as Instrument Sans) for navigational telemetry.",
+          "This dynamic juxtaposition creates instant visual hierarchy: the serif invites reflective reading, while the monospace and sans-serif elements anchor the interface in rigorous technical craft.",
+        ],
+        quote: "Restraint is not the absence of design; it is the deliberate elimination of the non-essential to let craft breathe.",
+      },
+      {
+        id: "chromatic-warmth",
+        title: "Warm chromatic foundations and spatial motion",
+        paragraphs: [
+          "Replacing pure optical white with warm off-white and linen foundations (`#FBF9F5` or `#F7F5F0`) softens contrast and mimics the tactile quality of heavyweight print paper. Readers can spend 20 minutes engaging with long-form architectural essays without experiencing optical fatigue.",
+          "Motion must act as an editorial guide rather than decorative spectacle. Subdued 200ms opacity fades and staggered entry reveals give content weight and intentionality.",
+        ],
+      },
     ],
     takeaways: [
       "Typography represents 90% of web design; invest in deliberate font pairing and vertical typographic rhythm.",
