@@ -29,7 +29,7 @@ export const Route = createFileRoute("/work/$slug")({
       ? p.image.startsWith("http")
         ? p.image
         : `https://sulemalik.com${p.image}`
-      : "https://sulemalik.com/og-image.jpg";
+      : "https://sulemalik.com/og-image.png";
 
     return {
       meta: p

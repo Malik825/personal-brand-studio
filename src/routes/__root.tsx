@@ -113,11 +113,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://sulemalik.com/" },
-      { property: "og:image", content: "https://sulemalik.com/og-image.jpg" },
-      { property: "og:image:secure_url", content: "https://sulemalik.com/og-image.jpg" },
-      { property: "og:image:type", content: "image/jpeg" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
+      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:image:secure_url", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "960" },
+      { property: "og:image:height", content: "1280" },
       { property: "og:image:alt", content: "Sule Malik — Product-minded software engineer" },
       // Twitter / X Cards
       { name: "twitter:card", content: "summary_large_image" },
@@ -127,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Sule Malik builds digital products with engineering precision, fluid motion design, and product thinking.",
       },
-      { name: "twitter:image", content: "https://sulemalik.com/og-image.jpg" },
+      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
       { name: "twitter:image:alt", content: "Sule Malik — Product-minded software engineer" },
     ],
     links: [
