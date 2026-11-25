@@ -121,12 +121,25 @@ function ArticlePage() {
             {/* Author Capsule */}
             <div className="rounded-2xl border border-border/70 bg-card/40 p-4 space-y-3">
               <div className="flex items-center gap-2.5">
-                <div className="flex size-7 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-[11px] border border-primary/20">
-                  SM
-                </div>
+                {a.author?.image ? (
+                  <img
+                    src={a.author.image}
+                    alt={a.author.name}
+                    className="size-8 rounded-full object-cover border border-primary/25 shadow-xs"
+                    loading="eager"
+                  />
+                ) : (
+                  <div className="flex size-7 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-[11px] border border-primary/20">
+                    {a.author?.name ? a.author.name.slice(0, 2).toUpperCase() : "SM"}
+                  </div>
+                )}
                 <div>
-                  <p className="font-sans font-semibold text-foreground text-xs leading-none">Sule Malik</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">Product Engineer</p>
+                  <p className="font-sans font-semibold text-foreground text-xs leading-none">
+                    {a.author?.name || site.name}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    {a.author?.role || site.role}
+                  </p>
                 </div>
               </div>
               <div className="space-y-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground">
@@ -375,16 +388,25 @@ function ArticlePage() {
 
             {/* Author Bio Box */}
             <div className="mt-14 rounded-3xl border border-border/80 bg-card/30 p-8 sm:p-10 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between shadow-xs">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                  Written by
-                </span>
-                <h4 className="mt-1 font-display text-2xl font-medium text-foreground">
-                  Sule Malik
-                </h4>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-md">
-                  Product-minded software engineer specializing in React 19, TypeScript, React Native, and high-performance web systems.
-                </p>
+              <div className="flex items-start sm:items-center gap-5">
+                {a.author?.image && (
+                  <img
+                    src={a.author.image}
+                    alt={a.author.name}
+                    className="size-16 sm:size-20 rounded-2xl object-cover border border-border shadow-sm shrink-0"
+                  />
+                )}
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                    Written by
+                  </span>
+                  <h4 className="mt-1 font-display text-2xl font-medium text-foreground">
+                    {a.author?.name || "Sule Malik"}
+                  </h4>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-md">
+                    {a.author?.bio || "Product-minded software engineer specializing in React 19, TypeScript, React Native, and high-performance web systems."}
+                  </p>
+                </div>
               </div>
               <Link
                 to="/contact"

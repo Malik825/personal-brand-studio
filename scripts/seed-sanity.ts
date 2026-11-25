@@ -5,6 +5,7 @@ import {
   experienceData,
   projectsData,
   siteConfig,
+  suleMalikAuthor,
 } from "../src/content/providers/static";
 
 const projectId = process.env["VITE_SANITY_PROJECT_ID"] || "wcfopvjq";
@@ -34,20 +35,36 @@ const client = createClient({
 async function seed() {
   console.log(`🌱 Seeding Sanity dataset "${dataset}" in project "${projectId}"...`);
 
-  // 1. Site Settings
+  // 1. Author Profile
+  console.log("Creating Author Profile...");
+  await client.createOrReplace({
+    _id: "author-sule-malik",
+    _type: "author",
+    name: suleMalikAuthor.name,
+    role: suleMalikAuthor.role,
+    bio: suleMalikAuthor.bio,
+    email: suleMalikAuthor.email,
+    location: suleMalikAuthor.location,
+    linkedin: suleMalikAuthor.linkedin,
+    github: suleMalikAuthor.github,
+    twitter: suleMalikAuthor.twitter,
+  });
+
+  // 2. Site Settings
   console.log("Creating Site Settings...");
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
     name: siteConfig.name,
     role: siteConfig.role,
+    author: { _type: "reference", _ref: "author-sule-malik" },
     email: siteConfig.email,
     linkedin: siteConfig.linkedin,
     location: siteConfig.location,
     stack: siteConfig.stack,
   });
 
-  // 2. About
+  // 3. About
   console.log("Creating About page content...");
   await client.createOrReplace({
     _id: "about",
@@ -89,10 +106,23 @@ async function seed() {
       _type: "article",
       title: a.title,
       slug: { _type: "slug", current: a.slug },
+      author: { _type: "reference", _ref: "author-sule-malik" },
       topic: a.topic,
       date: a.date,
       readingTime: a.readingTime,
       excerpt: a.excerpt,
+      featured: a.featured ?? false,
+      relatedProjectSlug: a.relatedProjectSlug,
+      tags: a.tags ?? [],
+      takeaways: a.takeaways ?? [],
+      sections: (a.sections || []).map((sec) => ({
+        _key: sec.id,
+        id: sec.id,
+        title: sec.title,
+        paragraphs: sec.paragraphs,
+        callout: sec.callout ? { label: sec.callout.label, text: sec.callout.text } : undefined,
+        quote: sec.quote,
+      })),
       body: a.body.map((paragraph, idx) => ({
         _key: `block-${idx}`,
         _type: "block",

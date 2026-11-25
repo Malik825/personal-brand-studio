@@ -70,7 +70,18 @@ export class SanityContentProvider implements ContentProvider {
         linkedin,
         github,
         location,
-        stack
+        stack,
+        "author": author->{
+          name,
+          role,
+          bio,
+          location,
+          email,
+          linkedin,
+          github,
+          twitter,
+          "image": image.asset->url
+        }
       }`;
       const data = await this.client.fetch<SiteConfig | null>(query);
       if (data) {
@@ -78,6 +89,7 @@ export class SanityContentProvider implements ContentProvider {
           ...staticSite,
           ...data,
           stack: Array.isArray(data.stack) && data.stack.length > 0 ? data.stack : staticSite.stack,
+          author: (data.author && data.author.name) ? data.author : staticSite.author,
         };
       }
       return staticSite;
@@ -173,7 +185,26 @@ export class SanityContentProvider implements ContentProvider {
         tags,
         takeaways,
         featured,
-        "image": image.asset->url
+        relatedProjectSlug,
+        sections[]{
+          id,
+          title,
+          paragraphs,
+          callout{ label, text },
+          quote
+        },
+        "image": image.asset->url,
+        "author": author->{
+          name,
+          role,
+          bio,
+          location,
+          email,
+          linkedin,
+          github,
+          twitter,
+          "image": image.asset->url
+        }
       }`;
       const data = await this.client.fetch<Article[]>(query);
       if (data && data.length > 0) {
@@ -182,6 +213,9 @@ export class SanityContentProvider implements ContentProvider {
           const image = a.image || fallback?.image;
           const { image: _image, ...fields } = a;
           const extracted = extractBodyParagraphs(a.body);
+          const author = (a.author && a.author.name) ? a.author : fallback?.author;
+          const sections = Array.isArray(a.sections) && a.sections.length > 0 ? a.sections : (fallback?.sections || []);
+          const relatedProjectSlug = a.relatedProjectSlug || fallback?.relatedProjectSlug;
           return {
             ...fallback,
             ...fields,
@@ -192,6 +226,9 @@ export class SanityContentProvider implements ContentProvider {
             readingTime: a.readingTime || fallback?.readingTime || "6 min",
             date: a.date || fallback?.date || new Date().toISOString(),
             ...(image ? { image } : {}),
+            ...(author ? { author } : {}),
+            ...(sections.length > 0 ? { sections } : {}),
+            ...(relatedProjectSlug ? { relatedProjectSlug } : {}),
           };
         });
       }
@@ -215,7 +252,26 @@ export class SanityContentProvider implements ContentProvider {
         tags,
         takeaways,
         featured,
-        "image": image.asset->url
+        relatedProjectSlug,
+        sections[]{
+          id,
+          title,
+          paragraphs,
+          callout{ label, text },
+          quote
+        },
+        "image": image.asset->url,
+        "author": author->{
+          name,
+          role,
+          bio,
+          location,
+          email,
+          linkedin,
+          github,
+          twitter,
+          "image": image.asset->url
+        }
       }`;
       const data = await this.client.fetch<Article | null>(query, { slug });
       const fallback = staticArticles.find((a) => a.slug === slug);
@@ -223,6 +279,9 @@ export class SanityContentProvider implements ContentProvider {
         const image = data.image || fallback?.image;
         const { image: _image, ...fields } = data;
         const extracted = extractBodyParagraphs(data.body);
+        const author = (data.author && data.author.name) ? data.author : fallback?.author;
+        const sections = Array.isArray(data.sections) && data.sections.length > 0 ? data.sections : (fallback?.sections || []);
+        const relatedProjectSlug = data.relatedProjectSlug || fallback?.relatedProjectSlug;
         return {
           ...fallback,
           ...fields,
@@ -233,6 +292,9 @@ export class SanityContentProvider implements ContentProvider {
           readingTime: data.readingTime || fallback?.readingTime || "6 min",
           date: data.date || fallback?.date || new Date().toISOString(),
           ...(image ? { image } : {}),
+          ...(author ? { author } : {}),
+          ...(sections.length > 0 ? { sections } : {}),
+          ...(relatedProjectSlug ? { relatedProjectSlug } : {}),
         };
       }
       return fallback;

@@ -1,11 +1,24 @@
 import type {
   AboutContent,
   Article,
+  Author,
   ContentProvider,
   Experience,
   Project,
   SiteConfig,
 } from "../types";
+
+export const suleMalikAuthor: Author = {
+  name: "Sule Malik",
+  role: "Product Engineer",
+  bio: "Product-minded software engineer specializing in React 19, TypeScript, React Native, and high-performance web systems. Based in Asante Mampong, Ghana.",
+  image: "https://cdn.sanity.io/images/wcfopvjq/production/263d54617b133650d6aa93c7639c82b097eafa9e-1086x1448.png",
+  location: "Asante Mampong, Ghana",
+  email: "abdulmaliksuleman75@gmail.com",
+  linkedin: "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
+  github: "https://github.com/malik825",
+  twitter: "https://twitter.com/SuleMalik",
+};
 
 export const siteConfig: SiteConfig = {
   name: "Sule Malik",
@@ -15,6 +28,7 @@ export const siteConfig: SiteConfig = {
   github: "https://github.com/malik825",
   location: "Asante Mampong, Kumasi, Ghana",
   stack: ["React", "React Native", "Next.js", "Angular", "TypeScript"],
+  author: suleMalikAuthor,
 };
 
 export const aboutContent: AboutContent = {
@@ -384,8 +398,9 @@ export const articlesData: Article[] = [
     date: "2026-10-14",
     readingTime: "7 min",
     featured: true,
-    image: "/images/life-compass.jpg",
+    image: "/images/articles/product-thinking.jpg",
     relatedProjectSlug: "life-compass",
+    author: suleMalikAuthor,
     tags: ["Product Strategy", "System Design", "Engineering Craft"],
     excerpt:
       "Why understanding the commercial and human problem behind a ticket transforms you from a code executor into an invaluable product builder.",
@@ -445,8 +460,9 @@ export const articlesData: Article[] = [
     date: "2026-09-22",
     readingTime: "8 min",
     featured: false,
-    image: "/images/roam.jpg",
+    image: "/images/articles/component-libraries.jpg",
     relatedProjectSlug: "roam",
+    author: suleMalikAuthor,
     tags: ["Design Systems", "React 19", "TypeScript", "Accessibility"],
     excerpt:
       "Architectural principles for designing composable, tokenized UI systems that engineering teams actually love to use and extend.",
@@ -502,8 +518,9 @@ export const articlesData: Article[] = [
     date: "2026-08-18",
     readingTime: "5 min",
     featured: false,
-    image: "/images/derivconnect.png",
+    image: "/images/articles/working-across-timezones.jpg",
     relatedProjectSlug: "derivconnect",
+    author: suleMalikAuthor,
     tags: ["Async Culture", "Remote Teams", "Documentation"],
     excerpt:
       "What building with distributed engineering teams taught me about asynchronous ownership, written clarity, and eliminating blockers.",
@@ -558,8 +575,9 @@ export const articlesData: Article[] = [
     date: "2026-07-29",
     readingTime: "9 min",
     featured: false,
-    image: "/images/tipsdeck.png",
+    image: "/images/articles/zero-latency-realtime.jpg",
     relatedProjectSlug: "tipsdeck",
+    author: suleMalikAuthor,
     tags: ["WebSockets", "TanStack Query", "Supabase", "Performance"],
     excerpt:
       "Engineering high-throughput trading terminals and sports analytics platforms with sub-50ms render latency and zero layout shifts.",
@@ -615,8 +633,9 @@ export const articlesData: Article[] = [
     date: "2026-06-20",
     readingTime: "8 min",
     featured: false,
-    image: "/images/classic-ventures.jpg",
+    image: "/images/articles/react-native-60fps.jpg",
     relatedProjectSlug: "roam",
+    author: suleMalikAuthor,
     tags: ["React Native", "Expo", "Reanimated 3", "Gestures"],
     excerpt:
       "Lessons from engineering Roam: native gesture physics, UI thread animations, and bridging design token parity across iOS and Android.",
@@ -671,8 +690,9 @@ export const articlesData: Article[] = [
     date: "2026-05-12",
     readingTime: "6 min",
     featured: false,
-    image: "/images/urban-vault.jpg",
+    image: "/images/articles/editorial-web-typography.jpg",
     relatedProjectSlug: "classic-ventures",
+    author: suleMalikAuthor,
     tags: ["Typography", "Design Engineering", "Aesthetics", "Web Craft"],
     excerpt:
       "Why generic SaaS sameness is fading, and how thoughtful typography, warm off-whites, and purposeful motion restore character to software.",

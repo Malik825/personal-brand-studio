@@ -7,6 +7,12 @@ export const siteSettingsType = defineType({
   fields: [
     defineField({ name: "name", title: "Name", type: "string" }),
     defineField({ name: "role", title: "Role / Headline", type: "string" }),
+    defineField({
+      name: "author",
+      title: "Author Profile",
+      type: "reference",
+      to: [{ type: "author" }],
+    }),
     defineField({ name: "email", title: "Contact Email", type: "string" }),
     defineField({ name: "linkedin", title: "LinkedIn URL", type: "url" }),
     defineField({ name: "location", title: "Location Note", type: "string" }),

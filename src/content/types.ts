@@ -6,6 +6,19 @@
 // components never change.
 // ---------------------------------------------------------------------------
 
+/** An author profile. */
+export type Author = {
+  name: string;
+  role: string;
+  bio?: string | undefined;
+  image?: string | undefined;
+  location?: string | undefined;
+  email?: string | undefined;
+  linkedin?: string | undefined;
+  github?: string | undefined;
+  twitter?: string | undefined;
+};
+
 /** Site-wide config (name, contact details, tech stack). */
 export type SiteConfig = {
   name: string;
@@ -15,6 +28,7 @@ export type SiteConfig = {
   github?: string;
   location: string;
   stack: string[];
+  author?: Author | undefined;
 };
 
 /** A project case study. */
@@ -67,6 +81,7 @@ export type Article = {
   takeaways?: string[] | undefined;
   sections?: ArticleSection[] | undefined;
   relatedProjectSlug?: string | undefined;
+  author?: Author | undefined;
 };
 
 /** A work-experience entry. */

@@ -19,6 +19,12 @@ export const articleType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "author",
+      title: "Author",
+      type: "reference",
+      to: [{ type: "author" }],
+    }),
+    defineField({
       name: "image",
       title: "Cover Image",
       type: "image",
@@ -33,6 +39,59 @@ export const articleType = defineType({
       title: "Body Paragraphs / Blocks",
       type: "array",
       of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "sections",
+      title: "Structured Editorial Sections",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "articleSection",
+          fields: [
+            { name: "id", title: "Anchor ID", type: "string" },
+            { name: "title", title: "Section Heading", type: "string" },
+            {
+              name: "paragraphs",
+              title: "Paragraphs",
+              type: "array",
+              of: [{ type: "text" }],
+            },
+            {
+              name: "callout",
+              title: "Callout Box",
+              type: "object",
+              fields: [
+                { name: "label", title: "Badge Label", type: "string" },
+                { name: "text", title: "Callout Text", type: "text" },
+              ],
+            },
+            { name: "quote", title: "Pull Quote", type: "text" },
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: "takeaways",
+      title: "Key Takeaways",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "relatedProjectSlug",
+      title: "Related Project Slug",
+      type: "string",
+    }),
+    defineField({
+      name: "featured",
+      title: "Featured Article",
+      type: "boolean",
     }),
   ],
 });
