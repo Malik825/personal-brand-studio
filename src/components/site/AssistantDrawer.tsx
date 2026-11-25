@@ -122,21 +122,42 @@ export function AssistantDrawer() {
   return (
     <>
       {/* Floating Trigger Button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
         <motion.button
           onClick={() => setIsOpen((prev) => !prev)}
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
           aria-expanded={isOpen}
-          aria-label="Toggle portfolio assistant"
-          className="group flex items-center gap-2.5 rounded-full border border-border bg-card/90 px-4 py-2.5 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:border-foreground/30 hover:bg-card shadow-sm"
+          aria-label={isOpen ? "Close portfolio assistant" : "Ask Sule's Assistant"}
+          className="group relative flex size-12 sm:size-auto sm:h-10 items-center justify-center sm:justify-start gap-2.5 rounded-full border border-border/80 bg-card/95 p-0 sm:px-4 sm:py-2 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:border-foreground/30 hover:bg-card shadow-lg"
         >
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+          {isOpen ? (
+            <X className="size-5 sm:size-4 text-foreground" />
+          ) : (
+            <>
+              {/* Green status dot: hidden on mobile (rendered as badge), inline on desktop */}
+              <span className="hidden sm:relative sm:flex size-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+              </span>
+
+              {/* Icon container with mobile badge */}
+              <div className="relative flex items-center justify-center">
+                <Sparkles className="size-5 sm:size-3.5 text-primary transition-transform duration-300 group-hover:rotate-12" />
+                <span className="sm:hidden absolute -top-1 -right-1 flex size-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+                </span>
+              </div>
+            </>
+          )}
+
+          <span className="hidden sm:inline tracking-wide">
+            {isOpen ? "Close Assistant" : "Ask Sule\u2019s Assistant"}
           </span>
-          <Sparkles className="size-3.5 text-primary transition-transform duration-300 group-hover:rotate-12" />
-          <span className="tracking-wide">Ask Sule&apos;s Assistant</span>
+          <span className="sr-only">
+            {isOpen ? "Close portfolio assistant" : "Ask Sule's Assistant"}
+          </span>
         </motion.button>
       </div>
 
