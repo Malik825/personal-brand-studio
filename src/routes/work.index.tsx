@@ -9,6 +9,7 @@ import { cinematicEase } from "@/components/motion/variants";
 import { getProjects, getSite, type Project } from "@/content";
 import {
   ArrowRight,
+  ArrowUpRight,
   Search,
   LayoutGrid,
   Rows3,
@@ -291,7 +292,7 @@ function Work() {
                     ))}
                   </div>
 
-                  <div className="mt-8 flex items-center gap-4">
+                  <div className="mt-8 flex flex-wrap items-center gap-4">
                     <Link
                       to="/work/$slug"
                       params={{ slug: flagshipProject.slug }}
@@ -305,6 +306,18 @@ function Work() {
                         →
                       </span>
                     </Link>
+                    {flagshipProject.url && (
+                      <a
+                        href={flagshipProject.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="btn-outline inline-flex items-center gap-1.5 group"
+                        aria-label={`Visit live website for ${flagshipProject.title} (opens in a new tab)`}
+                      >
+                        <span>Live website</span>
+                        <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -549,11 +562,11 @@ function Work() {
                       </div>
 
                       {/* Link CTA */}
-                      <div className="pt-3">
+                      <div className="flex flex-wrap items-center gap-4 pt-3">
                         <Link
                           to="/work/$slug"
                           params={{ slug: p.slug }}
-                          className="link-underline inline-flex items-center gap-2 font-medium text-foreground group-hover:text-primary transition-colors"
+                          className="link-underline inline-flex items-center gap-2 font-medium text-foreground group-hover:text-primary transition-colors text-sm"
                         >
                           <span>Read detailed case study</span>
                           <span
@@ -563,6 +576,30 @@ function Work() {
                             →
                           </span>
                         </Link>
+                        {p.url && (
+                          <a
+                            href={p.url}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="inline-flex items-center gap-1 text-xs font-mono text-muted-foreground hover:text-primary transition-colors py-1"
+                            aria-label={`Visit live site for ${p.title} (opens in a new tab)`}
+                          >
+                            <span>Live site</span>
+                            <ArrowUpRight className="size-3.5" />
+                          </a>
+                        )}
+                        {p.githubUrl && (
+                          <a
+                            href={p.githubUrl}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="inline-flex items-center gap-1 text-xs font-mono text-muted-foreground hover:text-primary transition-colors py-1"
+                            aria-label={`View source code for ${p.title} on GitHub (opens in a new tab)`}
+                          >
+                            <span>Code</span>
+                            <ArrowUpRight className="size-3.5" />
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -638,14 +675,28 @@ function Work() {
                       )}
                     </div>
 
-                    <Link
-                      to="/work/$slug"
-                      params={{ slug: p.slug }}
-                      className="inline-flex items-center gap-1 text-xs font-medium text-foreground group-hover:text-primary transition-colors"
-                    >
-                      <span>Study</span>
-                      <ArrowRight className="size-3 transition-transform group-hover:translate-x-1" />
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      {p.url && (
+                        <a
+                          href={p.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="inline-flex items-center gap-0.5 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+                          aria-label={`Visit live site for ${p.title} (opens in a new tab)`}
+                        >
+                          <span>Live</span>
+                          <ArrowUpRight className="size-3" />
+                        </a>
+                      )}
+                      <Link
+                        to="/work/$slug"
+                        params={{ slug: p.slug }}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-foreground group-hover:text-primary transition-colors"
+                      >
+                        <span>Study</span>
+                        <ArrowRight className="size-3 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
                   </div>
                 </motion.article>
               ))}

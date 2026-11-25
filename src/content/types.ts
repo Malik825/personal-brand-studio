@@ -47,6 +47,8 @@ export type Project = {
   image?: string;
   order?: number;
   featured?: boolean;
+  url?: string | undefined;
+  githubUrl?: string | undefined;
   metric?: {
     value: string;
     label: string;

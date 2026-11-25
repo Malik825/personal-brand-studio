@@ -148,6 +148,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "A cross-platform mobile stay booking and travel exploration application with fluid gesture-driven navigation and real-time reservation workflows.",
+    url: "https://roam-stays.vercel.app",
+    githubUrl: "https://github.com/malik825/roam-mobile",
     stack: ["React Native", "Expo", "NativeWind", "TypeScript", "Clerk", "PostHog"],
     tone: "sand",
     challenge:
@@ -174,6 +176,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "A comprehensive personal operating system tracking engineering goals, learning progress, financial metrics, and daily reflection habits.",
+    url: "https://life-compass.sulemalik.com",
+    githubUrl: "https://github.com/malik825/life-compass",
     stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Recharts"],
     tone: "navy",
     challenge:
@@ -199,6 +203,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "An artisanal culinary storefront and online ordering platform featuring interactive menu curation, cart drawer management, and live order tracking.",
+    url: "https://sushi-craft.vercel.app",
+    githubUrl: "https://github.com/malik825/sushi-craft",
     stack: ["SvelteKit", "Svelte 5", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
     tone: "ink",
     challenge:
@@ -224,6 +230,7 @@ export const projectsData: Project[] = [
     },
     summary:
       "A learning management and SaaS platform built for organisations that need to deliver structured training at scale.",
+    url: "https://cylynk.io",
     stack: ["Angular", "TypeScript", "REST APIs"],
     tone: "ink",
     challenge:
@@ -249,6 +256,7 @@ export const projectsData: Project[] = [
     },
     summary:
       "An automated trade copying and account management platform linking Deriv MT5 broker accounts directly to master signal execution with real-time risk controls.",
+    url: "https://derivconnect.com",
     stack: ["React", "TypeScript", "Tailwind CSS", "Deriv API", "Supabase"],
     tone: "rose",
     challenge:
@@ -274,6 +282,7 @@ export const projectsData: Project[] = [
     },
     summary:
       "A booking and business management platform helping beauty professionals manage appointments, services and clients.",
+    url: "https://glovera.app",
     stack: ["Next.js", "React", "TypeScript"],
     tone: "rose",
     challenge:
@@ -298,6 +307,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "An e-commerce storefront focused on clean product presentation and a frictionless path to checkout.",
+    url: "https://urban-vault.vercel.app",
+    githubUrl: "https://github.com/malik825/urban-vault",
     stack: ["React", "Next.js", "TypeScript"],
     tone: "sand",
     challenge:
@@ -323,6 +334,7 @@ export const projectsData: Project[] = [
     },
     summary:
       "A subscription-based sports analytics and prediction platform delivering algorithmic probability metrics, daily football insights, and automated membership tiers.",
+    url: "https://tipsdeck.com",
     stack: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
     tone: "navy",
     challenge:
@@ -349,6 +361,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "A modern Ghanaian fashion boutique platform serving customers nationwide with Paystack payments, WhatsApp concierge checkout, and instant inventory management.",
+    url: "https://classicventures.store",
+    githubUrl: "https://github.com/malik825/classic-ventures",
     stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Paystack"],
     tone: "sand",
     challenge:
@@ -375,6 +389,8 @@ export const projectsData: Project[] = [
     },
     summary:
       "A recurring expense intelligence and subscription management platform tracking upcoming billing dates, cash burn rate, and eliminating zombie subscriptions.",
+    url: "https://smartaura.app",
+    githubUrl: "https://github.com/malik825/smart-aura-tracker",
     stack: ["React 19", "Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
     tone: "navy",
     challenge:

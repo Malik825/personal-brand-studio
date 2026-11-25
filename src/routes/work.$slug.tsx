@@ -7,6 +7,7 @@ import { FadeUp } from "@/components/motion/FadeUp";
 import { ImageReveal } from "@/components/motion/ImageReveal";
 import { getProject, getProjects } from "@/content";
 import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }) => {
@@ -118,6 +119,36 @@ function CaseStudy() {
             <p className="mt-6 max-w-3xl text-lg sm:text-xl leading-relaxed text-muted-foreground font-sans">
               {p.summary}
             </p>
+
+            {/* Live Website & Source Code Actions */}
+            {(p.url || p.githubUrl) && (
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                {p.url && (
+                  <a
+                    href={p.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="btn-solid inline-flex items-center gap-2 group shadow-sm"
+                    aria-label={`Visit live website for ${p.title} (opens in a new tab)`}
+                  >
+                    <span>Visit live website</span>
+                    <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                )}
+                {p.githubUrl && (
+                  <a
+                    href={p.githubUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/60 px-4 py-2 text-xs font-medium text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-card group"
+                    aria-label={`View source code for ${p.title} on GitHub (opens in a new tab)`}
+                  >
+                    <span>View source code</span>
+                    <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-muted-foreground group-hover:text-foreground" />
+                  </a>
+                )}
+              </div>
+            )}
 
             {/* Elevated Metadata Matrix */}
             <dl className="mt-10 grid grid-cols-2 gap-6 border-y border-border/70 py-6 sm:grid-cols-4">

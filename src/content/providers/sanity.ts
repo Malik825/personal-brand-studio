@@ -114,6 +114,8 @@ export class SanityContentProvider implements ContentProvider {
         approach,
         outcome,
         order,
+        url,
+        githubUrl,
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Project[]>(query);
@@ -152,6 +154,8 @@ export class SanityContentProvider implements ContentProvider {
         challenge,
         approach,
         outcome,
+        url,
+        githubUrl,
         "image": image.asset->url
       }`;
       const data = await this.client.fetch<Project | null>(query, { slug });

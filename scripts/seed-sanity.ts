@@ -95,6 +95,8 @@ async function seed() {
       challenge: p.challenge,
       approach: p.approach,
       outcome: p.outcome,
+      url: p.url,
+      githubUrl: p.githubUrl,
     });
   }
 
