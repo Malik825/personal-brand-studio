@@ -113,10 +113,15 @@ export type OperatingPrinciple = {
 };
 
 export type LearningTopic = {
+  id?: string;
+  number?: string;
   title: string;
   category: string;
   badge: string;
+  status?: string;
   description: string;
+  whyItMatters?: string;
+  tools?: string[];
   takeaways: string[];
 };
 

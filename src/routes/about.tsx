@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import portrait from "@/assets/profile.png";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
@@ -7,7 +8,24 @@ import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { cinematicEase } from "@/components/motion/variants";
 import { getAbout, getSite } from "@/content";
 import { philosophyMarquee } from "@/content/marquees";
-import { ArrowRight, MapPin, Globe, Layers, Sparkles, Bot, LineChart, Search, Compass, Smartphone, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  Globe,
+  Layers,
+  Sparkles,
+  Bot,
+  LineChart,
+  Search,
+  Compass,
+  Smartphone,
+  CheckCircle2,
+  Terminal,
+  LayoutGrid,
+  ChevronRight,
+  Activity,
+  Zap,
+} from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
@@ -44,6 +62,20 @@ export const Route = createFileRoute("/about")({
   }),
   component: About,
 });
+
+function formatBioParagraph(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={i} className="font-semibold text-foreground">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
 
 function About() {
   const { about, site } = Route.useLoaderData();
@@ -103,6 +135,10 @@ function About() {
 
   const learningTopics = about.learningTopics || [];
 
+  const [selectedTopicId, setSelectedTopicId] = useState<string>("ai");
+  const [viewLayout, setViewLayout] = useState<"interactive" | "bento">("interactive");
+  const activeTopic = learningTopics.find((t) => t.id === selectedTopicId) || learningTopics[0];
+
   function getTopicIcon(category: string, title: string) {
     const t = (category + " " + title).toLowerCase();
     if (t.includes("ai") || t.includes("agent") || t.includes("intelligence")) {
@@ -140,7 +176,7 @@ function About() {
             <div className="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground font-sans">
               {bioParagraphs.map((para, idx) => (
                 <FadeUp key={idx} delay={0.06 * (idx + 1)}>
-                  <p>{para}</p>
+                  <p>{formatBioParagraph(para)}</p>
                 </FadeUp>
               ))}
             </div>
@@ -318,67 +354,315 @@ function About() {
       {learningTopics.length > 0 && (
         <section className="container-site py-20 sm:py-28 border-b border-border">
           <FadeUp>
-            <div className="max-w-2xl">
-              <Eyebrow>Continuous Learning & Exploration</Eyebrow>
-              <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-foreground">
-                Things I enjoy learning & researching.
-              </h2>
-              <p className="mt-3 text-base sm:text-lg text-muted-foreground">
-                Beyond shipping client and SaaS features, I dedicate intentional time to emerging paradigms—connecting engineering rigor to product intelligence, discovery, and tactile craft.
-              </p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
+              <div className="max-w-2xl">
+                <div className="flex items-center gap-2">
+                  <Eyebrow>Continuous Research & Exploration</Eyebrow>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-mono text-emerald-400">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Active Lab
+                  </span>
+                </div>
+                <h2 className="mt-3 font-display text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-foreground">
+                  Things I enjoy learning & researching.
+                </h2>
+                <p className="mt-3 text-base sm:text-lg text-muted-foreground">
+                  Beyond shipping client and SaaS features, I dedicate focused engineering cycles to emerging paradigms—connecting architectural rigor to product intelligence, discovery, and tactile craft.
+                </p>
+              </div>
+
+              {/* View Layout Switcher (Interactive Lab Console vs Bento Matrix) */}
+              <div className="flex items-center gap-1.5 self-start md:self-end rounded-full border border-border/80 bg-card/40 p-1 backdrop-blur-sm">
+                <button
+                  type="button"
+                  onClick={() => setViewLayout("interactive")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono transition-all cursor-pointer ${
+                    viewLayout === "interactive"
+                      ? "bg-foreground text-background font-medium shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-label="Interactive Console View"
+                >
+                  <Terminal className="size-3.5" />
+                  <span>Lab Console</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewLayout("bento")}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono transition-all cursor-pointer ${
+                    viewLayout === "bento"
+                      ? "bg-foreground text-background font-medium shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-label="Bento Grid View"
+                >
+                  <LayoutGrid className="size-3.5" />
+                  <span>Bento Matrix</span>
+                </button>
+              </div>
             </div>
           </FadeUp>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {learningTopics.map((topic, idx) => (
-              <FadeUp key={topic.title} delay={0.07 * idx}>
-                <div className="group relative h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-8 transition-all duration-300 hover:bg-card/60 hover:border-border hover:shadow-xl flex flex-col justify-between">
-                  <div>
-                    {/* Header meta */}
-                    <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-5">
-                      <div className="flex items-center gap-2">
+          {/* ================= VIEW 1: INTERACTIVE LAB CONSOLE ================= */}
+          {viewLayout === "interactive" && activeTopic && (
+            <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:items-start">
+              {/* Left Selector Docket (5 topics) */}
+              <div className="flex flex-col gap-2.5 lg:col-span-5">
+                {/* Mobile scrollable strip */}
+                <div className="flex lg:hidden overflow-x-auto pb-2 gap-2 no-scrollbar">
+                  {learningTopics.map((topic) => {
+                    const isSelected = activeTopic.id === topic.id;
+                    return (
+                      <button
+                        key={topic.id || topic.title}
+                        type="button"
+                        onClick={() => setSelectedTopicId(topic.id || "ai")}
+                        className={`shrink-0 flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono transition-colors border ${
+                          isSelected
+                            ? "bg-primary/15 border-primary/40 text-primary font-medium"
+                            : "bg-card/40 border-border/70 text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         {getTopicIcon(topic.category, topic.title)}
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
-                          {topic.category}
+                        <span>{topic.badge}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Desktop vertical stack */}
+                <div className="hidden lg:flex flex-col gap-2.5">
+                  {learningTopics.map((topic) => {
+                    const isSelected = activeTopic.id === topic.id;
+                    return (
+                      <button
+                        key={topic.id || topic.title}
+                        type="button"
+                        onClick={() => setSelectedTopicId(topic.id || "ai")}
+                        className={`group text-left rounded-2xl border p-4 transition-all duration-200 cursor-pointer relative overflow-hidden ${
+                          isSelected
+                            ? "border-primary/50 bg-primary/5 shadow-md shadow-primary/5"
+                            : "border-border/70 bg-card/30 hover:border-border hover:bg-card/60"
+                        }`}
+                      >
+                        {/* Active vertical accent bar */}
+                        {isSelected && (
+                          <motion.div
+                            layoutId="activeTopicGlow"
+                            className="absolute left-0 top-0 bottom-0 w-1 bg-primary"
+                            transition={{ duration: 0.25 }}
+                          />
+                        )}
+
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <span className="font-mono text-xs text-primary font-semibold">
+                              {topic.number || "01"}
+                            </span>
+                            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                              {topic.category}
+                            </span>
+                          </div>
+                          {topic.status && (
+                            <span className="text-[10px] font-mono text-muted-foreground/80 flex items-center gap-1">
+                              <span
+                                className={`size-1.5 rounded-full ${
+                                  isSelected ? "bg-emerald-400 animate-pulse" : "bg-muted-foreground/50"
+                                }`}
+                              />
+                              {topic.status}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="mt-2 flex items-center justify-between">
+                          <p
+                            className={`font-display text-lg tracking-tight transition-colors ${
+                              isSelected ? "text-primary font-medium" : "text-foreground group-hover:text-primary"
+                            }`}
+                          >
+                            {topic.title}
+                          </p>
+                          <ChevronRight
+                            className={`size-4 transition-transform duration-200 ${
+                              isSelected
+                                ? "text-primary translate-x-1"
+                                : "text-muted-foreground/40 group-hover:text-foreground group-hover:translate-x-0.5"
+                            }`}
+                          />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Right Live Stage Deep-Dive */}
+              <div className="lg:col-span-7">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTopic.id || activeTopic.title}
+                    initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.3, ease: cinematicEase }}
+                    className="relative rounded-3xl border border-border/80 bg-card/40 p-7 sm:p-9 shadow-2xl backdrop-blur-md overflow-hidden"
+                  >
+                    {/* Ambient glow accent behind active topic */}
+                    <div
+                      className="absolute -top-24 -right-24 size-64 rounded-full bg-primary/10 blur-3xl pointer-events-none"
+                      aria-hidden
+                    />
+
+                    {/* Top Dossier Meta Bar */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">
+                          EXP // {activeTopic.number || "01"}
                         </span>
+                        <span className="text-muted-foreground/40">·</span>
+                        <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
+                          {getTopicIcon(activeTopic.category, activeTopic.title)}
+                          <span>{activeTopic.category}</span>
+                        </div>
                       </div>
-                      <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-[10px] font-mono font-medium text-primary">
-                        {topic.badge}
+
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-0.5 text-xs font-mono font-medium text-primary">
+                        <span className="size-1.5 rounded-full bg-primary" />
+                        {activeTopic.badge}
                       </span>
                     </div>
 
-                    <h3 className="font-display text-2xl font-normal text-foreground group-hover:text-primary transition-colors leading-snug">
-                      {topic.title}
+                    {/* Main Headline */}
+                    <h3 className="mt-6 font-display text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-foreground leading-snug">
+                      {activeTopic.title}
                     </h3>
 
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed font-sans">
-                      {topic.description}
-                    </p>
-                  </div>
+                    {/* Architectural Why Callout */}
+                    {activeTopic.whyItMatters && (
+                      <div className="mt-5 rounded-2xl border-l-2 border-primary bg-primary/[0.04] p-4 text-xs sm:text-sm text-foreground/90 font-sans leading-relaxed">
+                        <p className="font-mono text-[11px] uppercase tracking-wider text-primary font-semibold mb-1">
+                          The Engineering Why
+                        </p>
+                        <p className="text-muted-foreground">{activeTopic.whyItMatters}</p>
+                      </div>
+                    )}
 
-                  {/* Exploration Focus Points */}
-                  {topic.takeaways && topic.takeaways.length > 0 && (
-                    <div className="mt-6 border-t border-border/50 pt-4">
-                      <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground/80 mb-2.5">
-                        Active Focus Points
-                      </p>
-                      <ul className="space-y-1.5">
-                        {topic.takeaways.map((item) => (
-                          <li
-                            key={item}
-                            className="flex items-start gap-2 text-xs text-foreground/80 font-mono"
-                          >
-                            <span className="text-primary mt-0.5 font-bold">›</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    {/* Detailed Technical Description */}
+                    <p className="mt-5 text-sm sm:text-base leading-relaxed text-muted-foreground font-sans">
+                      {activeTopic.description}
+                    </p>
+
+                    {/* Subgrid: Focus Points & Tools */}
+                    <div className="mt-8 grid gap-6 sm:grid-cols-2 border-t border-border/60 pt-6">
+                      {/* Left: Active Exploration Takeaways */}
+                      <div>
+                        <p className="text-xs font-mono uppercase tracking-wider text-foreground font-semibold flex items-center gap-1.5 mb-3">
+                          <CheckCircle2 className="size-3.5 text-primary" />
+                          <span>Key Focus Areas</span>
+                        </p>
+                        <ul className="space-y-2">
+                          {(activeTopic.takeaways || []).map((t) => (
+                            <li
+                              key={t}
+                              className="flex items-start gap-2 text-xs text-muted-foreground font-sans leading-relaxed"
+                            >
+                              <span className="text-primary font-bold mt-0.5">›</span>
+                              <span>{t}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Right: Experiment & Tool Stack */}
+                      <div>
+                        <p className="text-xs font-mono uppercase tracking-wider text-foreground font-semibold flex items-center gap-1.5 mb-3">
+                          <Zap className="size-3.5 text-primary" />
+                          <span>Tooling & Protocols</span>
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(activeTopic.tools || [
+                            "Vercel AI SDK",
+                            "Model Context Protocol",
+                            "LangChain",
+                            "Deterministic Grounding",
+                          ]).map((tool) => (
+                            <span
+                              key={tool}
+                              className="rounded-full border border-border/70 bg-card/70 px-2.5 py-1 text-[11px] font-mono text-foreground/80 hover:border-primary/40 transition-colors"
+                            >
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </FadeUp>
-            ))}
-          </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          )}
+
+          {/* ================= VIEW 2: BENTO MATRIX ================= */}
+          {viewLayout === "bento" && (
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {learningTopics.map((topic, idx) => {
+                const isFlagship = idx === 0;
+                return (
+                  <FadeUp key={topic.title} delay={0.06 * idx}>
+                    <div
+                      className={`group relative h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-8 transition-all duration-300 hover:bg-card/60 hover:border-border hover:shadow-2xl flex flex-col justify-between ${
+                        isFlagship
+                          ? "sm:col-span-2 lg:col-span-2 bg-gradient-to-br from-card/60 via-card/30 to-primary/[0.04]"
+                          : ""
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-5">
+                          <div className="flex items-center gap-2">
+                            {getTopicIcon(topic.category, topic.title)}
+                            <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                              {topic.number} · {topic.category}
+                            </span>
+                          </div>
+                          <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-[10px] font-mono font-medium text-primary">
+                            {topic.badge}
+                          </span>
+                        </div>
+
+                        <h3 className="font-display text-2xl sm:text-3xl font-normal text-foreground group-hover:text-primary transition-colors leading-snug">
+                          {topic.title}
+                        </h3>
+
+                        {topic.whyItMatters && (
+                          <p className="mt-3 text-xs font-mono text-primary/85 leading-relaxed">
+                            "{topic.whyItMatters}"
+                          </p>
+                        )}
+
+                        <p className="mt-3 text-sm text-muted-foreground leading-relaxed font-sans">
+                          {topic.description}
+                        </p>
+                      </div>
+
+                      <div className="mt-6 border-t border-border/50 pt-4 space-y-3">
+                        <div className="flex flex-wrap gap-1.5">
+                          {(topic.tools || []).slice(0, 4).map((tool) => (
+                            <span
+                              key={tool}
+                              className="rounded-full bg-card/80 border border-border/60 px-2 py-0.5 text-[10px] font-mono text-muted-foreground"
+                            >
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </FadeUp>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
 

@@ -33,11 +33,13 @@ export const siteConfig: SiteConfig = {
 
 export const aboutContent: AboutContent = {
   intro:
-    "I sit between engineering, product, and design — building resilient software that works intuitively for real people and drives measurable impact for the business behind it.",
+    "I'm Sule Malik, a product-minded Software Engineer based in Asante Mampong, Ghana. I build scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems.",
   bio: [
-    "I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. Over the course of my career, I've engineered customer-facing web platforms, fluid cross-platform mobile apps, recurring SaaS architectures, and high-conversion e-commerce boutiques.",
-    "My focus is on the product engineering intersection: where architectural rigor, design fidelity, and user needs converge. I don't just deliver tickets; I interrogate edge cases, optimize performance down to sub-100ms interactions, and build maintainable codebases designed to evolve.",
-    "I work seamlessly with distributed teams across Europe, North America, and Africa, maintaining high-agency written communication and end-to-end accountability from initial spike to production rollout.",
+    "I'm Sule Malik, a product-minded Software Engineer based in Asante Mampong, Ghana. I build scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems.",
+    "My work sits at the intersection of software engineering, product thinking, and user experience. I care about more than getting features working. I focus on building reliable systems, writing maintainable code, improving application performance, and creating interfaces that make complex workflows feel intuitive.",
+    "I work primarily with **React, Next.js, Angular, TypeScript, and modern frontend technologies**, with experience integrating APIs, managing application state, building authentication workflows, and working with backend services such as Node.js, Express, Supabase, and PostgreSQL.",
+    "Across my projects, I've contributed to production web platforms, learning management systems, content-driven websites, and e-commerce applications. I'm particularly interested in frontend architecture, system design, performance optimization, and building software that can grow alongside the businesses that depend on it.",
+    "I enjoy collaborating with distributed engineering teams, taking ownership of problems, communicating technical decisions clearly, and following projects through from implementation to delivery. I'm always interested in meaningful engineering challenges, collaborative teams, and opportunities to build products that make a difference.",
   ],
   principles: [
     {
@@ -134,11 +136,23 @@ export const aboutContent: AboutContent = {
   ],
   learningTopics: [
     {
-      title: "AI & Agentic Engineering (AI)",
+      id: "ai",
+      number: "01",
+      title: "AI & Agentic Engineering (AI / A1)",
       category: "Applied Intelligence",
-      badge: "LLM Workflows & AI SDK",
+      badge: "AI SDK & Agentic Flows",
+      status: "Active Exploration",
+      whyItMatters:
+        "AI transforms applications from rigid forms into adaptive, intent-driven software when paired with deterministic grounding and reliable fallbacks.",
+      tools: [
+        "Vercel AI SDK",
+        "Model Context Protocol (MCP)",
+        "LangChain / LlamaIndex",
+        "OpenAI & Claude APIs",
+        "Deterministic Grounding",
+      ],
       description:
-        "Integrating Large Language Models, streaming protocols, and multi-agent workflows into consumer and enterprise products. Obsessing over structured grounding, retrieval-augmented generation (RAG), and deterministic fallbacks so AI features feel snappy, reliable, and genuinely useful.",
+        "Integrating Large Language Models, streaming chunk protocols, and multi-agent workflows into consumer and enterprise products. Obsessing over structured grounding, retrieval-augmented generation (RAG), and zero-latency fallbacks so AI features feel snappy, reliable, and genuinely useful.",
       takeaways: [
         "Vercel AI SDK & Model Context Protocol (MCP)",
         "Prompt engineering & streaming chunk protocols",
@@ -146,9 +160,21 @@ export const aboutContent: AboutContent = {
       ],
     },
     {
+      id: "analytics",
+      number: "02",
       title: "Product Analytics & User Telemetry",
-      category: "Growth & Product Telemetry",
-      badge: "Event Schemas & Funnels",
+      category: "Growth & Telemetry",
+      badge: "Event Models & Funnels",
+      status: "Continuous Research",
+      whyItMatters:
+        "Writing code without telemetry is guessing. Real user interaction funnels expose friction points and provide empirical proof for technical refactoring.",
+      tools: [
+        "PostHog",
+        "Mixpanel",
+        "Semantic Event Schemas",
+        "Conversion Funnels",
+        "Cohort Retention",
+      ],
       description:
         "Connecting engineering precision to business impact. Designing semantic event taxonomies, tracking conversion funnels, and analyzing retention curves using PostHog and Mixpanel to inform architectural trade-offs with empirical user data.",
       takeaways: [
@@ -158,9 +184,21 @@ export const aboutContent: AboutContent = {
       ],
     },
     {
+      id: "seo",
+      number: "03",
       title: "Technical & Structural SEO",
       category: "Search & Visibility",
-      badge: "Core Web Vitals & Schema.org",
+      badge: "Schema.org & Web Vitals",
+      status: "Production Standard",
+      whyItMatters:
+        "High-performance architecture must be discoverable. Clean semantic HTML, rich microdata, and sub-1.2s LCP maximize organic indexing efficiency.",
+      tools: [
+        "Schema.org Microdata",
+        "JSON-LD",
+        "Core Web Vitals",
+        "Lighthouse CI",
+        "SSR / SSG Optimization",
+      ],
       description:
         "Mastering the technical foundations that make web applications effortlessly discoverable. Crafting semantic HTML hierarchies, dynamic Schema.org JSON-LD microdata, crawl-budget optimization, and sub-1.2s Largest Contentful Paint (LCP) performance.",
       takeaways: [
@@ -170,9 +208,21 @@ export const aboutContent: AboutContent = {
       ],
     },
     {
+      id: "aeo-geo",
+      number: "04",
       title: "AEO & GEO (Answer & Generative Engines)",
       category: "Next-Gen Discovery",
-      badge: "AI Overviews & Perplexity",
+      badge: "Perplexity & AI Overviews",
+      status: "Active Research",
+      whyItMatters:
+        "The next decade of organic discovery is defined by LLM synthesis. Formatting content for entity grounding ensures generative engines cite your work accurately.",
+      tools: [
+        "Perplexity Citations",
+        "Google AI Overviews",
+        "Entity Graphs",
+        "Structured Claim Anchors",
+        "Knowledge Base Grounding",
+      ],
       description:
         "Exploring how search is evolving beyond 10 blue links into generative synthesis (ChatGPT Search, Perplexity, Google AI Overviews). Architecting content with clear entity relationships, concise takeaway anchors, and verifiable claims so it gets cited as authoritative grounding.",
       takeaways: [
@@ -182,11 +232,23 @@ export const aboutContent: AboutContent = {
       ],
     },
     {
-      title: "Advanced React Native & Native Craft",
+      id: "react-native",
+      number: "05",
+      title: "Advanced React Native & 60fps Craft",
       category: "Mobile Architecture",
-      badge: "Expo & 60fps Reanimated",
+      badge: "Expo & Reanimated 3",
+      status: "Active Spikes",
+      whyItMatters:
+        "Users subconsciously evaluate app craftsmanship by touch latency and gesture fluidity. 60fps UI-thread execution creates native delight.",
+      tools: [
+        "Expo (CNG)",
+        "React Native Reanimated 3",
+        "RNGH (Gesture Handler)",
+        "Offline SQLite / WatermelonDB",
+        "React Native Skia",
+      ],
       description:
-        "Building tactile mobile experiences that feel undistinguishable from native Swift or Kotlin. Exploring fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.",
+        "Building tactile mobile experiences that feel indistinguishable from native Swift or Kotlin. Exploring fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.",
       takeaways: [
         "60fps gesture-driven animations & worklet execution",
         "Expo Continuous Native Generation (CNG)",

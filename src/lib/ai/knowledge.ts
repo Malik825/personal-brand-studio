@@ -27,6 +27,24 @@ export function answerFromKnowledgeBase(query: string): string {
     );
   }
 
+  // 1.2. About Sule / Bio summary
+  if (
+    q.includes("who is sule") ||
+    q.includes("who are you") ||
+    q.includes("about sule") ||
+    q.includes("tell me about yourself") ||
+    q.includes("introduce") ||
+    q === "about"
+  ) {
+    return (
+      `Sule Malik is a product-minded Software Engineer based in Asante Mampong, Ghana.\n\n` +
+      `He builds scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems. His work sits at the intersection of software engineering, product thinking, and user experience—focusing on reliable systems, maintainable code, sub-100ms performance, and intuitive workflows.\n\n` +
+      `• **Core Stack**: React, Next.js, Angular, TypeScript, Tailwind CSS, Supabase, Node.js, Express, and PostgreSQL.\n` +
+      `• **Key Domains**: Frontend architecture, system design, performance optimization, and distributed remote collaboration.\n\n` +
+      `Read his full story and engineering philosophy on the **[About Page](/about)**!`
+    );
+  }
+
   // 1.5. Things Sule enjoys learning & active exploration
   if (
     q.includes("learn") ||
