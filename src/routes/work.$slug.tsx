@@ -8,6 +8,7 @@ import { ImageReveal } from "@/components/motion/ImageReveal";
 import { getProject, getProjects } from "@/content";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
+import { trackEvent } from "@/lib/analytics/posthog";
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }) => {
@@ -128,6 +129,13 @@ function CaseStudy() {
                     href={p.url}
                     target="_blank"
                     rel="noreferrer noopener"
+                    onClick={() =>
+                      trackEvent("outbound_project_clicked", {
+                        project: p.title,
+                        type: "live_site",
+                        url: p.url,
+                      })
+                    }
                     className="btn-solid inline-flex items-center gap-2 group shadow-sm"
                     aria-label={`Visit live website for ${p.title} (opens in a new tab)`}
                   >
@@ -140,6 +148,13 @@ function CaseStudy() {
                     href={p.githubUrl}
                     target="_blank"
                     rel="noreferrer noopener"
+                    onClick={() =>
+                      trackEvent("outbound_project_clicked", {
+                        project: p.title,
+                        type: "github_source",
+                        url: p.githubUrl,
+                      })
+                    }
                     className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-card/60 px-4 py-2 text-xs font-medium text-foreground transition-all duration-200 hover:border-foreground/30 hover:bg-card group"
                     aria-label={`View source code for ${p.title} on GitHub (opens in a new tab)`}
                   >

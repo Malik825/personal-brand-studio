@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { assistantCopy as copy } from "@/content/assistant";
 import { createThread, deleteThread, readThreads, updateThread, type PortfolioThread } from "@/lib/chat-history";
+import { trackEvent } from "@/lib/analytics/posthog";
 
 export function PortfolioChat({ threadId }: { threadId: string }) {
   const [threads, setThreads] = useState<PortfolioThread[]>([]);
@@ -60,6 +61,11 @@ function ChatWindow({ threadId, thread, threads, refresh }: { threadId: string; 
   const submit = (text: string) => {
     if (busy || !thread || !text.trim()) return;
     if (text.length > 2000) { setNotice(copy.questionTooLong); return; }
+    trackEvent("assistant_message_sent", {
+      query_length: text.length,
+      thread_id: threadId,
+      surface: "dedicated_page",
+    });
     setNotice(""); clearError(); setDraft("");
     void sendMessage({ text: text.trim() });
     input.current?.focus();

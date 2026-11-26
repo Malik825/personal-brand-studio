@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { CommandPalette } from "@/components/site/CommandPalette";
 import { AssistantDrawer } from "@/components/site/AssistantDrawer";
+import { PostHogClientProvider } from "@/lib/analytics/posthog";
 
 import appCss from "../styles.css?url";
 
@@ -261,14 +262,16 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TopRouteProgressBar />
-      <CommandPalette />
-      <AssistantDrawer />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <PageTransitionContainer>
-        <Outlet />
-      </PageTransitionContainer>
-    </QueryClientProvider>
+    <PostHogClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <TopRouteProgressBar />
+        <CommandPalette />
+        <AssistantDrawer />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <PageTransitionContainer>
+          <Outlet />
+        </PageTransitionContainer>
+      </QueryClientProvider>
+    </PostHogClientProvider>
   );
 }

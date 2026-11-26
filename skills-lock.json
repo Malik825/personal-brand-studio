@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "skills": {
+    "integration-tanstack-start": {
+      "source": "PostHog/skills",
+      "commit": "efe68664ef84b2a850e94173825e9b1da27ce150",
+      "sourceType": "github",
+      "skillPath": "skills/posthog/all/skills/integration-tanstack-start/SKILL.md",
+      "computedHash": "ef9bc092ec893df85d4dfc68a3d98a0a20ad59c47832212ea444633daa79271e"
+    },
+    "posthog-instrumentation": {
+      "source": "PostHog/posthog-for-claude",
+      "commit": "4122119322584efc7a3e483b9c1cc2e4903ebeec",
+      "sourceType": "github",
+      "skillPath": "skills/posthog-instrumentation/SKILL.md",
+      "computedHash": "b5cd0a9913c6cb0ddfe0a954fa1b1061dd81dd7d44fedb53db46ba8b14437368"
+    }
+  }
+}

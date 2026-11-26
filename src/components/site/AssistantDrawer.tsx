@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { MessageSquareCode, X, Send, RotateCcw, ArrowUpRight, Maximize2 } from "lucide-react";
 import { sendChatMessage } from "@/server/chat";
+import { trackEvent } from "@/lib/analytics/posthog";
 
 interface Message {
   id: string;
@@ -66,6 +67,11 @@ export function AssistantDrawer() {
     const query = (textToSend || input).trim();
     if (!query || isLoading) return;
 
+    trackEvent("assistant_message_sent", {
+      query_length: query.length,
+      surface: "drawer",
+    });
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
@@ -124,7 +130,15 @@ export function AssistantDrawer() {
       {/* Floating Trigger Button */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
         <motion.button
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() =>
+            setIsOpen((prev) => {
+              const next = !prev;
+              if (next) {
+                trackEvent("assistant_drawer_opened");
+              }
+              return next;
+            })
+          }
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
           aria-expanded={isOpen}

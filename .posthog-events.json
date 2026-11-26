@@ -1,0 +1,32 @@
+[
+  {
+    "event": "contact_form_submitted",
+    "description": "Triggered when a prospective client, founder, or recruiter submits the contact form",
+    "filePath": "src/routes/contact.tsx"
+  },
+  {
+    "event": "outbound_project_clicked",
+    "description": "Triggered when a visitor clicks to view a live production website or source code repository",
+    "filePath": "src/routes/work.index.tsx"
+  },
+  {
+    "event": "outbound_project_clicked",
+    "description": "Triggered when a visitor clicks 'Visit live website' or 'View source code' on a case study page",
+    "filePath": "src/routes/work.$slug.tsx"
+  },
+  {
+    "event": "assistant_drawer_opened",
+    "description": "Triggered when a visitor opens the interactive Ask Sule AI companion drawer",
+    "filePath": "src/components/site/AssistantDrawer.tsx"
+  },
+  {
+    "event": "assistant_message_sent",
+    "description": "Triggered when a visitor sends a query or question to the AI companion",
+    "filePath": "src/routes/ask.$threadId.tsx"
+  },
+  {
+    "event": "project_filter_applied",
+    "description": "Triggered when a visitor filters or reorders projects on the Work catalog",
+    "filePath": "src/routes/work.index.tsx"
+  }
+]

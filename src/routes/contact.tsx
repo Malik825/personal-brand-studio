@@ -4,6 +4,7 @@ import { Eyebrow, Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { getSite } from "@/content";
 import { submitContactInquiry } from "@/server/inquiry";
+import { trackEvent } from "@/lib/analytics/posthog";
 import {
   Check,
   Copy,
@@ -103,6 +104,11 @@ export function Contact() {
           timeline: selectedTimeline,
           message,
         },
+      });
+      trackEvent("contact_form_submitted", {
+        service_type: selectedService,
+        timeline: selectedTimeline,
+        has_company: Boolean(company),
       });
       setSent(true);
     } catch (err) {

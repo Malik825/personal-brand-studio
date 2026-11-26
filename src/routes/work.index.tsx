@@ -7,6 +7,7 @@ import { ProjectListSkeleton } from "@/components/site/Skeletons";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
 import { getProjects, getSite, type Project } from "@/content";
+import { trackEvent } from "@/lib/analytics/posthog";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -345,6 +346,13 @@ function Work() {
                         href={flagshipProject.url}
                         target="_blank"
                         rel="noreferrer noopener"
+                        onClick={() =>
+                          trackEvent("outbound_project_clicked", {
+                            project: flagshipProject.title,
+                            url: flagshipProject.url,
+                            section: "flagship_hero",
+                          })
+                        }
                         className="btn-outline inline-flex items-center gap-1.5 group"
                         aria-label={`Visit live website for ${flagshipProject.title} (opens in a new tab)`}
                       >
@@ -379,7 +387,10 @@ function Work() {
                   <button
                     key={domain.id}
                     type="button"
-                    onClick={() => setActiveDomain(domain.id)}
+                    onClick={() => {
+                      setActiveDomain(domain.id);
+                      trackEvent("project_filter_applied", { domain: domain.id });
+                    }}
                     className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-200 cursor-pointer ${
                       isActive
                         ? "bg-foreground text-background shadow-sm"
@@ -445,7 +456,11 @@ function Work() {
                 <select
                   id="sort-projects"
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as "curated" | "year" | "name")}
+                  onChange={(e) => {
+                    const nextSort = e.target.value as "curated" | "year" | "name";
+                    setSortBy(nextSort);
+                    trackEvent("project_filter_applied", { sort_by: nextSort });
+                  }}
                   className="bg-transparent text-xs text-foreground focus:outline-none cursor-pointer pr-1"
                 >
                   <option value="curated" className="bg-card text-foreground">
@@ -639,6 +654,13 @@ function Work() {
                             href={p.url}
                             target="_blank"
                             rel="noreferrer noopener"
+                            onClick={() =>
+                              trackEvent("outbound_project_clicked", {
+                                project: p.title,
+                                url: p.url,
+                                view_mode: "editorial",
+                              })
+                            }
                             className="inline-flex items-center gap-1 text-xs font-mono text-muted-foreground hover:text-primary transition-colors py-1"
                             aria-label={`Visit live site for ${p.title} (opens in a new tab)`}
                           >
@@ -739,6 +761,13 @@ function Work() {
                           href={p.url}
                           target="_blank"
                           rel="noreferrer noopener"
+                          onClick={() =>
+                            trackEvent("outbound_project_clicked", {
+                              project: p.title,
+                              url: p.url,
+                              view_mode: "grid",
+                            })
+                          }
                           className="inline-flex items-center gap-0.5 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
                           aria-label={`Visit live site for ${p.title} (opens in a new tab)`}
                         >
