@@ -92,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "WoTofkmt-cQZwmHG2xNQ1rK5uwfJR06C6uCNMTXXG1U" },
+      { name: "msvalidate.01", content: "C197C61F1B5FA2FD708767D5A7D5C863" },
       { title: "Sule Malik — Product-minded software engineer" },
       {
         name: "description",
