@@ -93,5 +93,18 @@ export const articleType = defineType({
       title: "Featured Article",
       type: "boolean",
     }),
+    defineField({
+      name: "seoTitle",
+      title: "Custom SEO Title",
+      type: "string",
+      description: "Optional custom title for search engine result pages (defaults to article title if empty).",
+    }),
+    defineField({
+      name: "seoDescription",
+      title: "Custom SEO Description",
+      type: "text",
+      rows: 2,
+      description: "Optional custom meta description for search engines & social cards (defaults to excerpt if empty).",
+    }),
   ],
 });

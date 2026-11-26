@@ -46,6 +46,12 @@ export const Route = createFileRoute("/writing/$slug")({
   },
   head: ({ loaderData }) => {
     const a = loaderData?.article;
+    const pageTitle = a?.seoTitle
+      ? a.seoTitle.includes("Sule Malik")
+        ? a.seoTitle
+        : `${a.seoTitle} — Sule Malik`
+      : `${a?.title} — Sule Malik`;
+    const metaDescription = a?.seoDescription || a?.excerpt || "";
     const imageUrl = a?.image
       ? a.image.startsWith("http")
         ? a.image
@@ -55,17 +61,17 @@ export const Route = createFileRoute("/writing/$slug")({
     return {
       meta: a
         ? [
-            { title: `${a.title} — Sule Malik` },
-            { name: "description", content: a.excerpt },
-            { property: "og:title", content: `${a.title} — Sule Malik` },
-            { property: "og:description", content: a.excerpt },
+            { title: pageTitle },
+            { name: "description", content: metaDescription },
+            { property: "og:title", content: pageTitle },
+            { property: "og:description", content: metaDescription },
             { property: "og:type", content: "article" },
             { property: "og:url", content: `https://sulemalik.com/writing/${a.slug}` },
             { property: "og:image", content: imageUrl },
             { property: "og:image:alt", content: a.title },
             { name: "twitter:card", content: "summary_large_image" },
-            { name: "twitter:title", content: `${a.title} — Sule Malik` },
-            { name: "twitter:description", content: a.excerpt },
+            { name: "twitter:title", content: pageTitle },
+            { name: "twitter:description", content: metaDescription },
             { name: "twitter:image", content: imageUrl },
             { name: "article:published_time", content: a.date },
             { name: "article:author", content: a.author?.name || "Sule Malik" },
@@ -81,7 +87,7 @@ export const Route = createFileRoute("/writing/$slug")({
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
                 "headline": a.title,
-                "description": a.excerpt,
+                "description": metaDescription,
                 "image": [imageUrl],
                 "datePublished": a.date,
                 "dateModified": a.date,
@@ -435,35 +441,43 @@ function ArticlePage() {
             )}
 
             {/* Author Bio Box */}
-            <div className="mt-14 rounded-3xl border border-border/80 bg-card/30 p-8 sm:p-10 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between shadow-xs">
-              <div className="flex items-start sm:items-center gap-5">
-                {a.author?.image && (
-                  <img
-                    src={getOptimizedImageUrl(a.author.image, 200, 80)}
-                    alt={a.author.name}
-                    className="size-16 sm:size-20 rounded-2xl object-cover border border-border shadow-sm shrink-0"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                )}
-                <div>
-                  <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                    Written by
-                  </span>
-                  <h4 className="mt-1 font-display text-2xl font-medium text-foreground">
-                    {a.author?.name || "Sule Malik"}
-                  </h4>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-md">
-                    {a.author?.bio || "Product-minded software engineer specializing in React 19, TypeScript, React Native, and high-performance web systems."}
-                  </p>
+            <div className="mt-16 rounded-3xl border border-border/80 bg-card/40 p-6 sm:p-8 md:p-9 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-5 border-b border-border/60">
+                <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+                  {a.author?.image && (
+                    <img
+                      src={getOptimizedImageUrl(a.author.image, 160, 80)}
+                      alt={a.author.name}
+                      className="size-14 sm:size-16 rounded-2xl object-cover border border-border/80 shadow-xs shrink-0"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  <div className="min-w-0">
+                    <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-medium">
+                      Written by
+                    </span>
+                    <h4 className="font-display text-xl sm:text-2xl font-medium text-foreground">
+                      {a.author?.name || "Sule Malik"}
+                    </h4>
+                    <p className="text-xs font-mono text-muted-foreground mt-0.5">
+                      {a.author?.role || "Software Engineer"}{a.author?.location ? ` · ${a.author.location}` : ""}
+                    </p>
+                  </div>
                 </div>
+
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-foreground px-5 py-2.5 text-xs font-medium text-background transition-opacity hover:opacity-90 shrink-0 self-start sm:self-center"
+                >
+                  Start a conversation →
+                </Link>
               </div>
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-foreground px-5 py-2 text-xs font-medium text-background transition-opacity hover:opacity-90 shrink-0"
-              >
-                Start a conversation →
-              </Link>
+
+              <p className="mt-5 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl">
+                {a.author?.bio ||
+                  "Product-minded software engineer specializing in React 19, TypeScript, React Native, and high-performance web systems."}
+              </p>
             </div>
           </article>
 

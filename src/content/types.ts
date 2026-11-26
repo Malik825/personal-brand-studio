@@ -84,6 +84,8 @@ export type Article = {
   sections?: ArticleSection[] | undefined;
   relatedProjectSlug?: string | undefined;
   author?: Author | undefined;
+  seoTitle?: string | undefined;
+  seoDescription?: string | undefined;
 };
 
 /** A work-experience entry. */
