@@ -76,6 +76,7 @@ async function seed() {
       body: s.body,
     })),
     capabilities: aboutContent.capabilities,
+    capabilityGroups: aboutContent.capabilityGroups,
     learningTopics: aboutContent.learningTopics,
   });
 

@@ -37,10 +37,10 @@ export function answerFromKnowledgeBase(query: string): string {
     q === "about"
   ) {
     return (
-      `Sule Malik is a product-minded Software Engineer based in Asante Mampong, Ghana.\n\n` +
-      `He builds scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems. His work sits at the intersection of software engineering, product thinking, and user experience—focusing on reliable systems, maintainable code, sub-100ms performance, and intuitive workflows.\n\n` +
-      `• **Core Stack**: React, Next.js, Angular, TypeScript, Tailwind CSS, Supabase, Node.js, Express, and PostgreSQL.\n` +
-      `• **Key Domains**: Frontend architecture, system design, performance optimization, and distributed remote collaboration.\n\n` +
+      `Sule Malik is a product-minded software engineer based in Asante Mampong, Ghana.\n\n` +
+      `He builds customer-facing web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that combine functionality, performance, and thoughtful design. His focus is on the intersection of product engineering and user experience: where sound architecture, clean implementation, and real user needs come together.\n\n` +
+      `• **Technical Depth**: React, Next.js, Angular, TypeScript, React Native, Node.js, Express, Supabase, PostgreSQL, and MongoDB.\n` +
+      `• **Engineering Approach**: Taking ownership of technical challenges, communicating decisions clearly, considering edge cases, and delivering from initial planning to production rollout.\n\n` +
       `Read his full story and engineering philosophy on the **[About Page](/about)**!`
     );
   }
@@ -137,12 +137,11 @@ export function answerFromKnowledgeBase(query: string): string {
     q.includes("tools")
   ) {
     return (
-      `Sule's core engineering stack is focused on modern, high-performance web and mobile technologies:\n\n` +
-      `• **Frontend**: React 19, Next.js, Angular, TypeScript, Tailwind CSS, Motion / Framer Motion\n` +
-      `• **Mobile**: React Native, Expo, NativeWind, Gesture Handler, Reanimated\n` +
-      `• **Architecture & State**: TanStack Start & Router, React Query, Zustand, Redux Toolkit\n` +
-      `• **Backend & Data**: Supabase (PostgreSQL, RLS, Edge Functions, Realtime), Node.js, GraphQL, Sanity.io CMS\n` +
-      `• **Engineering Standards**: Strict TypeScript types, accessible design systems, resilient error boundaries, and zero-compromise Core Web Vitals.`
+      `Sule's technical skills and engineering depth span across the modern stack:\n\n` +
+      `• **Frontend Development**: React, Next.js, Angular, TypeScript, JavaScript, React Native (Expo), Tailwind CSS, TanStack Query & Router\n` +
+      `• **Backend & Data**: Node.js, Express, Supabase, PostgreSQL, MongoDB, REST APIs, GraphQL, Authentication & API Integration\n` +
+      `• **Tools & Practices**: Git & GitHub, Vercel, Responsive Design, Performance Optimization, State Management, Component Architecture\n\n` +
+      `Explore detailed capabilities and operating principles on the **[About Page](/about)**.`
     );
   }
 

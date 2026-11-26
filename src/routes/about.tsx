@@ -120,16 +120,35 @@ function About() {
 
   const capabilityGroups = about.capabilityGroups || [
     {
-      category: "Frontend & Mobile",
-      items: ["React 19", "React Native (Expo)", "TypeScript", "Next.js", "TanStack Start", "Tailwind CSS"],
+      category: "Frontend Development",
+      items: [
+        "React, Next.js, Angular",
+        "TypeScript, JavaScript",
+        "React Native (Expo)",
+        "Tailwind CSS",
+        "TanStack Query, Router",
+      ],
     },
     {
-      category: "Architecture & Performance",
-      items: ["Design Systems", "Web Vitals Optimization", "Headless CMS", "State Machines", "Offline-Resilient Sync"],
+      category: "Backend & Data",
+      items: [
+        "Node.js, Express",
+        "Supabase, PostgreSQL",
+        "MongoDB",
+        "REST APIs, GraphQL",
+        "Authentication & API Integration",
+      ],
     },
     {
-      category: "Data & Cloud Infrastructure",
-      items: ["Supabase (PostgreSQL)", "Edge Functions", "REST & GraphQL APIs", "Paystack", "Webhooks & Automation"],
+      category: "Tools & Practices",
+      items: [
+        "Git & GitHub",
+        "Vercel",
+        "Responsive Design",
+        "Performance Optimization",
+        "State Management",
+        "Component Architecture",
+      ],
     },
   ];
 
@@ -313,7 +332,7 @@ function About() {
       <section className="container-site py-20 sm:py-28 border-b border-border">
         <FadeUp>
           <div className="max-w-2xl">
-            <Eyebrow>Technical Capabilities</Eyebrow>
+            <Eyebrow>Technical Skills</Eyebrow>
             <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-foreground">
               Depth across the stack.
             </h2>
@@ -378,7 +397,7 @@ function About() {
                   onClick={() => setViewLayout("interactive")}
                   className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono transition-all cursor-pointer ${
                     viewLayout === "interactive"
-                      ? "bg-foreground text-background font-medium shadow-sm"
+                      ? "bg-foreground text-background font-medium"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                   aria-label="Interactive Console View"
@@ -391,7 +410,7 @@ function About() {
                   onClick={() => setViewLayout("bento")}
                   className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-mono transition-all cursor-pointer ${
                     viewLayout === "bento"
-                      ? "bg-foreground text-background font-medium shadow-sm"
+                      ? "bg-foreground text-background font-medium"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                   aria-label="Bento Grid View"
@@ -441,7 +460,7 @@ function About() {
                         onClick={() => setSelectedTopicId(topic.id || "ai")}
                         className={`group text-left rounded-2xl border p-4 transition-all duration-200 cursor-pointer relative overflow-hidden ${
                           isSelected
-                            ? "border-primary/50 bg-primary/5 shadow-md shadow-primary/5"
+                            ? "border-primary/50 bg-primary/5"
                             : "border-border/70 bg-card/30 hover:border-border hover:bg-card/60"
                         }`}
                       >
@@ -506,7 +525,7 @@ function About() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.3, ease: cinematicEase }}
-                    className="relative rounded-3xl border border-border/80 bg-card/40 p-7 sm:p-9 shadow-2xl backdrop-blur-md overflow-hidden"
+                    className="relative rounded-3xl border border-border/80 bg-card/40 p-7 sm:p-9 backdrop-blur-md overflow-hidden"
                   >
                     {/* Ambient glow accent behind active topic */}
                     <div
@@ -611,7 +630,7 @@ function About() {
                 return (
                   <FadeUp key={topic.title} delay={0.06 * idx}>
                     <div
-                      className={`group relative h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-8 transition-all duration-300 hover:bg-card/60 hover:border-border hover:shadow-2xl flex flex-col justify-between ${
+                      className={`group relative h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-8 transition-all duration-300 hover:bg-card/60 hover:border-border flex flex-col justify-between ${
                         isFlagship
                           ? "sm:col-span-2 lg:col-span-2 bg-gradient-to-br from-card/60 via-card/30 to-primary/[0.04]"
                           : ""

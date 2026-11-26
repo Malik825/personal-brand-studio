@@ -33,13 +33,11 @@ export const siteConfig: SiteConfig = {
 
 export const aboutContent: AboutContent = {
   intro:
-    "I'm Sule Malik, a product-minded Software Engineer based in Asante Mampong, Ghana. I build scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems.",
+    "I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I build customer-facing web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that combine functionality, performance, and thoughtful design.",
   bio: [
-    "I'm Sule Malik, a product-minded Software Engineer based in Asante Mampong, Ghana. I build scalable web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that solve practical business problems.",
-    "My work sits at the intersection of software engineering, product thinking, and user experience. I care about more than getting features working. I focus on building reliable systems, writing maintainable code, improving application performance, and creating interfaces that make complex workflows feel intuitive.",
-    "I work primarily with **React, Next.js, Angular, TypeScript, and modern frontend technologies**, with experience integrating APIs, managing application state, building authentication workflows, and working with backend services such as Node.js, Express, Supabase, and PostgreSQL.",
-    "Across my projects, I've contributed to production web platforms, learning management systems, content-driven websites, and e-commerce applications. I'm particularly interested in frontend architecture, system design, performance optimization, and building software that can grow alongside the businesses that depend on it.",
-    "I enjoy collaborating with distributed engineering teams, taking ownership of problems, communicating technical decisions clearly, and following projects through from implementation to delivery. I'm always interested in meaningful engineering challenges, collaborative teams, and opportunities to build products that make a difference.",
+    "I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I build customer-facing web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that combine functionality, performance, and thoughtful design.",
+    "My focus is on the intersection of product engineering and user experience: where sound architecture, clean implementation, and real user needs come together. I go beyond implementing features; I consider edge cases, optimize application performance, and build maintainable codebases designed to scale and evolve.",
+    "I collaborate with distributed teams across different regions, taking ownership of technical challenges, communicating decisions clearly, and contributing throughout the development lifecycle — from initial planning and implementation to testing and production delivery.",
   ],
   principles: [
     {
@@ -69,37 +67,34 @@ export const aboutContent: AboutContent = {
   ],
   capabilityGroups: [
     {
-      category: "Frontend & Mobile",
+      category: "Frontend Development",
       items: [
-        "React 19",
+        "React, Next.js, Angular",
+        "TypeScript, JavaScript",
         "React Native (Expo)",
-        "TypeScript",
-        "Next.js",
-        "TanStack Start / Router",
         "Tailwind CSS",
-        "Angular",
+        "TanStack Query, Router",
       ],
     },
     {
-      category: "Architecture & Performance",
+      category: "Backend & Data",
       items: [
-        "Design Systems",
-        "Web Vitals Optimization",
-        "Headless CMS (Sanity.io)",
-        "State Machines",
-        "Offline-Resilient Sync",
-        "Gesture Orchestration",
+        "Node.js, Express",
+        "Supabase, PostgreSQL",
+        "MongoDB",
+        "REST APIs, GraphQL",
+        "Authentication & API Integration",
       ],
     },
     {
-      category: "Data & Cloud Infrastructure",
+      category: "Tools & Practices",
       items: [
-        "Supabase (PostgreSQL)",
-        "Edge Functions",
-        "REST & GraphQL APIs",
-        "Paystack / Mobile Money",
-        "Webhooks & Automation",
-        "Nitro / Vercel Deployments",
+        "Git & GitHub",
+        "Vercel",
+        "Responsive Design",
+        "Performance Optimization",
+        "State Management",
+        "Component Architecture",
       ],
     },
   ],
