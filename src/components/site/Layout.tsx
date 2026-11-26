@@ -162,10 +162,10 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="container-site mt-24 border-t border-foreground/20 py-10 text-sm text-muted-foreground">
-      <div className="flex flex-col justify-between gap-4 md:flex-row">
+    <footer className="container-site mt-24 border-t border-foreground/20 pt-10 pb-28 sm:pb-16 text-sm text-muted-foreground">
+      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
         <p>© {new Date().getFullYear()} {site.name}. {site.role}.</p>
-        <div className="flex flex-wrap items-center gap-6">
+        <div className="flex flex-wrap items-center gap-6 sm:gap-7 md:pr-48 lg:pr-56">
           <EmailAction email={site.email} variant="inline" label="Email" />
           <a
             href={site.linkedin}

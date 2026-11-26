@@ -129,6 +129,7 @@ function Home() {
               alt="Sule Malik"
               width={640}
               height={853}
+              loading="eager"
               fetchPriority="high"
               decoding="async"
               initial={shouldReduceMotion ? false : { scale: 1.05 }}
@@ -305,6 +306,7 @@ function Home() {
                 alt="Sule Malik"
                 width={960}
                 height={1280}
+                loading="eager"
                 fetchPriority="high"
                 decoding="async"
                 initial={shouldReduceMotion ? false : { scale: 1.08 }}

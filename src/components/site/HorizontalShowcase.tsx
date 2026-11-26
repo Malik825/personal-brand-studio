@@ -45,12 +45,20 @@ function PinnedTrack({ projects }: { projects: Project[] }) {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const measure = () => setDistance(Math.max(0, track.scrollWidth - window.innerWidth));
-    measure();
-    const ro = new ResizeObserver(measure);
+    const measure = () => {
+      if (!trackRef.current) return;
+      setDistance(Math.max(0, trackRef.current.scrollWidth - window.innerWidth));
+    };
+    const id = requestAnimationFrame(() => {
+      measure();
+    });
+    const ro = new ResizeObserver(() => {
+      requestAnimationFrame(measure);
+    });
     ro.observe(track);
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", measure, { passive: true });
     return () => {
+      cancelAnimationFrame(id);
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
