@@ -7,7 +7,7 @@ import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { cinematicEase } from "@/components/motion/variants";
 import { getAbout, getSite } from "@/content";
 import { philosophyMarquee } from "@/content/marquees";
-import { ArrowRight, MapPin, Globe, Layers, Sparkles } from "lucide-react";
+import { ArrowRight, MapPin, Globe, Layers, Sparkles, Bot, LineChart, Search, Compass, Smartphone, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
@@ -100,6 +100,28 @@ function About() {
       items: ["Supabase (PostgreSQL)", "Edge Functions", "REST & GraphQL APIs", "Paystack", "Webhooks & Automation"],
     },
   ];
+
+  const learningTopics = about.learningTopics || [];
+
+  function getTopicIcon(category: string, title: string) {
+    const t = (category + " " + title).toLowerCase();
+    if (t.includes("ai") || t.includes("agent") || t.includes("intelligence")) {
+      return <Bot className="size-4 text-primary" />;
+    }
+    if (t.includes("analytic") || t.includes("growth") || t.includes("telemetry")) {
+      return <LineChart className="size-4 text-primary" />;
+    }
+    if (t.includes("seo") || t.includes("search")) {
+      return <Search className="size-4 text-primary" />;
+    }
+    if (t.includes("aeo") || t.includes("geo") || t.includes("discovery") || t.includes("engine")) {
+      return <Compass className="size-4 text-primary" />;
+    }
+    if (t.includes("native") || t.includes("mobile")) {
+      return <Smartphone className="size-4 text-primary" />;
+    }
+    return <Sparkles className="size-4 text-primary" />;
+  }
 
   return (
     <Page>
@@ -291,6 +313,74 @@ function About() {
           ))}
         </div>
       </section>
+
+      {/* ================= CONTINUOUS LEARNING & ACTIVE EXPLORATION ================= */}
+      {learningTopics.length > 0 && (
+        <section className="container-site py-20 sm:py-28 border-b border-border">
+          <FadeUp>
+            <div className="max-w-2xl">
+              <Eyebrow>Continuous Learning & Exploration</Eyebrow>
+              <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight text-foreground">
+                Things I enjoy learning & researching.
+              </h2>
+              <p className="mt-3 text-base sm:text-lg text-muted-foreground">
+                Beyond shipping client and SaaS features, I dedicate intentional time to emerging paradigms—connecting engineering rigor to product intelligence, discovery, and tactile craft.
+              </p>
+            </div>
+          </FadeUp>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {learningTopics.map((topic, idx) => (
+              <FadeUp key={topic.title} delay={0.07 * idx}>
+                <div className="group relative h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-8 transition-all duration-300 hover:bg-card/60 hover:border-border hover:shadow-xl flex flex-col justify-between">
+                  <div>
+                    {/* Header meta */}
+                    <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-5">
+                      <div className="flex items-center gap-2">
+                        {getTopicIcon(topic.category, topic.title)}
+                        <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground">
+                          {topic.category}
+                        </span>
+                      </div>
+                      <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-[10px] font-mono font-medium text-primary">
+                        {topic.badge}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display text-2xl font-normal text-foreground group-hover:text-primary transition-colors leading-snug">
+                      {topic.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed font-sans">
+                      {topic.description}
+                    </p>
+                  </div>
+
+                  {/* Exploration Focus Points */}
+                  {topic.takeaways && topic.takeaways.length > 0 && (
+                    <div className="mt-6 border-t border-border/50 pt-4">
+                      <p className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground/80 mb-2.5">
+                        Active Focus Points
+                      </p>
+                      <ul className="space-y-1.5">
+                        {topic.takeaways.map((item) => (
+                          <li
+                            key={item}
+                            className="flex items-start gap-2 text-xs text-foreground/80 font-mono"
+                          >
+                            <span className="text-primary mt-0.5 font-bold">›</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ================= REMOTE COLLABORATION MATRIX ================= */}
       <section className="container-site py-20 sm:py-28 border-b border-border">

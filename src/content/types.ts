@@ -112,6 +112,14 @@ export type OperatingPrinciple = {
   body: string;
 };
 
+export type LearningTopic = {
+  title: string;
+  category: string;
+  badge: string;
+  description: string;
+  takeaways: string[];
+};
+
 /** All content rendered on the About page. */
 export type AboutContent = {
   intro: string;
@@ -120,6 +128,7 @@ export type AboutContent = {
   capabilities: string[];
   capabilityGroups?: CapabilityGroup[] | undefined;
   principles?: OperatingPrinciple[] | undefined;
+  learningTopics?: LearningTopic[] | undefined;
 };
 
 // ---------------------------------------------------------------------------

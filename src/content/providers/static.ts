@@ -132,6 +132,68 @@ export const aboutContent: AboutContent = {
     "Performance",
     "Headless CMS",
   ],
+  learningTopics: [
+    {
+      title: "AI & Agentic Engineering (AI)",
+      category: "Applied Intelligence",
+      badge: "LLM Workflows & AI SDK",
+      description:
+        "Integrating Large Language Models, streaming protocols, and multi-agent workflows into consumer and enterprise products. Obsessing over structured grounding, retrieval-augmented generation (RAG), and deterministic fallbacks so AI features feel snappy, reliable, and genuinely useful.",
+      takeaways: [
+        "Vercel AI SDK & Model Context Protocol (MCP)",
+        "Prompt engineering & streaming chunk protocols",
+        "Deterministic fallbacks & zero-latency offline knowledge",
+      ],
+    },
+    {
+      title: "Product Analytics & User Telemetry",
+      category: "Growth & Product Telemetry",
+      badge: "Event Schemas & Funnels",
+      description:
+        "Connecting engineering precision to business impact. Designing semantic event taxonomies, tracking conversion funnels, and analyzing retention curves using PostHog and Mixpanel to inform architectural trade-offs with empirical user data.",
+      takeaways: [
+        "Funnel analysis & cohort retention mechanics",
+        "Privacy-safe client-side telemetry schemas",
+        "Transforming user friction points into code improvements",
+      ],
+    },
+    {
+      title: "Technical & Structural SEO",
+      category: "Search & Visibility",
+      badge: "Core Web Vitals & Schema.org",
+      description:
+        "Mastering the technical foundations that make web applications effortlessly discoverable. Crafting semantic HTML hierarchies, dynamic Schema.org JSON-LD microdata, crawl-budget optimization, and sub-1.2s Largest Contentful Paint (LCP) performance.",
+      takeaways: [
+        "Structured data & automated JSON-LD rich snippets",
+        "Core Web Vitals (LCP, INP, CLS) green-tier scoring",
+        "SSR/SSG hybrid caching & crawl efficiency",
+      ],
+    },
+    {
+      title: "AEO & GEO (Answer & Generative Engines)",
+      category: "Next-Gen Discovery",
+      badge: "AI Overviews & Perplexity",
+      description:
+        "Exploring how search is evolving beyond 10 blue links into generative synthesis (ChatGPT Search, Perplexity, Google AI Overviews). Architecting content with clear entity relationships, concise takeaway anchors, and verifiable claims so it gets cited as authoritative grounding.",
+      takeaways: [
+        "Answer Engine Optimization (AEO) structural patterns",
+        "Generative Engine Optimization (GEO) citation grounding",
+        "Entity mapping & authoritative knowledge structuring",
+      ],
+    },
+    {
+      title: "Advanced React Native & Native Craft",
+      category: "Mobile Architecture",
+      badge: "Expo & 60fps Reanimated",
+      description:
+        "Building tactile mobile experiences that feel undistinguishable from native Swift or Kotlin. Exploring fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.",
+      takeaways: [
+        "60fps gesture-driven animations & worklet execution",
+        "Expo Continuous Native Generation (CNG)",
+        "Local-first SQLite & offline state synchronization",
+      ],
+    },
+  ],
 };
 
 export const projectsData: Project[] = [

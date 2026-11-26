@@ -76,6 +76,7 @@ async function seed() {
       body: s.body,
     })),
     capabilities: aboutContent.capabilities,
+    learningTopics: aboutContent.learningTopics,
   });
 
   // 3. Projects

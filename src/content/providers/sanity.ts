@@ -342,6 +342,7 @@ export class SanityContentProvider implements ContentProvider {
           bio: data.bio ?? staticAbout.bio ?? [],
           principles: data.principles ?? staticAbout.principles ?? [],
           capabilityGroups: data.capabilityGroups ?? staticAbout.capabilityGroups ?? [],
+          learningTopics: data.learningTopics ?? staticAbout.learningTopics ?? [],
           sections: Array.isArray(data.sections) && data.sections.length > 0 ? data.sections : staticAbout.sections,
           capabilities: Array.isArray(data.capabilities) && data.capabilities.length > 0 ? data.capabilities : staticAbout.capabilities,
         };

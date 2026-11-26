@@ -20,9 +20,39 @@ export function answerFromKnowledgeBase(query: string): string {
       `Sule is a product-minded software engineer specializing in high-performance web applications (React 19, TypeScript, Next.js, TanStack Start) and mobile apps (React Native, Expo).\n\n` +
       `How can I help you today? You can ask about:\n` +
       `• **Engineering Stack & Architecture**\n` +
+      `• **What Sule Enjoys Learning & Exploring** (AI, Product Analytics, SEO, AEO/GEO, React Native)\n` +
       `• **Featured Projects** (Roam, Life Compass, Sushi Craft, DerivConnect, TipsDeck)\n` +
       `• **Building a Website or Application for your business**\n` +
       `• **Hiring, Contract Engagements & Contact Info**`
+    );
+  }
+
+  // 1.5. Things Sule enjoys learning & active exploration
+  if (
+    q.includes("learn") ||
+    q.includes("explor") ||
+    q.includes("study") ||
+    q.includes("studying") ||
+    q.includes("curiosity") ||
+    q.includes("curiosities") ||
+    q.includes("research") ||
+    q.includes("enjoy learning") ||
+    q.includes("what are you learning") ||
+    q.includes("what is sule learning") ||
+    q.includes("what does sule enjoy learning") ||
+    q.includes("aeo") ||
+    q.includes("geo") ||
+    q.includes("aoe") ||
+    q.includes("goe")
+  ) {
+    return (
+      `Sule is passionate about continuous learning and keeping his craft ahead of the curve. He is currently actively exploring 5 core areas:\n\n` +
+      `1. **AI & Agentic Engineering (AI / A1)**: Integrating Large Language Models, streaming chunk protocols (Vercel AI SDK), model context protocols (MCP), and deterministic fallbacks into product workflows so AI interactions feel snappy and reliable.\n` +
+      `2. **Product Analytics & Telemetry**: Designing semantic event taxonomies, measuring conversion funnels, and analyzing retention curves with tools like PostHog and Mixpanel to guide architectural decisions with user telemetry.\n` +
+      `3. **Technical & Structural SEO**: Deepening web visibility through automated Schema.org JSON-LD microdata, semantic document structures, and green-tier Core Web Vitals (sub-1.2s LCP, zero layout shifts).\n` +
+      `4. **AEO & GEO (Answer & Generative Engine Optimization)**: Optimizing content discovery for AI synthesis engines like ChatGPT Search, Perplexity, and Google AI Overviews using citation grounding and entity mapping.\n` +
+      `5. **Advanced React Native & 60fps Craft**: Perfecting fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.\n\n` +
+      `You can also read more about these on the **[About Page](/about)**!`
     );
   }
 
