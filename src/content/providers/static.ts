@@ -142,6 +142,7 @@ export const projectsData: Project[] = [
     year: "2025",
     role: "Mobile & frontend engineering",
     featured: true,
+    order: 1,
     metric: {
       value: "60fps",
       label: "Native Fluidity",
@@ -170,13 +171,14 @@ export const projectsData: Project[] = [
     year: "2025",
     role: "Product engineering & architecture",
     featured: true,
+    order: 2,
     metric: {
       value: "100%",
       label: "Local-First Sync",
     },
     summary:
       "A comprehensive personal operating system tracking engineering goals, learning progress, financial metrics, and daily reflection habits.",
-    url: "https://life-compass.sulemalik.com",
+    url: "https://life-compass-rose.vercel.app",
     githubUrl: "https://github.com/malik825/life-compass",
     stack: ["React 19", "TanStack Start", "TypeScript", "Tailwind CSS", "Supabase", "Recharts"],
     tone: "navy",
@@ -197,13 +199,14 @@ export const projectsData: Project[] = [
     category: "Restaurant & online ordering platform",
     year: "2024",
     role: "Full-stack engineering",
+    order: 3,
     metric: {
       value: "0ms",
       label: "Optimistic Cart Lag",
     },
     summary:
       "An artisanal culinary storefront and online ordering platform featuring interactive menu curation, cart drawer management, and live order tracking.",
-    url: "https://sushi-craft.vercel.app",
+    url: "https://sushi-website-rust.vercel.app",
     githubUrl: "https://github.com/malik825/sushi-craft",
     stack: ["SvelteKit", "Svelte 5", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
     tone: "ink",
@@ -224,13 +227,14 @@ export const projectsData: Project[] = [
     category: "SaaS & LMS platform",
     year: "2025",
     role: "Frontend & product engineering",
+    order: 4,
     metric: {
       value: "3 Roles",
       label: "Unified In 1 Codebase",
     },
     summary:
       "A learning management and SaaS platform built for organisations that need to deliver structured training at scale.",
-    url: "https://cylynk.io",
+    url: "https://cylynk.com",
     stack: ["Angular", "TypeScript", "REST APIs"],
     tone: "ink",
     challenge:
@@ -250,13 +254,14 @@ export const projectsData: Project[] = [
     year: "2024",
     role: "Full-stack & product engineering",
     featured: true,
+    order: 5,
     metric: {
       value: "< 50ms",
       label: "Copier Latency",
     },
     summary:
       "An automated trade copying and account management platform linking Deriv MT5 broker accounts directly to master signal execution with real-time risk controls.",
-    url: "https://derivconnect.com",
+    url: "https://derivconnect.live",
     stack: ["React", "TypeScript", "Tailwind CSS", "Deriv API", "Supabase"],
     tone: "rose",
     challenge:
@@ -276,13 +281,14 @@ export const projectsData: Project[] = [
     category: "Beauty booking & business platform",
     year: "2024",
     role: "Product engineering",
+    order: 6,
     metric: {
       value: "2-Sided",
       label: "Marketplace Flow",
     },
     summary:
       "A booking and business management platform helping beauty professionals manage appointments, services and clients.",
-    url: "https://glovera.app",
+    url: "https://glovera.beauty",
     stack: ["Next.js", "React", "TypeScript"],
     tone: "rose",
     challenge:
@@ -301,13 +307,14 @@ export const projectsData: Project[] = [
     category: "E-commerce",
     year: "2024",
     role: "Frontend engineering",
+    order: 7,
     metric: {
       value: "Sub-second",
       label: "Catalog Filter",
     },
     summary:
       "An e-commerce storefront focused on clean product presentation and a frictionless path to checkout.",
-    url: "https://urban-vault.vercel.app",
+    url: "https://urbanvaultgh.com",
     githubUrl: "https://github.com/malik825/urban-vault",
     stack: ["React", "Next.js", "TypeScript"],
     tone: "sand",
@@ -328,13 +335,14 @@ export const projectsData: Project[] = [
     category: "Sports analytics & prediction platform",
     year: "2024",
     role: "Full-stack & product engineering",
+    order: 8,
     metric: {
       value: "10k+",
       label: "Daily Predictions",
     },
     summary:
       "A subscription-based sports analytics and prediction platform delivering algorithmic probability metrics, daily football insights, and automated membership tiers.",
-    url: "https://tipsdeck.com",
+    url: "https://a1-tipsdeck.com",
     stack: ["React", "TypeScript", "Tailwind CSS", "Supabase", "Stripe"],
     tone: "navy",
     challenge:
@@ -355,6 +363,7 @@ export const projectsData: Project[] = [
     year: "2026",
     role: "Full-stack product engineering",
     featured: true,
+    order: 9,
     metric: {
       value: "+38%",
       label: "Mobile Conversion",
@@ -383,6 +392,7 @@ export const projectsData: Project[] = [
     year: "2026",
     role: "Full-stack architecture & engineering",
     featured: true,
+    order: 10,
     metric: {
       value: "$420/yr",
       label: "Average Waste Cut",
@@ -779,7 +789,7 @@ export class StaticContentProvider implements ContentProvider {
   }
 
   async getProjects(): Promise<Project[]> {
-    return projectsData;
+    return [...projectsData].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
   }
 
   async getProject(slug: string): Promise<Project | undefined> {

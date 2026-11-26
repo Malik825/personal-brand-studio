@@ -10,6 +10,7 @@ import { getProjects, getSite, type Project } from "@/content";
 import {
   ArrowRight,
   ArrowUpRight,
+  ArrowUpDown,
   Search,
   LayoutGrid,
   Rows3,
@@ -113,6 +114,7 @@ function Work() {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"editorial" | "grid">("editorial");
+  const [sortBy, setSortBy] = useState<"curated" | "year" | "name">("curated");
 
   // Extract core technology tags across projects with counts
   const tagCounts = useMemo(() => {
@@ -125,9 +127,9 @@ function Work() {
     return Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
   }, [projects]);
 
-  // Combined filtering: Domain + Tag + Search
+  // Combined filtering: Domain + Tag + Search + Reordering
   const filteredProjects = useMemo(() => {
-    return (projects || []).filter((p) => {
+    const list = (projects || []).filter((p) => {
       // Domain filter
       if (!matchesDomain(p, activeDomain)) return false;
 
@@ -146,20 +148,33 @@ function Work() {
 
       return true;
     });
-  }, [projects, activeDomain, selectedTag, searchQuery]);
 
-  // Flagship spotlight project (when no filter is active)
+    return [...list].sort((a, b) => {
+      if (sortBy === "year") {
+        return parseInt(b.year) - parseInt(a.year) || (a.order ?? 999) - (b.order ?? 999);
+      }
+      if (sortBy === "name") {
+        return a.title.localeCompare(b.title);
+      }
+      // default: curated (by order)
+      return (a.order ?? 999) - (b.order ?? 999);
+    });
+  }, [projects, activeDomain, selectedTag, searchQuery, sortBy]);
+
+  // Flagship spotlight project (when no filter is active, respects order)
   const flagshipProject = useMemo(() => {
-    return projects.find((p) => p.featured) || projects[0];
+    const sorted = [...projects].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+    return sorted.find((p) => p.featured) || sorted[0];
   }, [projects]);
 
   const hasActiveFilters =
-    activeDomain !== "all" || selectedTag !== null || searchQuery.trim() !== "";
+    activeDomain !== "all" || selectedTag !== null || searchQuery.trim() !== "" || sortBy !== "curated";
 
   const handleResetFilters = () => {
     setActiveDomain("all");
     setSelectedTag(null);
     setSearchQuery("");
+    setSortBy("curated");
   };
 
   return (
@@ -400,6 +415,30 @@ function Work() {
                 >
                   <LayoutGrid className="size-3.5" />
                 </button>
+              </div>
+
+              {/* Sort Order Selector */}
+              <div className="flex items-center gap-1.5 rounded-full border border-border/80 bg-card/40 px-2.5 py-1 text-xs text-muted-foreground">
+                <ArrowUpDown className="size-3 text-muted-foreground shrink-0" />
+                <label htmlFor="sort-projects" className="sr-only">
+                  Sort projects
+                </label>
+                <select
+                  id="sort-projects"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as "curated" | "year" | "name")}
+                  className="bg-transparent text-xs text-foreground focus:outline-none cursor-pointer pr-1"
+                >
+                  <option value="curated" className="bg-card text-foreground">
+                    Curated
+                  </option>
+                  <option value="year" className="bg-card text-foreground">
+                    Newest
+                  </option>
+                  <option value="name" className="bg-card text-foreground">
+                    A – Z
+                  </option>
+                </select>
               </div>
 
               {/* Reset button if filtered */}
