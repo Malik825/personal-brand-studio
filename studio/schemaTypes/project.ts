@@ -49,6 +49,19 @@ export const projectType = defineType({
       options: { list: ["ink", "rose", "navy", "sand"] },
       initialValue: "ink",
     }),
+    defineField({ name: "url", title: "Live Website URL", type: "url" }),
+    defineField({ name: "githubUrl", title: "GitHub Repository URL", type: "url" }),
+    defineField({ name: "order", title: "Display Order (1 = first)", type: "number" }),
+    defineField({ name: "featured", title: "Featured Spotlight", type: "boolean", initialValue: false }),
+    defineField({
+      name: "metric",
+      title: "Key Impact Metric",
+      type: "object",
+      fields: [
+        defineField({ name: "value", title: "Metric Value (e.g. <100ms)", type: "string" }),
+        defineField({ name: "label", title: "Metric Label (e.g. latency)", type: "string" }),
+      ],
+    }),
     defineField({ name: "challenge", title: "Challenge", type: "text" }),
     defineField({
       name: "approach",

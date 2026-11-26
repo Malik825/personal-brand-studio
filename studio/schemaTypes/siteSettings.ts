@@ -15,6 +15,8 @@ export const siteSettingsType = defineType({
     }),
     defineField({ name: "email", title: "Contact Email", type: "string" }),
     defineField({ name: "linkedin", title: "LinkedIn URL", type: "url" }),
+    defineField({ name: "github", title: "GitHub URL", type: "url" }),
+    defineField({ name: "twitter", title: "Twitter / X Profile URL", type: "url" }),
     defineField({ name: "location", title: "Location Note", type: "string" }),
     defineField({
       name: "stack",
