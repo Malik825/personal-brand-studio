@@ -26,18 +26,22 @@ export function ScrollType({
     <div
       ref={ref}
       aria-hidden="true"
-      role="presentation"
-      className={cn("pointer-events-none select-none overflow-hidden py-4", className)}
+      className={cn("pointer-events-none select-none overflow-hidden py-6", className)}
     >
       <motion.div
         style={reduce ? {} : { x }}
         aria-hidden="true"
-        role="presentation"
-        className="whitespace-nowrap font-display text-[17vw] leading-[0.9] tracking-tight text-foreground/20 will-change-transform"
+        className="whitespace-nowrap will-change-transform"
       >
-        <span aria-hidden="true" role="presentation">
-          {text}
-        </span>
+        <svg
+          viewBox="0 0 1600 140"
+          className="h-[15vw] max-h-44 w-auto overflow-visible select-none fill-foreground/15 font-display italic font-normal"
+          aria-hidden="true"
+        >
+          <text x="0" y="110" fontSize="120" letterSpacing="-0.03em">
+            {text}
+          </text>
+        </svg>
       </motion.div>
     </div>
   );

@@ -375,10 +375,12 @@ function Home() {
         <div>
           <ol className="divide-y divide-border border-y border-border">
             {experience.map((e, idx) => (
-              <FadeUp
+              <motion.li
                 key={e.role}
-                as="li"
-                delay={0.08 * idx}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.7, delay: 0.08 * idx, ease: cinematicEase }}
                 className="group grid gap-2 py-7 transition-colors duration-200 hover:bg-card/40 px-2 -mx-2 rounded-lg md:grid-cols-[8rem_1fr]"
               >
                 <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
@@ -390,7 +392,7 @@ function Home() {
                   </p>
                   <p className="mt-1 text-muted-foreground leading-relaxed">{e.note}</p>
                 </div>
-              </FadeUp>
+              </motion.li>
             ))}
           </ol>
         </div>
