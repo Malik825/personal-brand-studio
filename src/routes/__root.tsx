@@ -171,9 +171,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "TanStack Start",
                 "Angular",
                 "Supabase",
+                "Node.js & Express",
+                "PostgreSQL & MongoDB",
                 "Tailwind CSS",
                 "Product Engineering",
-                "Software Architecture"
+                "Software Architecture",
+                "Product Analytics",
+                "Search Engine Optimization (SEO)",
+                "Answer Engine Optimization (AEO)",
+                "Generative Engine Optimization (GEO)",
+                "AI & Agentic Engineering"
               ]
             },
             {

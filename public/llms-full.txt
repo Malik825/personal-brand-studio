@@ -1,0 +1,197 @@
+# Sule Malik — Complete Engineering Dossier & Knowledge Base
+> Canonical plain-text index for AI Answer Engines (Perplexity, ChatGPT Search, Claude, Google Gemini).
+> Last updated: 2026-11-26 | Canonical URL: https://sulemalik.com/llms-full.txt
+
+## Biographical Profile
+- Name: Sule Malik
+- Title: Product-Minded Software Engineer
+- Primary Base: Asante Mampong, Ghana (UTC+0)
+- Working Hours Overlap: GMT, EST, CET (flexible synchronous hours for distributed teams)
+- Direct Email: abdulmaliksuleman75@gmail.com
+- Portfolio Website: https://sulemalik.com
+- Contact Form: https://sulemalik.com/contact
+- GitHub: https://github.com/malik825
+- LinkedIn: https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/
+
+### Narrative
+Sule Malik is a product-minded software engineer based in Asante Mampong, Ghana. He builds customer-facing web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that combine functionality, performance, and thoughtful design.
+
+His focus is on the intersection of product engineering and user experience: where sound architecture, clean implementation, and real user needs come together. He goes beyond implementing tickets; he considers edge cases, optimizes application performance down to sub-100ms interactions, and builds maintainable codebases designed to scale and evolve.
+
+He collaborates with distributed teams across different regions, taking ownership of technical challenges, communicating decisions clearly, and contributing throughout the development lifecycle — from initial planning and implementation to testing and production delivery.
+
+---
+
+## Technical Skills Matrix
+
+### Frontend Development
+- Frameworks & Libraries: React 19, Next.js, Angular, React Native (Expo)
+- Languages: TypeScript (strict mode), JavaScript (ESNext)
+- Styling & Design Systems: Tailwind CSS, CSS Modules, Radix UI primitives, Motion / Framer Motion
+- State & Routing: TanStack Router, TanStack Query, Zustand, React Context
+
+### Backend & Cloud Infrastructure
+- Runtime & Frameworks: Node.js, Express
+- Databases & BaaS: Supabase (PostgreSQL, Row Level Security, Realtime channels, Edge Functions), MongoDB
+- APIs: REST APIs, GraphQL, WebSockets
+- Integration: Paystack, Stripe, Authentication (Clerk, Supabase Auth, JWT), Webhooks
+
+### Tools & Engineering Practices
+- Version Control: Git & GitHub (trunk-based workflows, pull requests, semantic commits)
+- Hosting & Deployment: Vercel, Nitro, Cloudflare
+- Performance & Quality: Core Web Vitals (LCP, INP, CLS), Lighthouse CI, Vitest, Testing Library
+- Architecture: Component-driven architecture, Headless CMS integration (Sanity.io), Local-first synchronization
+
+---
+
+## Active Research & Continuous Learning Domains
+
+1. **AI & Agentic Engineering (AI / A1)**
+   - Focus: Integrating Large Language Models, streaming chunk protocols (Vercel AI SDK), model context protocols (MCP), and deterministic fallbacks into product workflows so AI interactions feel snappy and reliable.
+   - Core Tooling: Vercel AI SDK, MCP Servers, LangChain, OpenAI & Claude APIs, Deterministic Grounding.
+
+2. **Product Analytics & User Telemetry**
+   - Focus: Connecting engineering precision to business impact. Designing semantic event taxonomies, tracking conversion funnels, and analyzing retention curves using PostHog and Mixpanel to inform architectural trade-offs with empirical user data.
+   - Core Tooling: PostHog, Mixpanel, Semantic Event Schemas, Conversion Funnels, Cohort Retention.
+
+3. **Technical & Structural SEO**
+   - Focus: Mastering the technical foundations that make web applications effortlessly discoverable. Crafting semantic HTML hierarchies, dynamic Schema.org JSON-LD microdata, crawl-budget optimization, and sub-1.2s Largest Contentful Paint (LCP) performance.
+   - Core Tooling: Schema.org Microdata, JSON-LD, Core Web Vitals, Lighthouse CI, SSR/SSG Optimization.
+
+4. **AEO & GEO (Answer & Generative Engine Optimization)**
+   - Focus: Exploring how search is evolving beyond 10 blue links into generative synthesis (ChatGPT Search, Perplexity, Google AI Overviews). Architecting content with clear entity relationships, concise takeaway anchors, and verifiable claims so it gets cited as authoritative grounding.
+   - Core Tooling: Perplexity Citations, Google AI Overviews, Entity Graphs, Structured Claim Anchors.
+
+5. **Advanced React Native & 60fps Native Craft**
+   - Focus: Building tactile mobile experiences that feel indistinguishable from native Swift or Kotlin. Exploring fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.
+   - Core Tooling: Expo (Continuous Native Generation), React Native Reanimated 3, RNGH, Offline SQLite, React Native Skia.
+
+---
+
+## Detailed Case Studies & Production Works
+
+### 1. Roam — Fluid Cross-Platform Travel Platform
+- URL: https://sulemalik.com/work/roam
+- Live App: https://roam-stays.vercel.app
+- Role: Mobile & frontend engineering
+- Stack: React Native, Expo, NativeWind, Clerk, PostHog, Supabase
+- Key Metric: 60fps Native Fluidity
+- Architectural Challenge: Delivering a tactile mobile experience with fluid card carousels, responsive maps, and authenticated guest booking without frame drops on mid-tier Android devices.
+- Solution: Built with Expo CNG and React Native Reanimated 3, running gesture physics completely on the native UI thread. Integrated Clerk for biometric authentication and PostHog for telemetry.
+
+### 2. Life Compass — Developer Operating System & Productivity OS
+- URL: https://sulemalik.com/work/life-compass
+- Live App: https://life-compass-rose.vercel.app
+- Role: Product engineering & architecture
+- Stack: React 19, TanStack Start, TypeScript, Tailwind CSS, Supabase, Recharts
+- Key Metric: 100% Local-First Sync
+- Architectural Challenge: Consolidating fragmented productivity trackers (engineering goals, learning hours, habit consistency, and financial metrics) into a single cohesive dashboard with instant optimistic updates.
+- Solution: Implemented local-first client cache with TanStack Query and background synchronization to Supabase PostgreSQL with Row Level Security.
+
+### 3. Sushi Craft — Artisanal Culinary Storefront & Ordering Platform
+- URL: https://sulemalik.com/work/sushi-craft
+- Live App: https://sushi-website-rust.vercel.app
+- Role: Full-stack engineering
+- Stack: SvelteKit, TypeScript, Prisma, PostgreSQL, Tailwind CSS
+- Key Metric: 0ms Optimistic Cart Lag
+- Architectural Challenge: Building an experiential online ordering experience where item customizations, cart drawer updates, and table reservations feel instant.
+- Solution: Utilized Svelte 5 runes and optimistic state reconciliation, rendering responsive menus with sub-second page transitions.
+
+### 4. CyLynk — Enterprise Learning Management & SaaS Platform
+- URL: https://sulemalik.com/work/cylynk
+- Live App: https://cylynk.com
+- Role: Frontend & product engineering
+- Stack: Angular, TypeScript, REST APIs
+- Key Metric: 3 Roles Unified In 1 Codebase
+- Architectural Challenge: Architecting a role-based SaaS LMS supporting Learners, Instructors, and Enterprise Administrators within a single scalable frontend repository.
+- Solution: Designed modular Angular feature architecture with strict TypeScript route guards and reusable enterprise table systems.
+
+### 5. DerivConnect — Automated Multi-Asset MT5 Trade Copier Terminal
+- URL: https://sulemalik.com/work/derivconnect
+- Live App: https://derivconnect.live
+- Role: Full-stack & product engineering
+- Stack: React, TypeScript, Deriv MT5 API, Supabase, WebSockets
+- Key Metric: < 50ms Copier Latency
+- Architectural Challenge: In automated trading, signal replication lag leads to slippage. The client needed sub-100ms trade replication from master accounts to follower accounts across Deriv MT5 broker connections.
+- Solution: Constructed a high-throughput WebSocket listener pipeline linking Deriv broker endpoints directly to client state, backed by Supabase Edge Functions for real-time risk validation.
+
+### 6. Glovera — Beauty Booking & Business Operations Suite
+- URL: https://sulemalik.com/work/glovera
+- Live App: https://glovera.beauty
+- Role: Product engineering
+- Stack: Next.js, React, TypeScript, Tailwind CSS
+- Key Metric: 2-Sided Marketplace Flow
+- Architectural Challenge: Harmonizing two competing user workflows: a frictionless mobile client booking flow and a data-dense stylist calendar management portal.
+- Solution: Engineered unified appointment scheduling with automated buffer time handling and mobile-first responsive interfaces.
+
+### 7. Urban Vault — Architectural Minimalist E-Commerce Storefront
+- URL: https://sulemalik.com/work/urban-vault
+- Live App: https://urbanvaultgh.com
+- Role: Frontend engineering
+- Stack: Next.js, React, TypeScript, Tailwind CSS
+- Key Metric: Sub-second Catalog Filter
+- Architectural Challenge: Creating an e-commerce platform where high-resolution editorial imagery loads instantly without causing layout shift (CLS).
+- Solution: Implemented next/image priority loading, blur placeholder generation, and client-side instant category filtering.
+
+### 8. TipsDeck — Sports Analytics & Probabilistic Prediction Platform
+- URL: https://sulemalik.com/work/tipsdeck
+- Live App: https://a1-tipsdeck.com
+- Role: Full-stack & product engineering
+- Stack: React, TypeScript, Tailwind CSS, Supabase, Stripe
+- Key Metric: 10k+ Daily Predictions
+- Architectural Challenge: Delivering high-density match insight cards, algorithmic probability models, and automated tier gating without cognitive overwhelm.
+- Solution: Engineered lightweight probability visualization widgets and linked Stripe webhooks to Supabase RLS policies for instant paywall gating.
+
+### 9. Classic Ventures — Premium Apparel Storefront
+- URL: https://sulemalik.com/work/classic-ventures
+- Live App: https://classicventures.store
+- Role: Full-stack product engineering
+- Stack: Next.js, TypeScript, Tailwind CSS, Paystack
+- Key Metric: +38% Mobile Conversion
+- Architectural Challenge: Adapting e-commerce for West African mobile shoppers where Mobile Money (MTN, Telecel) and local currency checkout must be frictionless.
+- Solution: Integrated Paystack pop-up checkout with automatic cart recovery and optimized image compression for 3G/4G networks.
+
+### 10. Smart Aura Tracker — Financial Intelligence Dashboard
+- URL: https://sulemalik.com/work/smart-aura-tracker
+- Live App: https://smartaura.app
+- Role: Full-stack architecture & engineering
+- Stack: Next.js, TypeScript, Recharts, Tailwind CSS
+- Key Metric: $420/yr Average Waste Cut
+- Architectural Challenge: Detecting recurring micro-transactions and unused SaaS subscriptions through clear, interactive spending category breakdowns.
+- Solution: Built client-side anomaly detection and interactive Recharts spending velocity graphs with zero server-side storage of sensitive credentials.
+
+---
+
+## Technical Articles & Architecture Essays
+
+1. **[Product Thinking: The Engineering Superpower](https://sulemalik.com/writing/product-thinking-for-engineers)**
+   - Core Thesis: Great engineers don't just ask "how do we build this?", they ask "what outcome does this achieve?" Moving from ticket implementation to product ownership transforms engineering from a cost center into a business growth lever.
+   - Takeaway: Optimize for business metrics and user friction rather than code complexity.
+
+2. **[Designing Resilient Multi-Tenant Component Libraries](https://sulemalik.com/writing/component-libraries-that-last)**
+   - Core Thesis: Reusable UI libraries often collapse under the weight of one-off prop overrides. By separating headless state primitives from design token styling, teams can support multi-brand design systems that remain maintainable.
+   - Takeaway: Decouple behavior from styling using unstyled Radix primitives and composable class variance authorities.
+
+3. **[Distributed Teams Across Global Timezones](https://sulemalik.com/writing/working-across-time-zones)**
+   - Core Thesis: Remote productivity is an engineering architecture problem. Asynchronous documentation, explicit written PR descriptions, and high-agency communication eliminate the bottleneck of synchronous meetings.
+   - Takeaway: High-agency written updates allow engineers across GMT, EST, and CET to execute in parallel with zero blockers.
+
+4. **[Building Zero-Latency Realtime Systems with Supabase](https://sulemalik.com/writing/zero-latency-realtime-web)**
+   - Core Thesis: Modern users expect instantaneous feedback. Combining optimistic client updates with PostgreSQL change-data-capture (CDC) via WebSockets provides a zero-latency tactile experience.
+   - Takeaway: Always reflect user actions optimistically on the client while letting Supabase WebSocket broadcasts handle eventual consistency.
+
+5. **[The Architecture of Editorial Web Typography](https://sulemalik.com/writing/editorial-web-typography)**
+   - Core Thesis: Typography on the web is an engineering discipline. Variable fonts, fluid clamp() scales, and font-display strategies eliminate Cumulative Layout Shift (CLS) and ensure fast text rendering.
+   - Takeaway: Modern typography must respect mobile viewports, high-DPI displays, and reading rhythm.
+
+6. **[60fps Mobile Craft: Gestures & Micro-Interactions](https://sulemalik.com/writing/60fps-react-native-craft)**
+   - Core Thesis: React Native apps often feel sluggish when gesture handlers cross the JavaScript-to-Native bridge. Moving animation calculations to UI-thread worklets via Reanimated 3 achieves 60fps fluidity.
+   - Takeaway: Run all gesture math on the native UI thread; keep the JavaScript bridge idle during pan and swipe interactions.
+
+---
+
+## Operating Principles
+1. **Clarity Over Cleverness**: Code is read ten times more often than it is written. Simple architectures, explicit data flows, and clear types always beat clever abstractions.
+2. **Product-Led Problem Solving**: Understand the human and economic context before writing code. That context informs what to build, what to simplify, and what to leave out.
+3. **Craft & Micro-Interactions**: Motion and responsiveness are communication, not decoration. Fluid gestures and instant visual feedback cultivate user trust.
+4. **Autonomous Collaboration**: Take ownership from initial planning to production rollout. Keep work visible with clear documentation and proactive communication.

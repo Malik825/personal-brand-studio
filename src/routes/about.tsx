@@ -59,6 +59,53 @@ export const Route = createFileRoute("/about")({
       { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://sulemalik.com/about" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          "@id": "https://sulemalik.com/about#webpage",
+          url: "https://sulemalik.com/about",
+          name: "About Sule Malik — Product-Minded Software Engineer",
+          description:
+            "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer based in Asante Mampong, Ghana.",
+          mainEntity: {
+            "@type": "Person",
+            "@id": "https://sulemalik.com/#person",
+            name: "Sule Malik",
+            jobTitle: "Product-Minded Software Engineer",
+            url: "https://sulemalik.com",
+            image: "https://sulemalik.com/og-image.png",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Asante Mampong",
+              addressRegion: "Ashanti Region",
+              addressCountry: "GH",
+            },
+            sameAs: [
+              "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
+              "https://github.com/malik825",
+            ],
+            knowsAbout: [
+              "React",
+              "Next.js",
+              "Angular",
+              "TypeScript",
+              "React Native",
+              "Node.js",
+              "Express",
+              "Supabase",
+              "PostgreSQL",
+              "MongoDB",
+              "AEO (Answer Engine Optimization)",
+              "GEO (Generative Engine Optimization)",
+              "Product Analytics",
+            ],
+          },
+        }),
+      },
+    ],
   }),
   component: About,
 });

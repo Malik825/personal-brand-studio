@@ -53,6 +53,25 @@ export const Route = createFileRoute("/work/")({
       { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://sulemalik.com/work" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "@id": "https://sulemalik.com/work#collection",
+          url: "https://sulemalik.com/work",
+          name: "Selected Work & Systems — Sule Malik",
+          description:
+            "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik with architectural rigor and product thinking.",
+          author: {
+            "@type": "Person",
+            "@id": "https://sulemalik.com/#person",
+            name: "Sule Malik",
+          },
+        }),
+      },
+    ],
   }),
   component: Work,
   pendingComponent: ProjectListSkeleton,

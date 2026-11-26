@@ -1,33 +1,132 @@
-# Sule Malik — Personal Brand & Engineering Portfolio
-> Product-minded software engineer specializing in React 19, React Native, TypeScript, Next.js, and TanStack Start.
+# Sule Malik — Product-Minded Software Engineer
+> Portfolio & Technical Dossier of Sule Malik, software engineer based in Asante Mampong, Ghana, specializing in scalable web applications, SaaS platforms, high-performance mobile apps, and product architecture.
 
-## Summary
-Sule Malik bridges design and product engineering. He designs, architectures, and builds scalable web and mobile applications with exceptional performance, accessible design systems, and robust full-stack integrations.
+## Overview & Bio
+I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I build customer-facing web applications, SaaS platforms, interactive dashboards, and e-commerce experiences that combine functionality, performance, and thoughtful design.
+
+My focus is on the intersection of product engineering and user experience: where sound architecture, clean implementation, and real user needs come together. I go beyond implementing features; I consider edge cases, optimize application performance down to sub-100ms interactions, and build maintainable codebases designed to scale and evolve.
 
 - Website: https://sulemalik.com
-- Contact: abdulmaliksuleman75@gmail.com
 - Contact Form: https://sulemalik.com/contact
+- Email: abdulmaliksuleman75@gmail.com
 - LinkedIn: https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/
 - GitHub: https://github.com/malik825
-- Location: Available for remote product engineering roles globally.
+- Full Text / AI Context: https://sulemalik.com/llms-full.txt
 
-## Core Technical Stack
-- Frontend: React 19, TypeScript, Next.js 15, Angular, Tailwind CSS, Motion / Framer Motion.
-- Mobile: React Native, Expo, NativeWind, React Native Reanimated, Gesture Handler.
-- Architecture: TanStack Start, TanStack Router, React Query, Zustand.
-- Backend & Database: Supabase (PostgreSQL, Row-Level Security, Realtime), Node.js, GraphQL.
-- Content Architecture: Sanity.io Headless CMS (typed Content Lake).
+---
 
-## Featured Projects & Case Studies
-- [Roam](https://sulemalik.com/work/roam): Mobile stay booking and travel exploration platform built with React Native, Expo, NativeWind, Clerk, and PostHog.
-- [Life Compass](https://sulemalik.com/work/life-compass): Personal operating system & developer productivity dashboard built with React 19, TanStack Start, Supabase, and Recharts.
-- [Sushi Craft](https://sulemalik.com/work/sushi-craft): Omakase dining portal & reservation system built with Next.js 15, Radix UI, and Motion.
-- [DerivConnect](https://sulemalik.com/work/derivconnect): Automated trade replication terminal linking MT5 broker accounts directly to master signal execution with WebSockets and Supabase.
-- [TipsDeck](https://sulemalik.com/work/tipsdeck): Subscription sports analytics and match probability modeling platform built with React, TypeScript, and Supabase.
-- [Urban Vault](https://sulemalik.com/work/urban-vault): Minimalist architectural streetwear e-commerce storefront.
+## Technical Skills & Depth Across the Stack
 
-## Engineering Philosophy
-"Think deeply. Build intentionally. Ship thoughtfully."
-1. Clarity over cleverness: Clean domain boundaries, explicit types, and self-documenting code.
-2. Performance as a core feature: 60fps animations, sub-second TTFB, and zero layout shift.
-3. Accessible design systems: Polished micro-interactions and WCAG-compliant color contrast.
+### Frontend Development
+- React, Next.js, Angular
+- TypeScript, JavaScript
+- React Native (Expo)
+- Tailwind CSS
+- TanStack Query, TanStack Router
+
+### Backend & Data
+- Node.js, Express
+- Supabase, PostgreSQL
+- MongoDB
+- REST APIs, GraphQL
+- Authentication & API Integration
+
+### Tools & Practices
+- Git & GitHub, Vercel
+- Responsive Design, WCAG Accessibility
+- Core Web Vitals & Performance Optimization
+- State Management, Component Architecture
+- Asynchronous Remote Collaboration (GMT / EST / CET)
+
+---
+
+## Active Research & Continuous Learning Domains
+
+1. **AI & Agentic Engineering (AI / A1)**: Integrating Large Language Models, streaming protocols (Vercel AI SDK), model context protocols (MCP), and deterministic fallbacks into product workflows so AI interactions feel snappy and dependable.
+2. **Product Analytics & Telemetry**: Designing semantic event taxonomies, measuring conversion funnels, and analyzing retention curves with tools like PostHog and Mixpanel to inform architectural decisions with user telemetry.
+3. **Technical & Structural SEO**: Deepening web visibility through automated Schema.org JSON-LD microdata, semantic document structures, and green-tier Core Web Vitals (sub-1.2s LCP, zero layout shifts).
+4. **AEO & GEO (Answer & Generative Engine Optimization)**: Optimizing content discovery for AI synthesis engines like ChatGPT Search, Perplexity, and Google AI Overviews using citation grounding and entity mapping.
+5. **Advanced React Native & 60fps Craft**: Perfecting fluid gesture choreography with React Native Gesture Handler, UI-thread worklets via Reanimated 3, and offline-first local data synchronization.
+
+---
+
+## Production Projects & Case Studies (10 Selected Works)
+
+1. **[Roam](https://sulemalik.com/work/roam)** (2025)
+   - Category: Mobile stay booking & travel discovery platform
+   - Stack: React Native, Expo, NativeWind, Clerk, PostHog
+   - Metric: 60fps Native Fluidity
+   - Live URL: https://roam-stays.vercel.app
+
+2. **[Life Compass](https://sulemalik.com/work/life-compass)** (2025)
+   - Category: Developer operating system & productivity dashboard
+   - Stack: React 19, TanStack Start, TypeScript, Supabase, Recharts
+   - Metric: 100% Local-First Sync
+   - Live URL: https://life-compass-rose.vercel.app
+
+3. **[Sushi Craft](https://sulemalik.com/work/sushi-craft)** (2024)
+   - Category: Restaurant & artisanal online ordering platform
+   - Stack: SvelteKit, TypeScript, Prisma, PostgreSQL, Tailwind CSS
+   - Metric: 0ms Optimistic Cart Lag
+   - Live URL: https://sushi-website-rust.vercel.app
+
+4. **[CyLynk](https://sulemalik.com/work/cylynk)** (2025)
+   - Category: SaaS & enterprise LMS platform
+   - Stack: Angular, TypeScript, REST APIs
+   - Metric: 3 Roles Unified In 1 Codebase
+   - Live URL: https://cylynk.com
+
+5. **[DerivConnect](https://sulemalik.com/work/derivconnect)** (2024)
+   - Category: Multi-asset automated trade copier terminal
+   - Stack: React, TypeScript, Deriv MT5 API, Supabase, WebSockets
+   - Metric: < 50ms Copier Latency
+   - Live URL: https://derivconnect.live
+
+6. **[Glovera](https://sulemalik.com/work/glovera)** (2024)
+   - Category: Beauty booking & appointment management platform
+   - Stack: Next.js, React, TypeScript
+   - Metric: 2-Sided Marketplace Flow
+   - Live URL: https://glovera.beauty
+
+7. **[Urban Vault](https://sulemalik.com/work/urban-vault)** (2024)
+   - Category: Architectural minimalist e-commerce storefront
+   - Stack: Next.js, React, TypeScript, Tailwind CSS
+   - Metric: Sub-second Catalog Filter
+   - Live URL: https://urbanvaultgh.com
+
+8. **[TipsDeck](https://sulemalik.com/work/tipsdeck)** (2024)
+   - Category: Sports analytics & probabilistic match prediction platform
+   - Stack: React, TypeScript, Tailwind CSS, Supabase, Stripe
+   - Metric: 10k+ Daily Predictions
+   - Live URL: https://a1-tipsdeck.com
+
+9. **[Classic Ventures](https://sulemalik.com/work/classic-ventures)** (2026)
+   - Category: Premium African apparel & boutique storefront
+   - Stack: Next.js, TypeScript, Tailwind CSS, Paystack
+   - Metric: +38% Mobile Conversion
+   - Live URL: https://classicventures.store
+
+10. **[Smart Aura Tracker](https://sulemalik.com/work/smart-aura-tracker)** (2026)
+    - Category: Financial intelligence & subscription leakage dashboard
+    - Stack: Next.js, TypeScript, Recharts, Tailwind CSS
+    - Metric: $420/yr Average Waste Cut
+    - Live URL: https://smartaura.app
+
+---
+
+## Technical Articles & Architecture Essays
+
+- [Product Thinking: The Engineering Superpower](https://sulemalik.com/writing/product-thinking-for-engineers): Moving from ticket execution to business and user outcome ownership.
+- [Designing Resilient Multi-Tenant Component Libraries](https://sulemalik.com/writing/component-libraries-that-last): Building tokenized, headless design systems that scale across brands.
+- [Distributed Teams Across Global Timezones](https://sulemalik.com/writing/working-across-time-zones): High-agency asynchronous communication patterns across GMT, EST, and CET.
+- [Building Zero-Latency Realtime Systems with Supabase](https://sulemalik.com/writing/zero-latency-realtime-web): WebSocket channels, optimistic state reconciliation, and Postgres RLS.
+- [The Architecture of Editorial Web Typography](https://sulemalik.com/writing/editorial-web-typography): Fluid typography scales, variable fonts, and zero-layout-shift font loading.
+- [60fps Mobile Craft: Gestures & Micro-Interactions](https://sulemalik.com/writing/60fps-react-native-craft): UI-thread worklets, React Native Reanimated 3, and tactile mobile physics.
+
+---
+
+## Operating Principles
+1. **Clarity Over Cleverness**: Good software is clear before it is clever. Explicit types and straightforward data flows outlast trends.
+2. **Product-Led Problem Solving**: Interrogate who the feature is for and what measurable success looks like before writing code.
+3. **Craft & Micro-Interactions**: Motion and responsiveness communicate trustworthiness. 60fps gestures and instant visual feedback matter.
+4. **Autonomous Collaboration**: Clear written documentation, proactive communication, and end-to-end accountability in remote environments.
