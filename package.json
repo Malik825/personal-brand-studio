@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "indexnow": "tsx scripts/submit-indexnow.mjs",
     "seed:sanity": "npx tsx scripts/seed-sanity.ts"
   },
   "overrides": {
