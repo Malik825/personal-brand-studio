@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as WorkRouteImport } from './routes/work'
 import { Route as WritingRouteImport } from './routes/writing'
 import { Route as AskIndexRouteImport } from './routes/ask.index'
@@ -35,6 +38,21 @@ const AboutRoute = AboutRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkRoute = WorkRouteImport.update({
@@ -87,6 +105,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/work': typeof WorkRouteWithChildren
   '/writing': typeof WritingRouteWithChildren
   '/ask/$threadId': typeof AskThreadIdRoute
@@ -101,6 +122,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ask/$threadId': typeof AskThreadIdRoute
   '/work/$slug': typeof WorkSlugRoute
   '/writing/$slug': typeof WritingSlugRoute
@@ -114,6 +138,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/work': typeof WorkRouteWithChildren
   '/writing': typeof WritingRouteWithChildren
   '/ask/$threadId': typeof AskThreadIdRoute
@@ -130,6 +157,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/sitemap.xml'
     | '/work'
     | '/writing'
     | '/ask/$threadId'
@@ -144,6 +174,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/sitemap.xml'
     | '/ask/$threadId'
     | '/work/$slug'
     | '/writing/$slug'
@@ -156,6 +189,9 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/sitemap.xml'
     | '/work'
     | '/writing'
     | '/ask/$threadId'
@@ -171,6 +207,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WorkRoute: typeof WorkRouteWithChildren
   WritingRoute: typeof WritingRouteWithChildren
   AskThreadIdRoute: typeof AskThreadIdRoute
@@ -199,6 +238,27 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/work': {
@@ -296,6 +356,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   WorkRoute: WorkRouteWithChildren,
   WritingRoute: WritingRouteWithChildren,
   AskThreadIdRoute: AskThreadIdRoute,
