@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Page, Eyebrow } from "@/components/site/Layout";
@@ -21,7 +21,20 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+type WritingSearchParams = {
+  topic?: string | undefined;
+  q?: string | undefined;
+};
+
 export const Route = createFileRoute("/writing/")({
+  validateSearch: (search: Record<string, unknown>): WritingSearchParams => {
+    const rawTopic = search["topic"];
+    const rawQ = search["q"];
+    return {
+      topic: typeof rawTopic === "string" && rawTopic ? rawTopic : undefined,
+      q: typeof rawQ === "string" && rawQ ? rawQ : undefined,
+    };
+  },
   loader: async () => {
     return { articles: await getArticles() };
   },
@@ -78,10 +91,34 @@ export const Route = createFileRoute("/writing/")({
 
 function Writing() {
   const { articles } = Route.useLoaderData();
+  const searchParams = Route.useSearch();
+  const navigate = Route.useNavigate();
   const shouldReduceMotion = useReducedMotion();
 
-  const [selectedTopic, setSelectedTopic] = useState<string>("All");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const selectedTopic = searchParams.topic || "All";
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.q || "");
+
+  useEffect(() => {
+    if (searchParams.q !== undefined && searchParams.q !== searchQuery) {
+      setSearchQuery(searchParams.q);
+    }
+  }, [searchParams.q]);
+
+  const handleSelectTopic = (name: string) => {
+    navigate({
+      search: (prev) => {
+        const next: WritingSearchParams = { ...prev };
+        if (name === "All") {
+          delete next.topic;
+        } else {
+          next.topic = name;
+        }
+        return next;
+      },
+      replace: true,
+      resetScroll: false,
+    });
+  };
 
   // Unique topics with counts
   const topics = useMemo(() => {
@@ -135,8 +172,12 @@ function Writing() {
   const hasActiveFilters = selectedTopic !== "All" || searchQuery.trim() !== "";
 
   const handleResetFilters = () => {
-    setSelectedTopic("All");
     setSearchQuery("");
+    navigate({
+      search: () => ({}),
+      replace: true,
+      resetScroll: false,
+    });
   };
 
   return (
@@ -234,9 +275,18 @@ function Writing() {
                       <Sparkles className="size-3" />
                       Featured Publication
                     </span>
-                    <span className="rounded-full border border-border/80 bg-background/50 px-2.5 py-0.5 text-xs font-mono text-muted-foreground">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleSelectTopic(featured.topic);
+                      }}
+                      className="rounded-full border border-border/80 bg-background/50 px-2.5 py-0.5 text-xs font-mono text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
+                      title={`Filter by ${featured.topic}`}
+                    >
                       {featured.topic}
-                    </span>
+                    </button>
                     <span className="font-mono text-xs text-muted-foreground">
                       {formatDate(featured.date)} · {featured.readingTime} read
                     </span>
@@ -333,7 +383,7 @@ function Writing() {
                   <button
                     key={t.name}
                     type="button"
-                    onClick={() => setSelectedTopic(t.name)}
+                    onClick={() => handleSelectTopic(t.name)}
                     className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-mono transition-all duration-200 cursor-pointer ${
                       isSelected
                         ? "bg-foreground text-background font-medium shadow-sm"
@@ -431,9 +481,18 @@ function Writing() {
                         <span className="block text-xs font-mono text-muted-foreground group-hover:text-foreground transition-colors">
                           {formatDate(a.date)}
                         </span>
-                        <span className="inline-flex items-center rounded-full border border-border/70 bg-card/60 px-2.5 py-0.5 text-[11px] font-mono text-muted-foreground">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleSelectTopic(a.topic);
+                          }}
+                          className="inline-flex items-center rounded-full border border-border/70 bg-card/60 px-2.5 py-0.5 text-[11px] font-mono text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
+                          title={`Filter by ${a.topic}`}
+                        >
                           {a.topic}
-                        </span>
+                        </button>
                       </div>
                       {a.image && (
                         <div className="relative overflow-hidden rounded-xl border border-border/60 aspect-[16/10] bg-muted/20 w-32 md:w-full">

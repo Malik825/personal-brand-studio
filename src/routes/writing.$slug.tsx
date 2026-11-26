@@ -158,9 +158,14 @@ function ArticlePage() {
             <ArrowLeft className="size-3.5 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden />
             <span>Writing / Essays</span>
           </Link>
-          <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-0.5 text-xs font-mono font-medium text-primary">
+          <Link
+            to="/writing"
+            search={{ topic: a.topic }}
+            className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-0.5 text-xs font-mono font-medium text-primary hover:bg-primary/20 hover:border-primary/40 transition-all cursor-pointer"
+            title={`View all essays in ${a.topic}`}
+          >
             {a.topic}
-          </span>
+          </Link>
         </div>
 
         {/* 3-Column Editorial Dossier Grid */}
