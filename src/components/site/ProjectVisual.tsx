@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Project } from "@/content";
 import { cn } from "@/lib/utils";
+import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
 
 /**
  * Project image, or an abstract interface placeholder when no image exists.
@@ -25,11 +26,17 @@ export function ProjectVisual({
   const frame = fill ? "h-full w-full" : "aspect-[4/3] rounded-2xl border border-foreground/10";
 
   if (project.image && !imageError) {
+    const optimizedSrc = getOptimizedImageUrl(project.image, 800, 75);
+    const srcSet = getSanitySrcSet(project.image);
+    const sizes = srcSet ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px" : undefined;
+
     if (fit === "contain") {
       return (
         <div className={cn("w-full flex items-center justify-center bg-transparent", className)}>
           <img
-            src={project.image}
+            src={optimizedSrc}
+            srcSet={srcSet}
+            sizes={sizes}
             alt={project.title}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
@@ -53,7 +60,9 @@ export function ProjectVisual({
         )}
       >
         <img
-          src={project.image}
+          src={optimizedSrc}
+          srcSet={srcSet}
+          sizes={sizes}
           alt={project.title}
           loading={eager ? "eager" : "lazy"}
           decoding="async"

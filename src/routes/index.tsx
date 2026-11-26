@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import portrait from "@/assets/profile.png";
+import portrait from "@/assets/profile.webp";
+import portraitMobile from "@/assets/profile-mobile.webp";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { HorizontalShowcase } from "@/components/site/HorizontalShowcase";
 import { ScrollType } from "@/components/motion/ScrollType";
@@ -47,7 +48,25 @@ export const Route = createFileRoute("/")({
       },
       { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://sulemalik.com/" }],
+    links: [
+      { rel: "canonical", href: "https://sulemalik.com/" },
+      {
+        rel: "preload",
+        as: "image",
+        href: portraitMobile,
+        type: "image/webp",
+        fetchpriority: "high",
+        media: "(max-width: 1023px)",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: portrait,
+        type: "image/webp",
+        fetchpriority: "high",
+        media: "(min-width: 1024px)",
+      },
+    ],
   }),
   component: Home,
   pendingComponent: HomeSkeleton,
@@ -104,10 +123,12 @@ function Home() {
             className="group relative overflow-hidden rounded-3xl min-h-[32rem] sm:min-h-[36rem] flex flex-col justify-end p-6 sm:p-9 shadow-xl border border-border/40"
           >
             <motion.img
-              src={portrait}
+              src={portraitMobile}
               alt="Sule Malik"
-              width={960}
-              height={1280}
+              width={640}
+              height={853}
+              fetchPriority="high"
+              decoding="async"
               initial={shouldReduceMotion ? false : { scale: 1.05 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.2, delay: 0.1, ease: cinematicEase }}
@@ -281,6 +302,8 @@ function Home() {
                 alt="Sule Malik"
                 width={960}
                 height={1280}
+                fetchPriority="high"
+                decoding="async"
                 initial={shouldReduceMotion ? false : { scale: 1.08 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.3, delay: 0.35, ease: cinematicEase }}
@@ -349,18 +372,21 @@ function Home() {
         <div>
           <ol className="divide-y divide-border border-y border-border">
             {experience.map((e, idx) => (
-              <FadeUp key={e.role} delay={0.08 * idx}>
-                <li className="group grid gap-2 py-7 transition-colors duration-200 hover:bg-card/40 px-2 -mx-2 rounded-lg md:grid-cols-[8rem_1fr]">
-                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                    {e.period}
-                  </span>
-                  <div>
-                    <p className="font-medium text-lg group-hover:text-primary transition-colors">
-                      {e.role} · <span className="text-muted-foreground font-normal">{e.org}</span>
-                    </p>
-                    <p className="mt-1 text-muted-foreground leading-relaxed">{e.note}</p>
-                  </div>
-                </li>
+              <FadeUp
+                key={e.role}
+                as="li"
+                delay={0.08 * idx}
+                className="group grid gap-2 py-7 transition-colors duration-200 hover:bg-card/40 px-2 -mx-2 rounded-lg md:grid-cols-[8rem_1fr]"
+              >
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                  {e.period}
+                </span>
+                <div>
+                  <p className="font-medium text-lg group-hover:text-primary transition-colors">
+                    {e.role} · <span className="text-muted-foreground font-normal">{e.org}</span>
+                  </p>
+                  <p className="mt-1 text-muted-foreground leading-relaxed">{e.note}</p>
+                </div>
               </FadeUp>
             ))}
           </ol>

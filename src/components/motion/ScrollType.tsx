@@ -23,13 +23,22 @@ export function ScrollType({
   const x = useTransform(scrollYProgress, [0, 1], [from, to]);
 
   return (
-    <div ref={ref} aria-hidden className={cn("pointer-events-none select-none overflow-hidden", className)}>
-      <motion.p
+    <div
+      ref={ref}
+      aria-hidden="true"
+      role="presentation"
+      className={cn("pointer-events-none select-none overflow-hidden py-4", className)}
+    >
+      <motion.div
         style={reduce ? {} : { x }}
-        className="whitespace-nowrap font-display text-[17vw] leading-[0.9] tracking-tight text-foreground/[0.07] will-change-transform"
+        aria-hidden="true"
+        role="presentation"
+        className="whitespace-nowrap font-display text-[17vw] leading-[0.9] tracking-tight text-foreground/20 will-change-transform"
       >
-        {text}
-      </motion.p>
+        <span aria-hidden="true" role="presentation">
+          {text}
+        </span>
+      </motion.div>
     </div>
   );
 }

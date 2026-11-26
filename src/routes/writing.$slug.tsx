@@ -6,6 +6,7 @@ import { ReadingProgress } from "@/components/site/ReadingProgress";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { formatDate, getArticle, getArticles, getProject, site } from "@/content";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
+import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
 import {
   Check,
   Copy,
@@ -166,7 +167,7 @@ function ArticlePage() {
               <div className="flex items-center gap-2.5">
                 {a.author?.image ? (
                   <img
-                    src={a.author.image}
+                    src={getOptimizedImageUrl(a.author.image, 160, 80)}
                     alt={a.author.name}
                     className="size-8 rounded-full object-cover border border-primary/25 shadow-xs"
                     loading="eager"
@@ -308,7 +309,9 @@ function ArticlePage() {
             {a.image && (
               <figure className="my-10 overflow-hidden rounded-2xl sm:rounded-3xl border border-border/80 shadow-sm aspect-[16/9] bg-muted/20">
                 <img
-                  src={a.image}
+                  src={getOptimizedImageUrl(a.image, 1200, 80)}
+                  srcSet={getSanitySrcSet(a.image)}
+                  sizes="(max-width: 1024px) 100vw, 840px"
                   alt={a.title}
                   className="h-full w-full object-cover"
                   loading="eager"
@@ -436,7 +439,7 @@ function ArticlePage() {
               <div className="flex items-start sm:items-center gap-5">
                 {a.author?.image && (
                   <img
-                    src={a.author.image}
+                    src={getOptimizedImageUrl(a.author.image, 200, 80)}
                     alt={a.author.name}
                     className="size-16 sm:size-20 rounded-2xl object-cover border border-border shadow-sm shrink-0"
                     loading="lazy"
@@ -556,7 +559,9 @@ function ArticlePage() {
                   {rel.image && (
                     <div className="relative mb-4 overflow-hidden rounded-xl border border-border/60 aspect-[16/9] bg-muted/20">
                       <img
-                        src={rel.image}
+                        src={getOptimizedImageUrl(rel.image, 600, 75)}
+                        srcSet={getSanitySrcSet(rel.image)}
+                        sizes="(max-width: 768px) 100vw, 360px"
                         alt={rel.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"

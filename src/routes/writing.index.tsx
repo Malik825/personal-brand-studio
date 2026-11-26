@@ -6,6 +6,7 @@ import { ArticleListSkeleton } from "@/components/site/Skeletons";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
 import { formatDate, getArticles, type Article } from "@/content";
+import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
 import {
   Search,
   Sparkles,
@@ -303,7 +304,9 @@ function Writing() {
                       className="block overflow-hidden rounded-2xl border border-border/80 shadow-2xl aspect-[16/10] bg-muted/20"
                     >
                       <img
-                        src={featured.image}
+                        src={getOptimizedImageUrl(featured.image, 1000, 75)}
+                        srcSet={getSanitySrcSet(featured.image)}
+                        sizes="(max-width: 1024px) 100vw, 600px"
                         alt={featured.title}
                         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         loading="eager"
@@ -435,7 +438,9 @@ function Writing() {
                       {a.image && (
                         <div className="relative overflow-hidden rounded-xl border border-border/60 aspect-[16/10] bg-muted/20 w-32 md:w-full">
                           <img
-                            src={a.image}
+                            src={getOptimizedImageUrl(a.image, 600, 75)}
+                            srcSet={getSanitySrcSet(a.image)}
+                            sizes="(max-width: 768px) 128px, 400px"
                             alt={a.title}
                             className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                             loading="lazy"

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import portrait from "@/assets/profile.png";
+import portrait from "@/assets/profile.webp";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
