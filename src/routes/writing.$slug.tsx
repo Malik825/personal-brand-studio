@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo, Fragment } from "react";
 import { ArticleSkeleton } from "@/components/site/Skeletons";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { motion } from "motion/react";
 import { Page } from "@/components/site/Layout";
 import { ReadingProgress } from "@/components/site/ReadingProgress";
 import { FadeUp } from "@/components/motion/FadeUp";
@@ -10,20 +11,81 @@ import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
 import {
   Check,
   Copy,
-  Share2,
   Tag,
   Clock,
   ArrowLeft,
   ArrowRight,
   Sparkles,
   Bookmark,
-  ExternalLink,
   MessageSquare,
   ListTree,
   Quote,
   Layers,
-  ArrowUpRight,
+  ChevronDown,
+  Share2,
 } from "lucide-react";
+
+/** Split any multi-paragraph strings containing blank lines or newlines into clean individual paragraphs. */
+function normalizeParagraphs(items?: string[]): string[] {
+  if (!Array.isArray(items)) return [];
+  return items
+    .flatMap((entry) =>
+      typeof entry === "string"
+        ? entry
+            .replace(/\r\n/g, "\n")
+            .split(/\n{2,}|\n/)
+            .map((part) => part.trim())
+        : [],
+    )
+    .filter(Boolean);
+}
+
+/** Strip redundant outer quotation marks so typographic pull-quotes never double-quote. */
+function cleanQuote(text: string): string {
+  return text.trim().replace(/^["“”'‘’]+|["“”'‘’]+$/g, "").trim();
+}
+
+/** Format reading time consistently (e.g. "6" -> "6 min read", "10 min" -> "10 min read"). */
+function formatReadingTime(value?: string): string {
+  if (!value) return "6 min read";
+  const trimmed = value.trim();
+  if (/read$/i.test(trimmed)) return trimmed;
+  if (/min/i.test(trimmed)) return `${trimmed} read`;
+  return `${trimmed} min read`;
+}
+
+/** Lightweight inline formatter for *italics*, **bold**, and `inline code` inside CMS paragraphs. */
+function renderInlineText(text: string) {
+  const tokenRegex = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+  const parts = text.split(tokenRegex);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
+      return (
+        <strong key={i} className="font-semibold text-foreground">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
+      return (
+        <em key={i} className="italic text-foreground/95">
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+    if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
+      return (
+        <code
+          key={i}
+          className="rounded-md border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[0.86em] text-foreground"
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return <Fragment key={i}>{part}</Fragment>;
+  });
+}
 
 export const Route = createFileRoute("/writing/$slug")({
   loader: async ({ params }) => {
@@ -118,10 +180,133 @@ export const Route = createFileRoute("/writing/$slug")({
 function ArticlePage() {
   const { article: a, related, relatedProject } = Route.useLoaderData();
   const [copied, setCopied] = useState(false);
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
 
-  const wordCount = a.sections
-    ? a.sections.reduce((acc, s) => acc + s.paragraphs.join(" ").split(/\s+/).length, 0)
-    : (a.body || []).join(" ").split(/\s+/).length;
+  const normalizedSections = useMemo(
+    () =>
+      (a.sections || []).map((sec) => ({
+        ...sec,
+        paragraphs: normalizeParagraphs(sec.paragraphs),
+      })),
+    [a.sections],
+  );
+
+  const introParagraphs = useMemo(() => normalizeParagraphs(a.body), [a.body]);
+
+  // Show intro paragraphs above Section 01 only when `body` is a distinct intro (not a duplicate of section 1)
+  const hasDistinctIntro = useMemo(() => {
+    if (normalizedSections.length === 0 || introParagraphs.length === 0) return false;
+    const firstIntro = (introParagraphs[0] || "").slice(0, 45).toLowerCase();
+    const firstSec = (normalizedSections[0]?.paragraphs[0] || "").slice(0, 45).toLowerCase();
+    return Boolean(firstIntro) && firstIntro !== firstSec;
+  }, [normalizedSections, introParagraphs]);
+
+  const tocItems = useMemo(() => {
+    const items: Array<{ id: string; label: string; number: string | null; isSpecial?: boolean }> = [];
+    if (hasDistinctIntro) {
+      items.push({ id: "introduction", label: "Introduction", number: "00" });
+    }
+    normalizedSections.forEach((sec, idx) => {
+      items.push({
+        id: sec.id,
+        label: sec.title,
+        number: String(idx + 1).padStart(2, "0"),
+      });
+    });
+    if (a.takeaways && a.takeaways.length > 0) {
+      items.push({
+        id: "key-takeaways",
+        label: "Key Takeaways",
+        number: null,
+        isSpecial: true,
+      });
+    }
+    return items;
+  }, [hasDistinctIntro, normalizedSections, a.takeaways]);
+
+  const [activeSectionId, setActiveSectionId] = useState<string>(() => tocItems[0]?.id ?? "");
+
+  // Keep activeSectionId in sync when navigating between articles
+  useEffect(() => {
+    setActiveSectionId(tocItems[0]?.id ?? "");
+  }, [a.slug, tocItems]);
+
+  // Live Scroll-Spy tracking which section is currently in view
+  useEffect(() => {
+    if (tocItems.length === 0) return;
+
+    let rafId = 0;
+    const updateActiveSection = () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+
+      // If near the very bottom of the page, highlight the last ToC item
+      if (scrollY + winHeight >= docHeight - 100) {
+        const lastItem = tocItems[tocItems.length - 1];
+        if (lastItem) setActiveSectionId(lastItem.id);
+        return;
+      }
+
+      const offset = 160;
+      let currentId = tocItems[0]?.id ?? "";
+
+      for (const item of tocItems) {
+        const el = document.getElementById(item.id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        if (top <= offset) {
+          currentId = item.id;
+        } else {
+          break;
+        }
+      }
+
+      setActiveSectionId(currentId);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [tocItems]);
+
+  const activeIndex = useMemo(() => {
+    const idx = tocItems.findIndex((item) => item.id === activeSectionId);
+    return idx >= 0 ? idx : 0;
+  }, [tocItems, activeSectionId]);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActiveSectionId(id);
+      setMobileTocOpen(false);
+    }
+  };
+
+  const wordCount = useMemo(() => {
+    const sectionWords = normalizedSections.reduce(
+      (acc, s) => acc + s.paragraphs.join(" ").split(/\s+/).filter(Boolean).length,
+      0,
+    );
+    const introWords =
+      normalizedSections.length === 0 || hasDistinctIntro
+        ? introParagraphs.join(" ").split(/\s+/).filter(Boolean).length
+        : 0;
+    return sectionWords + introWords;
+  }, [normalizedSections, introParagraphs, hasDistinctIntro]);
+
+  const formattedReadTime = formatReadingTime(a.readingTime);
 
   const handleCopyLink = async () => {
     try {
@@ -135,7 +320,7 @@ function ArticlePage() {
 
   const shareOnTwitter = () => {
     const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent(`"${a.title}" by @${site.name}`);
+    const text = encodeURIComponent(`"${a.title}" by ${site.name}`);
     window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, "_blank", "noopener,noreferrer");
   };
 
@@ -169,118 +354,197 @@ function ArticlePage() {
         </div>
 
         {/* 3-Column Editorial Dossier Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[14rem_1fr] xl:grid-cols-[15rem_minmax(0,1fr)_18rem] gap-10 xl:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[15.5rem_1fr] xl:grid-cols-[16.5rem_minmax(0,1fr)_18rem] gap-10 xl:gap-14 items-start">
           
-          {/* ================= LEFT STICKY RAIL (Metadata, Navigation, ToC) ================= */}
-          <aside className="hidden lg:block sticky top-28 space-y-8 text-xs font-mono">
-            {/* Author Capsule */}
-            <div className="rounded-2xl border border-border/70 bg-card/40 p-4 space-y-3">
-              <div className="flex items-center gap-2.5">
+          {/* ================= LEFT STICKY RAIL (Metadata, Scroll-Spy ToC, Share) ================= */}
+          <aside className="hidden lg:flex lg:flex-col sticky top-24 max-h-[calc(100vh-7.5rem)] overflow-y-auto pr-1 space-y-5">
+            {/* Compact Author & Telemetry Capsule */}
+            <div className="rounded-2xl border border-border/70 bg-card/40 p-4 space-y-3.5">
+              <div className="flex items-center gap-3">
                 {a.author?.image ? (
                   <img
                     src={getOptimizedImageUrl(a.author.image, 160, 80)}
                     alt={a.author.name}
-                    className="size-8 rounded-full object-cover border border-primary/25 shadow-xs"
+                    className="size-9 rounded-full object-cover border border-primary/25 shadow-xs shrink-0"
                     loading="eager"
                     decoding="async"
                   />
                 ) : (
-                  <div className="flex size-7 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-[11px] border border-primary/20">
+                  <div className="flex size-9 items-center justify-center rounded-full bg-primary/15 text-primary font-bold text-xs border border-primary/20 shrink-0">
                     {a.author?.name ? a.author.name.slice(0, 2).toUpperCase() : "SM"}
                   </div>
                 )}
-                <div>
-                  <p className="font-sans font-semibold text-foreground text-xs leading-none">
+                <div className="min-w-0">
+                  <p className="font-sans font-semibold text-foreground text-sm leading-tight truncate">
                     {a.author?.name || site.name}
                   </p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                  <p className="text-[11px] text-muted-foreground mt-0.5 truncate">
                     {a.author?.role || site.role}
                   </p>
                 </div>
               </div>
-              <div className="space-y-1.5 border-t border-border/50 pt-2.5 text-[11px] text-muted-foreground">
-                <div className="flex items-center justify-between">
-                  <span>Published:</span>
-                  <span className="text-foreground">{formatDate(a.date)}</span>
+
+              <div className="grid grid-cols-2 gap-2 border-t border-border/50 pt-3">
+                <div>
+                  <span className="block font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground/75">
+                    Published
+                  </span>
+                  <span className="mt-0.5 block text-xs font-medium text-foreground">
+                    {formatDate(a.date)}
+                  </span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span>Reading:</span>
-                  <span className="text-foreground">{a.readingTime} read</span>
+                <div>
+                  <span className="block font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground/75">
+                    Read Time
+                  </span>
+                  <span className="mt-0.5 block text-xs font-medium text-foreground">
+                    {formattedReadTime}
+                  </span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span>Volume:</span>
-                  <span className="text-foreground">{wordCount} words</span>
+                <div className="col-span-2 pt-1 flex items-center justify-between border-t border-border/40">
+                  <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground/75">
+                    Volume
+                  </span>
+                  <span className="font-mono text-[11px] font-medium text-foreground/85">
+                    {wordCount.toLocaleString()} words
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Table of Contents */}
-            {a.sections && a.sections.length > 0 && (
-              <div className="rounded-2xl border border-border/70 bg-card/30 p-4">
-                <p className="flex items-center gap-1.5 font-semibold uppercase tracking-wider text-muted-foreground text-[10px] mb-3">
-                  <ListTree className="size-3 text-primary" />
-                  <span>Table of Contents</span>
-                </p>
-                <nav className="space-y-1.5">
-                  {a.sections.map((sec, idx) => (
-                    <a
-                      key={sec.id}
-                      href={`#${sec.id}`}
-                      className="group flex items-start gap-2 py-1 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <span className="text-primary/70 shrink-0 mt-0.5">0{idx + 1}.</span>
-                      <span className="line-clamp-2 leading-snug group-hover:underline underline-offset-4">
-                        {sec.title}
-                      </span>
-                    </a>
-                  ))}
-                  {a.takeaways && a.takeaways.length > 0 && (
-                    <a
-                      href="#key-takeaways"
-                      className="group flex items-start gap-2 py-1 text-[11px] text-muted-foreground transition-colors hover:text-foreground border-t border-border/40 pt-2 mt-2"
-                    >
-                      <Sparkles className="size-3 text-primary shrink-0 mt-0.5" />
-                      <span className="line-clamp-1 leading-snug group-hover:underline underline-offset-4">
-                        Key Takeaways
-                      </span>
-                    </a>
-                  )}
+            {/* Table of Contents with Live Scroll-Spy Active Indicator */}
+            {tocItems.length > 0 && (
+              <div className="rounded-2xl border border-border/70 bg-card/35 p-4">
+                <div className="flex items-center justify-between mb-3.5 pb-2.5 border-b border-border/50">
+                  <p className="flex items-center gap-1.5 font-mono font-semibold uppercase tracking-[0.14em] text-foreground/85 text-[10px]">
+                    <ListTree className="size-3.5 text-primary" />
+                    <span>On This Page</span>
+                  </p>
+                  <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary tabular-nums">
+                    {String(activeIndex + 1).padStart(2, "0")} / {String(tocItems.length).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <nav aria-label="Table of contents" className="relative">
+                  {/* Continuous vertical progress rail */}
+                  <div
+                    className="pointer-events-none absolute left-[3px] top-1.5 bottom-1.5 w-[2px] rounded-full bg-border/60"
+                    aria-hidden="true"
+                  />
+
+                  <ul className="space-y-0.5">
+                    {tocItems.map((item, idx) => {
+                      const isActive = activeSectionId === item.id;
+                      const isPassed = idx < activeIndex;
+
+                      return (
+                        <li
+                          key={item.id}
+                          className={
+                            item.isSpecial
+                              ? "relative mt-2 pt-2 border-t border-border/50"
+                              : "relative"
+                          }
+                        >
+                          <a
+                            href={`#${item.id}`}
+                            aria-current={isActive ? "location" : undefined}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(item.id);
+                            }}
+                            className={`group relative flex items-start gap-2.5 rounded-r-xl pl-4 pr-2.5 py-2 transition-all duration-200 ${
+                              isActive
+                                ? "bg-primary/[0.09] text-foreground"
+                                : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                            }`}
+                          >
+                            {/* Sliding Active Indicator Bar */}
+                            {isActive ? (
+                              <motion.span
+                                layoutId="toc-active-indicator"
+                                transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                                className="absolute left-[2px] top-1.5 bottom-1.5 w-[3.5px] rounded-full bg-primary shadow-[0_0_8px_rgba(37,99,235,0.35)]"
+                                aria-hidden="true"
+                              />
+                            ) : isPassed ? (
+                              <span
+                                className="absolute left-[3px] top-1.5 bottom-1.5 w-[2px] rounded-full bg-primary/35"
+                                aria-hidden="true"
+                              />
+                            ) : null}
+
+                            {item.isSpecial ? (
+                              <Sparkles
+                                className={`size-3.5 shrink-0 mt-0.5 transition-colors ${
+                                  isActive ? "text-primary" : "text-primary/60 group-hover:text-primary"
+                                }`}
+                              />
+                            ) : (
+                              <span
+                                className={`font-mono text-[10px] shrink-0 mt-[3px] tabular-nums transition-colors ${
+                                  isActive
+                                    ? "text-primary font-bold"
+                                    : isPassed
+                                      ? "text-primary/55 font-medium"
+                                      : "text-muted-foreground/55 group-hover:text-primary/70"
+                                }`}
+                              >
+                                {item.number}
+                              </span>
+                            )}
+
+                            <span
+                              className={`font-sans text-[12.5px] leading-[1.35] line-clamp-2 transition-colors ${
+                                isActive
+                                  ? "font-semibold text-foreground"
+                                  : isPassed
+                                    ? "font-normal text-foreground/70 group-hover:text-foreground"
+                                    : "font-normal text-muted-foreground group-hover:text-foreground"
+                              }`}
+                            >
+                              {item.label}
+                            </span>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </nav>
               </div>
             )}
 
-            {/* Quick Share Pills */}
-            <div className="space-y-2">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold px-1">
-                Share Essay
+            {/* Compact Share Action Row */}
+            <div className="rounded-2xl border border-border/60 bg-card/25 p-3">
+              <p className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground/80 font-semibold mb-2 px-0.5">
+                <Share2 className="size-3 text-primary/75" />
+                <span>Share Essay</span>
               </p>
-              <div className="flex flex-col gap-1.5">
+              <div className="grid grid-cols-3 gap-1.5">
                 <button
                   type="button"
                   onClick={handleCopyLink}
-                  className="flex items-center justify-between rounded-lg border border-border/70 bg-card/40 px-3 py-2 text-[11px] text-muted-foreground hover:bg-card hover:text-foreground transition-colors"
+                  className="inline-flex items-center justify-center gap-1 rounded-lg border border-border/70 bg-background/70 px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors cursor-pointer"
+                  title="Copy link to essay"
                 >
-                  <span className="flex items-center gap-1.5">
-                    {copied ? <Check className="size-3 text-emerald-500" /> : <Copy className="size-3" />}
-                    <span>{copied ? "Copied Link" : "Copy Link"}</span>
-                  </span>
-                  <span className="text-[10px] text-muted-foreground/60">⌘C</span>
+                  {copied ? <Check className="size-3 text-emerald-500" /> : <Copy className="size-3" />}
+                  <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
                 <button
                   type="button"
                   onClick={shareOnTwitter}
-                  className="flex items-center justify-between rounded-lg border border-border/70 bg-card/40 px-3 py-2 text-[11px] text-muted-foreground hover:bg-card hover:text-foreground transition-colors"
+                  className="inline-flex items-center justify-center gap-1 rounded-lg border border-border/70 bg-background/70 px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors cursor-pointer"
+                  title="Share on X / Twitter"
                 >
-                  <span>Twitter / X</span>
-                  <ArrowUpRight className="size-3 opacity-60" />
+                  <span>X</span>
                 </button>
                 <button
                   type="button"
                   onClick={shareOnLinkedIn}
-                  className="flex items-center justify-between rounded-lg border border-border/70 bg-card/40 px-3 py-2 text-[11px] text-muted-foreground hover:bg-card hover:text-foreground transition-colors"
+                  className="inline-flex items-center justify-center gap-1 rounded-lg border border-border/70 bg-background/70 px-2 py-1.5 text-[11px] font-medium text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors cursor-pointer"
+                  title="Share on LinkedIn"
                 >
                   <span>LinkedIn</span>
-                  <ArrowUpRight className="size-3 opacity-60" />
                 </button>
               </div>
             </div>
@@ -299,8 +563,8 @@ function ArticlePage() {
                 {a.title}
               </h1>
 
-              <p className="text-lg sm:text-xl leading-relaxed text-foreground/80 font-sans border-l-2 border-primary/40 pl-5 italic">
-                {a.excerpt}
+              <p className="text-lg sm:text-xl leading-relaxed text-foreground/80 font-sans border-l-2 border-primary/40 pl-5">
+                {renderInlineText(a.excerpt)}
               </p>
 
               {/* Mobile / Tablet Telemetry Row */}
@@ -309,11 +573,60 @@ function ArticlePage() {
                 <span>·</span>
                 <span className="flex items-center gap-1">
                   <Clock className="size-3" />
-                  {a.readingTime} read
+                  {formattedReadTime}
                 </span>
                 <span>·</span>
-                <span>{wordCount} words</span>
+                <span>{wordCount.toLocaleString()} words</span>
               </div>
+
+              {/* Mobile Collapsible Table of Contents */}
+              {tocItems.length > 0 && (
+                <div className="lg:hidden rounded-2xl border border-border/70 bg-card/40 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setMobileTocOpen((prev) => !prev)}
+                    aria-expanded={mobileTocOpen}
+                    className="flex w-full items-center justify-between px-4 py-3 text-left text-xs font-mono uppercase tracking-wider text-foreground cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <ListTree className="size-3.5 text-primary" />
+                      <span>On This Page ({tocItems.length})</span>
+                    </span>
+                    <ChevronDown
+                      className={`size-4 text-muted-foreground transition-transform duration-200 ${
+                        mobileTocOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {mobileTocOpen && (
+                    <nav className="border-t border-border/50 px-3 py-2 space-y-0.5">
+                      {tocItems.map((item) => {
+                        const isActive = activeSectionId === item.id;
+                        return (
+                          <a
+                            key={item.id}
+                            href={`#${item.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(item.id);
+                            }}
+                            className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-sans transition-colors ${
+                              isActive
+                                ? "bg-primary/10 text-foreground font-semibold"
+                                : "text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            <span className="font-mono text-[11px] text-primary/80 w-5 shrink-0">
+                              {item.number ?? "★"}
+                            </span>
+                            <span className="leading-snug">{item.label}</span>
+                          </a>
+                        );
+                      })}
+                    </nav>
+                  )}
+                </div>
+              )}
             </header>
 
             {/* Feature Cover Image */}
@@ -331,60 +644,95 @@ function ArticlePage() {
               </figure>
             )}
 
-            {/* Structured Sections or Fallback Paragraphs */}
-            {a.sections && a.sections.length > 0 ? (
-              <div className="mt-10 space-y-14">
-                {a.sections.map((sec, secIdx) => (
-                  <section key={sec.id} id={sec.id} className="scroll-mt-28 space-y-5">
-                    <h2 className="group flex items-baseline gap-2 font-display text-2xl sm:text-3xl font-medium tracking-tight text-foreground border-b border-border/40 pb-3">
-                      <span className="text-xs font-mono text-primary/70 mr-1">0{secIdx + 1}.</span>
-                      <span>{sec.title}</span>
-                      <a
-                        href={`#${sec.id}`}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-primary text-sm font-mono"
-                        aria-label={`Link to ${sec.title}`}
-                      >
-                        #
-                      </a>
-                    </h2>
+            {/* Distinct Editorial Introduction (when body introduces structured sections) */}
+            {hasDistinctIntro && (
+              <section id="introduction" className="scroll-mt-28 mt-10">
+                <div className="space-y-5 text-[16.5px] sm:text-[17.5px] leading-[1.82] text-foreground/85 font-sans">
+                  {introParagraphs.map((p, idx) => (
+                    <p
+                      key={idx}
+                      className={
+                        idx === 0
+                          ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-medium first-letter:leading-[0.82] first-letter:text-primary"
+                          : ""
+                      }
+                    >
+                      {renderInlineText(p)}
+                    </p>
+                  ))}
+                </div>
+                <div className="my-12 flex items-center justify-center gap-3 text-muted-foreground/40" aria-hidden="true">
+                  <span className="h-px w-12 bg-border/80" />
+                  <span className="font-mono text-xs tracking-[0.4em]">···</span>
+                  <span className="h-px w-12 bg-border/80" />
+                </div>
+              </section>
+            )}
 
-                    <div className="space-y-6 text-base sm:text-lg leading-[1.85] text-foreground/90 font-sans">
+            {/* Structured Sections or Fallback Paragraphs */}
+            {normalizedSections.length > 0 ? (
+              <div className={hasDistinctIntro ? "space-y-16" : "mt-10 space-y-16"}>
+                {normalizedSections.map((sec, secIdx) => (
+                  <section key={sec.id} id={sec.id} className="scroll-mt-28 space-y-6">
+                    <div className="border-b border-border/50 pb-4">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                          Section {String(secIdx + 1).padStart(2, "0")}
+                        </span>
+                        <a
+                          href={`#${sec.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToSection(sec.id);
+                          }}
+                          className="font-mono text-xs text-muted-foreground/50 hover:text-primary transition-colors"
+                          aria-label={`Link to ${sec.title}`}
+                        >
+                          #
+                        </a>
+                      </div>
+                      <h2 className="mt-1.5 font-display text-2xl sm:text-[1.95rem] font-medium tracking-tight text-foreground leading-[1.2]">
+                        {sec.title}
+                      </h2>
+                    </div>
+
+                    <div className="space-y-5 text-[16.5px] sm:text-[17.5px] leading-[1.82] text-foreground/85 font-sans">
                       {sec.paragraphs.map((p, pIdx) => (
                         <p
                           key={pIdx}
                           className={
-                            secIdx === 0 && pIdx === 0
-                              ? "first-letter:text-5xl first-letter:font-display first-letter:font-semibold first-letter:float-left first-letter:mr-3 first-letter:text-primary leading-[1.85]"
-                              : "leading-[1.85]"
+                            !hasDistinctIntro && secIdx === 0 && pIdx === 0
+                              ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-medium first-letter:leading-[0.82] first-letter:text-primary"
+                              : ""
                           }
                         >
-                          {p}
+                          {renderInlineText(p)}
                         </p>
                       ))}
                     </div>
 
                     {/* Section Callout Box */}
-                    {sec.callout && (
-                      <aside className="my-6 rounded-2xl border border-primary/25 bg-primary/[0.04] p-5 sm:p-6">
-                        <div className="flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-wider font-semibold mb-2">
-                          <span className="size-1.5 rounded-full bg-primary" />
-                          <span>{sec.callout.label}</span>
+                    {sec.callout && sec.callout.text && (
+                      <aside className="my-7 rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 sm:p-6">
+                        <div className="flex items-center gap-2 text-primary font-mono text-[11px] uppercase tracking-[0.15em] font-semibold mb-2.5">
+                          <span className="size-1.5 rounded-full bg-primary shrink-0" />
+                          <span>{sec.callout.label || "Key Insight"}</span>
                         </div>
-                        <p className="text-sm sm:text-base text-foreground/90 leading-relaxed font-sans">
-                          {sec.callout.text}
+                        <p className="text-[15px] sm:text-base text-foreground/90 leading-relaxed font-sans">
+                          {renderInlineText(sec.callout.text)}
                         </p>
                       </aside>
                     )}
 
                     {/* Section Pull Quote */}
                     {sec.quote && (
-                      <blockquote className="my-8 rounded-2xl border-l-4 border-primary bg-card/30 p-6 sm:p-7 shadow-xs">
-                        <Quote className="size-6 text-primary/40 mb-2" />
-                        <p className="font-display text-xl sm:text-2xl text-foreground italic leading-snug">
-                          "{sec.quote}"
+                      <blockquote className="my-8 rounded-2xl border border-border/60 border-l-4 border-l-primary bg-card/40 p-6 sm:p-7 shadow-xs">
+                        <Quote className="size-5 text-primary/45 mb-2.5" />
+                        <p className="font-display text-xl sm:text-[1.4rem] text-foreground italic leading-[1.4]">
+                          “{cleanQuote(sec.quote)}”
                         </p>
-                        <cite className="mt-3 block text-xs font-mono text-muted-foreground not-italic">
-                          — Sule Malik, Engineering Note
+                        <cite className="mt-3.5 block text-xs font-mono text-muted-foreground not-italic">
+                          — {a.author?.name || "Sule Malik"}, Engineering Note
                         </cite>
                       </blockquote>
                     )}
@@ -393,17 +741,17 @@ function ArticlePage() {
               </div>
             ) : (
               /* Fallback for articles with flat body paragraphs */
-              <div className="mt-10 space-y-7 text-base sm:text-lg leading-[1.85] text-foreground/90 font-sans">
-                {(a.body || []).map((p, idx) => (
+              <div className="mt-10 space-y-6 text-[16.5px] sm:text-[17.5px] leading-[1.82] text-foreground/85 font-sans">
+                {introParagraphs.map((p, idx) => (
                   <p
                     key={idx}
                     className={
                       idx === 0
-                        ? "first-letter:text-5xl first-letter:font-display first-letter:font-semibold first-letter:float-left first-letter:mr-3 first-letter:text-primary leading-[1.85]"
-                        : "leading-[1.85]"
+                        ? "first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-[3.25rem] first-letter:font-medium first-letter:leading-[0.82] first-letter:text-primary"
+                        : ""
                     }
                   >
-                    {p}
+                    {renderInlineText(p)}
                   </p>
                 ))}
               </div>
