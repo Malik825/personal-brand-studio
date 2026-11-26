@@ -12,6 +12,8 @@ import { cinematicEase } from "@/components/motion/variants";
 import { HomeSkeleton } from "@/components/site/Skeletons";
 import { getExperience, getProjects, getSite } from "@/content";
 import { closingScrollType, philosophyMarquee, techMarquee } from "@/content/marquees";
+import { getTechIcon } from "@/components/icons/TechIcons";
+import { EmailAction } from "@/components/site/EmailAction";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -240,9 +242,10 @@ function Home() {
                   initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.7 + idx * 0.05, ease: cinematicEase }}
-                  className="rounded-full border border-foreground/25 bg-background/50 px-4 py-1.5 text-sm transition-colors duration-200 hover:border-primary hover:text-primary"
+                  className="inline-flex items-center gap-2 rounded-full border border-foreground/25 bg-background/50 px-3.5 py-1.5 text-sm transition-colors duration-200 hover:border-primary hover:text-primary"
                 >
-                  {t}
+                  {getTechIcon(t, "size-4 shrink-0")}
+                  <span>{t}</span>
                 </motion.li>
               ))}
             </motion.ul>
@@ -405,7 +408,7 @@ function Home() {
           <p className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground">
             Available for select frontend engineering roles, architectural consulting, and high-impact digital products.
           </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link to="/contact" className="btn-solid group">
               <span>Start a conversation</span>
               <span
@@ -415,15 +418,7 @@ function Home() {
                 →
               </span>
             </Link>
-            <a href={`mailto:${site.email}`} className="btn-outline group">
-              <span>{site.email}</span>
-              <span
-                className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"
-                aria-hidden
-              >
-                ↗
-              </span>
-            </a>
+            <EmailAction email={site.email} variant="pill" />
           </div>
         </FadeUp>
       </section>

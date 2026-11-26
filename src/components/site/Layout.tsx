@@ -4,6 +4,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { site } from "@/content";
 import { cinematicEase } from "@/components/motion/variants";
 import { cn } from "@/lib/utils";
+import { EmailAction } from "./EmailAction";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/TechIcons";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -163,31 +165,28 @@ export function Footer() {
     <footer className="container-site mt-24 border-t border-foreground/20 py-10 text-sm text-muted-foreground">
       <div className="flex flex-col justify-between gap-4 md:flex-row">
         <p>© {new Date().getFullYear()} {site.name}. {site.role}.</p>
-        <div className="flex gap-6">
-          <a
-            href={`mailto:${site.email}`}
-            className="transition-colors duration-200 hover:text-primary"
-          >
-            Email
-          </a>
+        <div className="flex flex-wrap items-center gap-6">
+          <EmailAction email={site.email} variant="inline" label="Email" />
           <a
             href={site.linkedin}
             target="_blank"
             rel="noreferrer noopener"
-            className="transition-colors duration-200 hover:text-primary"
+            className="inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-primary"
             aria-label="LinkedIn profile (opens in a new tab)"
           >
-            LinkedIn
+            <LinkedinIcon className="size-4 shrink-0" />
+            <span>LinkedIn</span>
           </a>
           {site.github && (
             <a
               href={site.github}
               target="_blank"
               rel="noreferrer noopener"
-              className="transition-colors duration-200 hover:text-primary"
+              className="inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-primary"
               aria-label="GitHub profile (opens in a new tab)"
             >
-              GitHub
+              <GithubIcon className="size-4 shrink-0" />
+              <span>GitHub</span>
             </a>
           )}
         </div>

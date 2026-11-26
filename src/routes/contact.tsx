@@ -158,15 +158,46 @@ export function Contact() {
                   <Mail className="size-3.5" />
                 </span>
               </div>
-              <p className="mt-3 text-lg font-medium tracking-tight text-foreground sm:text-xl">
-                {site.email}
-              </p>
+              <div
+                onClick={copyEmail}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") copyEmail(); }}
+                className="group mt-3 flex items-center justify-between rounded-xl p-2 -mx-2 transition-colors hover:bg-card/80 cursor-pointer"
+                title="Click to copy email address"
+              >
+                <p className="text-base font-medium tracking-tight text-foreground sm:text-lg font-mono">
+                  {site.email}
+                </p>
+                <span className="text-xs font-mono text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1 shrink-0 ml-2">
+                  {copiedEmail ? (
+                    <>
+                      <Check className="size-3.5 text-emerald-500" />
+                      <span className="text-emerald-500">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="size-3.5" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </span>
+              </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
                   href={`mailto:${site.email}`}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
                   <span>Open mail client</span>
+                  <ArrowUpRight className="size-3" />
+                </a>
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(site.email)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  <span>Gmail</span>
                   <ArrowUpRight className="size-3" />
                 </a>
                 <button
@@ -177,7 +208,7 @@ export function Contact() {
                   {copiedEmail ? (
                     <>
                       <Check className="size-3 text-emerald-500" />
-                      <span className="text-emerald-600 dark:text-emerald-400">Copied to clipboard</span>
+                      <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
                     </>
                   ) : (
                     <>

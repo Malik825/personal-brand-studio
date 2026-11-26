@@ -8,6 +8,7 @@ import { InfiniteMarquee } from "@/components/site/InfiniteMarquee";
 import { cinematicEase } from "@/components/motion/variants";
 import { getAbout, getSite } from "@/content";
 import { philosophyMarquee } from "@/content/marquees";
+import { getTechIcon } from "@/components/icons/TechIcons";
 import {
   ArrowRight,
   MapPin,
@@ -404,7 +405,9 @@ function About() {
                         key={item}
                         className="flex items-center gap-3 text-sm sm:text-base font-medium text-foreground/90 py-1"
                       >
-                        <span className="size-1.5 rounded-full bg-primary shrink-0" />
+                        {getTechIcon(item, "size-4 shrink-0") || (
+                          <span className="size-1.5 rounded-full bg-primary shrink-0" />
+                        )}
                         <span>{item}</span>
                       </li>
                     ))}
