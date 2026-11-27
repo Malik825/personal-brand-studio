@@ -5,11 +5,18 @@ import { assistantCopy as copy } from "@/content/assistant";
 import { Page } from "@/components/site/Layout";
 
 export const Route = createFileRoute("/ask/")({
-  head: () => ({ meta: [
-    { title: copy.metadata.title }, { name: "description", content: copy.metadata.description },
-    { property: "og:title", content: copy.metadata.title }, { property: "og:description", content: copy.metadata.description },
-    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
-  ] }),
+  head: () => ({
+    meta: [
+      { title: copy.metadata.title },
+      { name: "description", content: copy.metadata.description },
+      { name: "robots", content: "noindex, follow" },
+      { property: "og:title", content: copy.metadata.title },
+      { property: "og:description", content: copy.metadata.description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+    links: [{ rel: "canonical", href: "https://www.sulemalik.com/ask" }],
+  }),
   component: OpenChat,
 });
 function OpenChat() {

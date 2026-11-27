@@ -118,8 +118,8 @@ export const Route = createFileRoute("/writing/$slug")({
     const imageUrl = a?.image
       ? a.image.startsWith("http")
         ? a.image
-        : `https://sulemalik.com${a.image}`
-      : "https://sulemalik.com/og-image.png";
+        : `https://www.sulemalik.com${a.image}`
+      : "https://www.sulemalik.com/og-image.png";
 
     return {
       meta: a
@@ -129,7 +129,7 @@ export const Route = createFileRoute("/writing/$slug")({
             { property: "og:title", content: pageTitle },
             { property: "og:description", content: metaDescription },
             { property: "og:type", content: "article" },
-            { property: "og:url", content: `https://sulemalik.com/writing/${a.slug}` },
+            { property: "og:url", content: `https://www.sulemalik.com/writing/${a.slug}` },
             { property: "og:image", content: imageUrl },
             { property: "og:image:alt", content: a.title },
             { name: "twitter:card", content: "summary_large_image" },
@@ -141,7 +141,7 @@ export const Route = createFileRoute("/writing/$slug")({
             { name: "article:section", content: a.topic },
           ]
         : [{ title: "Article unavailable" }, { name: "robots", content: "noindex" }],
-      links: a ? [{ rel: "canonical", href: `https://sulemalik.com/writing/${a.slug}` }] : [],
+      links: a ? [{ rel: "canonical", href: `https://www.sulemalik.com/writing/${a.slug}` }] : [],
       scripts: a
         ? [
             {
@@ -157,16 +157,16 @@ export const Route = createFileRoute("/writing/$slug")({
                 "author": {
                   "@type": "Person",
                   "name": a.author?.name || "Sule Malik",
-                  "url": "https://sulemalik.com",
+                  "url": "https://www.sulemalik.com",
                 },
                 "publisher": {
                   "@type": "Person",
                   "name": "Sule Malik",
-                  "url": "https://sulemalik.com",
+                  "url": "https://www.sulemalik.com",
                 },
                 "mainEntityOfPage": {
                   "@type": "WebPage",
-                  "@id": `https://sulemalik.com/writing/${a.slug}`,
+                  "@id": `https://www.sulemalik.com/writing/${a.slug}`,
                 },
               }),
             },

@@ -53,8 +53,8 @@ export const Route = createFileRoute("/writing/")({
           "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://sulemalik.com/writing" },
-      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:url", content: "https://www.sulemalik.com/writing" },
+      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Writing & Field Notes — Sule Malik" },
       {
@@ -62,23 +62,23 @@ export const Route = createFileRoute("/writing/")({
         content:
           "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
       },
-      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://sulemalik.com/writing" }],
+    links: [{ rel: "canonical", href: "https://www.sulemalik.com/writing" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          "@id": "https://sulemalik.com/writing#collection",
-          url: "https://sulemalik.com/writing",
+          "@id": "https://www.sulemalik.com/writing#collection",
+          url: "https://www.sulemalik.com/writing",
           name: "Writing & Field Notes — Sule Malik",
           description:
             "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
           author: {
             "@type": "Person",
-            "@id": "https://sulemalik.com/#person",
+            "@id": "https://www.sulemalik.com/#person",
             name: "Sule Malik",
           },
         }),

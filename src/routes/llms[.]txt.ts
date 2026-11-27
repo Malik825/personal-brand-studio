@@ -25,11 +25,11 @@ export const Route = createFileRoute("/llms.txt")({
         }).join("\n\n");
 
         const projectList = projects.map((p, idx) => {
-          return `${idx + 1}. **[${p.title}](https://sulemalik.com/work/${p.slug})** (${p.year})\n   - Category: ${p.category}\n   - Stack: ${(p.stack || []).join(", ")}\n   - Metric: ${p.metric ? `${p.metric.value} (${p.metric.label})` : "Production"}\n   - Live Site: ${p.url || "N/A"}\n   - Summary: ${p.summary}`;
+          return `${idx + 1}. **[${p.title}](https://www.sulemalik.com/work/${p.slug})** (${p.year})\n   - Category: ${p.category}\n   - Stack: ${(p.stack || []).join(", ")}\n   - Metric: ${p.metric ? `${p.metric.value} (${p.metric.label})` : "Production"}\n   - Live Site: ${p.url || "N/A"}\n   - Summary: ${p.summary}`;
         }).join("\n\n");
 
         const articleList = articles.map((a) => {
-          return `- **[${a.title}](https://sulemalik.com/writing/${a.slug})**\n  - Topic: ${a.topic} · ${a.readingTime}\n  - Excerpt: ${a.excerpt}`;
+          return `- **[${a.title}](https://www.sulemalik.com/writing/${a.slug})**\n  - Topic: ${a.topic} · ${a.readingTime}\n  - Excerpt: ${a.excerpt}`;
         }).join("\n\n");
 
         const text = `# ${site.name} — ${site.role}
@@ -39,12 +39,12 @@ export const Route = createFileRoute("/llms.txt")({
 ## Bio & Profile
 ${bio}
 
-- Website: https://sulemalik.com
-- Contact Form: https://sulemalik.com/contact
+- Website: https://www.sulemalik.com
+- Contact Form: https://www.sulemalik.com/contact
 - Email: ${site.email}
 - LinkedIn: ${site.linkedin}
 - GitHub: ${site.github || "https://github.com/malik825"}
-- Full LLM Context: https://sulemalik.com/llms-full.txt
+- Full LLM Context: https://www.sulemalik.com/llms-full.txt
 
 ---
 

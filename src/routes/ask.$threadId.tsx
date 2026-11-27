@@ -4,11 +4,17 @@ import { PortfolioChat } from "@/components/site/PortfolioChat";
 import { assistantCopy as copy } from "@/content/assistant";
 
 export const Route = createFileRoute("/ask/$threadId")({
-  head: () => ({ meta: [
-    { title: `Conversation — ${copy.metadata.title}` }, { name: "description", content: copy.metadata.description },
-    { property: "og:title", content: `Conversation — ${copy.metadata.title}` }, { property: "og:description", content: copy.metadata.description },
-    { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
-  ] }),
+  head: () => ({
+    meta: [
+      { title: `Conversation — ${copy.metadata.title}` },
+      { name: "description", content: copy.metadata.description },
+      { name: "robots", content: "noindex, follow" },
+      { property: "og:title", content: `Conversation — ${copy.metadata.title}` },
+      { property: "og:description", content: copy.metadata.description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: ChatPage,
 });
 function ChatPage() {

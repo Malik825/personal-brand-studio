@@ -42,8 +42,8 @@ export const Route = createFileRoute("/")({
           "I build digital products with engineering precision and product thinking.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://sulemalik.com/" },
-      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:url", content: "https://www.sulemalik.com/" },
+      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Sule Malik — Product-minded software engineer" },
       {
@@ -51,10 +51,10 @@ export const Route = createFileRoute("/")({
         content:
           "I build digital products with engineering precision and product thinking.",
       },
-      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://sulemalik.com/" },
+      { rel: "canonical", href: "https://www.sulemalik.com/" },
       {
         rel: "preload",
         as: "image",

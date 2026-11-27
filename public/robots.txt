@@ -25,4 +25,4 @@ User-agent: Applebot
 Allow: /
 
 # Canonical Sitemap
-Sitemap: https://sulemalik.com/sitemap.xml
+Sitemap: https://www.sulemalik.com/sitemap.xml

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           getArticles(),
         ]);
 
-        const baseUrl = "https://sulemalik.com";
+        const baseUrl = "https://www.sulemalik.com";
         const today = new Date().toISOString().split("T")[0];
 
         const coreRoutes = [

@@ -27,7 +27,7 @@ export const Route = createFileRoute("/llms-full.txt")({
         const projectDetails = projects.map((p, idx) => {
           return `### ${idx + 1}. ${p.title} (${p.year})
 - Category: ${p.category}
-- Case Study: https://sulemalik.com/work/${p.slug}
+- Case Study: https://www.sulemalik.com/work/${p.slug}
 - Live Application: ${p.url || "N/A"}
 - GitHub Repository: ${p.githubUrl || "N/A"}
 - Role: ${p.role}
@@ -42,7 +42,7 @@ ${(p.approach || []).map((step) => `  - ${step}`).join("\n")}
 
         const articleDetails = articles.map((a, idx) => {
           return `### ${idx + 1}. ${a.title}
-- URL: https://sulemalik.com/writing/${a.slug}
+- URL: https://www.sulemalik.com/writing/${a.slug}
 - Topic: ${a.topic} · Reading Time: ${a.readingTime} · Published: ${a.date}
 - Excerpt: ${a.excerpt}
 - Key Takeaways:
@@ -59,8 +59,8 @@ ${(a.takeaways || []).map((t) => `  - ${t}`).join("\n")}`;
 - Primary Base: ${site.location} (UTC+0)
 - Working Hours Overlap: GMT, EST, CET (flexible synchronous hours for distributed teams)
 - Direct Email: ${site.email}
-- Website: https://sulemalik.com
-- Contact Form: https://sulemalik.com/contact
+- Website: https://www.sulemalik.com
+- Contact Form: https://www.sulemalik.com/contact
 - LinkedIn: ${site.linkedin}
 - GitHub: ${site.github || "https://github.com/malik825"}
 

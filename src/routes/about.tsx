@@ -56,8 +56,8 @@ export const Route = createFileRoute("/about")({
           "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://sulemalik.com/about" },
-      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:url", content: "https://www.sulemalik.com/about" },
+      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "About — Sule Malik" },
       {
@@ -65,27 +65,27 @@ export const Route = createFileRoute("/about")({
         content:
           "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
       },
-      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://sulemalik.com/about" }],
+    links: [{ rel: "canonical", href: "https://www.sulemalik.com/about" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "ProfilePage",
-          "@id": "https://sulemalik.com/about#webpage",
-          url: "https://sulemalik.com/about",
+          "@id": "https://www.sulemalik.com/about#webpage",
+          url: "https://www.sulemalik.com/about",
           name: "About Sule Malik — Product-Minded Software Engineer",
           description:
             "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer based in Asante Mampong, Ghana.",
           mainEntity: {
             "@type": "Person",
-            "@id": "https://sulemalik.com/#person",
+            "@id": "https://www.sulemalik.com/#person",
             name: "Sule Malik",
             jobTitle: "Product-Minded Software Engineer",
-            url: "https://sulemalik.com",
-            image: "https://sulemalik.com/og-image.png",
+            url: "https://www.sulemalik.com",
+            image: "https://www.sulemalik.com/og-image.png",
             address: {
               "@type": "PostalAddress",
               addressLocality: "Asante Mampong",

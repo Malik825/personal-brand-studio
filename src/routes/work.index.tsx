@@ -42,8 +42,8 @@ export const Route = createFileRoute("/work/")({
           "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://sulemalik.com/work" },
-      { property: "og:image", content: "https://sulemalik.com/og-image.png" },
+      { property: "og:url", content: "https://www.sulemalik.com/work" },
+      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Selected Work & Systems — Sule Malik" },
       {
@@ -51,23 +51,23 @@ export const Route = createFileRoute("/work/")({
         content:
           "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
       },
-      { name: "twitter:image", content: "https://sulemalik.com/og-image.png" },
+      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
     ],
-    links: [{ rel: "canonical", href: "https://sulemalik.com/work" }],
+    links: [{ rel: "canonical", href: "https://www.sulemalik.com/work" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          "@id": "https://sulemalik.com/work#collection",
-          url: "https://sulemalik.com/work",
+          "@id": "https://www.sulemalik.com/work#collection",
+          url: "https://www.sulemalik.com/work",
           name: "Selected Work & Systems — Sule Malik",
           description:
             "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik with architectural rigor and product thinking.",
           author: {
             "@type": "Person",
-            "@id": "https://sulemalik.com/#person",
+            "@id": "https://www.sulemalik.com/#person",
             name: "Sule Malik",
           },
         }),

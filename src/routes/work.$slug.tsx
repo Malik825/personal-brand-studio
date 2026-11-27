@@ -30,8 +30,8 @@ export const Route = createFileRoute("/work/$slug")({
     const imageUrl = p?.image
       ? p.image.startsWith("http")
         ? p.image
-        : `https://sulemalik.com${p.image}`
-      : "https://sulemalik.com/og-image.png";
+        : `https://www.sulemalik.com${p.image}`
+      : "https://www.sulemalik.com/og-image.png";
 
     return {
       meta: p
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/work/$slug")({
               content: p.summary,
             },
             { property: "og:type", content: "article" },
-            { property: "og:url", content: `https://sulemalik.com/work/${p.slug}` },
+            { property: "og:url", content: `https://www.sulemalik.com/work/${p.slug}` },
             { property: "og:image", content: imageUrl },
             { property: "og:image:alt", content: `${p.title} preview` },
             { name: "twitter:card", content: "summary_large_image" },
@@ -56,7 +56,7 @@ export const Route = createFileRoute("/work/$slug")({
             { name: "twitter:image", content: imageUrl },
           ]
         : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
-      links: p ? [{ rel: "canonical", href: `https://sulemalik.com/work/${p.slug}` }] : [],
+      links: p ? [{ rel: "canonical", href: `https://www.sulemalik.com/work/${p.slug}` }] : [],
       scripts: p
         ? [
             {
@@ -68,11 +68,11 @@ export const Route = createFileRoute("/work/$slug")({
                 "headline": `${p.title} Case Study`,
                 "description": p.summary,
                 "image": imageUrl,
-                "url": `https://sulemalik.com/work/${p.slug}`,
+                "url": `https://www.sulemalik.com/work/${p.slug}`,
                 "author": {
                   "@type": "Person",
                   "name": "Sule Malik",
-                  "url": "https://sulemalik.com",
+                  "url": "https://www.sulemalik.com",
                 },
               }),
             },
