@@ -13,7 +13,6 @@ import {
   Globe,
   Mail,
   Send,
-  Sparkles,
   MessageSquare,
 } from "lucide-react";
 

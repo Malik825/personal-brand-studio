@@ -14,7 +14,15 @@ import {
   MapPin,
   Globe,
   Layers,
-  Sparkles,
+  Code2,
+  Database,
+  Wrench,
+  ShieldCheck,
+  MonitorSmartphone,
+  Gauge,
+  Workflow,
+  Blocks,
+  BookOpen,
   Bot,
   LineChart,
   Search,
@@ -223,7 +231,44 @@ function About() {
     if (t.includes("native") || t.includes("mobile")) {
       return <Smartphone className="size-4 text-primary" />;
     }
-    return <Sparkles className="size-4 text-primary" />;
+    return <BookOpen className="size-4 text-primary" />;
+  }
+
+  function getCategoryIcon(category: string) {
+    const c = category.toLowerCase();
+    if (c.includes("frontend") || c.includes("ui") || c.includes("interface")) {
+      return <Code2 className="size-4 text-primary" />;
+    }
+    if (c.includes("backend") || c.includes("data") || c.includes("server")) {
+      return <Database className="size-4 text-primary" />;
+    }
+    if (c.includes("tool") || c.includes("practice") || c.includes("workflow")) {
+      return <Wrench className="size-4 text-primary" />;
+    }
+    return <Layers className="size-4 text-primary" />;
+  }
+
+  function getSkillIcon(item: string) {
+    const brandIcon = getTechIcon(item, "size-4 shrink-0");
+    if (brandIcon) return brandIcon;
+
+    const lower = item.toLowerCase();
+    if (lower.includes("auth") || lower.includes("security")) {
+      return <ShieldCheck className="size-4 shrink-0 text-primary/80" />;
+    }
+    if (lower.includes("responsive") || lower.includes("mobile")) {
+      return <MonitorSmartphone className="size-4 shrink-0 text-primary/80" />;
+    }
+    if (lower.includes("performance") || lower.includes("speed")) {
+      return <Gauge className="size-4 shrink-0 text-primary/80" />;
+    }
+    if (lower.includes("state")) {
+      return <Workflow className="size-4 shrink-0 text-primary/80" />;
+    }
+    if (lower.includes("component") || lower.includes("architecture")) {
+      return <Blocks className="size-4 shrink-0 text-primary/80" />;
+    }
+    return <Terminal className="size-4 shrink-0 text-primary/80" />;
   }
 
   return (
@@ -396,7 +441,7 @@ function About() {
               <div className="h-full rounded-3xl border border-border/80 bg-card/30 p-7 sm:p-9 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-primary font-semibold mb-6">
-                    <Sparkles className="size-3.5" />
+                    {getCategoryIcon(group.category)}
                     <span>{group.category}</span>
                   </div>
                   <ul className="space-y-3">
@@ -405,9 +450,7 @@ function About() {
                         key={item}
                         className="flex items-center gap-3 text-sm sm:text-base font-medium text-foreground/90 py-1"
                       >
-                        {getTechIcon(item, "size-4 shrink-0") || (
-                          <span className="size-1.5 rounded-full bg-primary shrink-0" />
-                        )}
+                        {getSkillIcon(item)}
                         <span>{item}</span>
                       </li>
                     ))}

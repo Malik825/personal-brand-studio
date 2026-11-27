@@ -15,7 +15,8 @@ import {
   Clock,
   ArrowLeft,
   ArrowRight,
-  Sparkles,
+  ListChecks,
+  Bot,
   Bookmark,
   MessageSquare,
   ListTree,
@@ -475,7 +476,7 @@ function ArticlePage() {
                             ) : null}
 
                             {item.isSpecial ? (
-                              <Sparkles
+                              <ListChecks
                                 className={`size-3.5 shrink-0 mt-0.5 transition-colors ${
                                   isActive ? "text-primary" : "text-primary/60 group-hover:text-primary"
                                 }`}
@@ -761,7 +762,7 @@ function ArticlePage() {
             {a.takeaways && a.takeaways.length > 0 && (
               <section id="key-takeaways" className="scroll-mt-28 mt-16 rounded-3xl border border-primary/30 bg-primary/[0.03] p-7 sm:p-9 shadow-sm">
                 <div className="flex items-center gap-2 text-primary text-xs font-mono uppercase tracking-widest font-semibold mb-5">
-                  <Sparkles className="size-4" />
+                  <ListChecks className="size-4" />
                   <span>Executive Takeaways & Heuristics</span>
                 </div>
                 <ul className="space-y-4">
@@ -885,7 +886,7 @@ function ArticlePage() {
                 search={{ q: `What are Sule Malik's architectural principles in "${a.title}"?` }}
                 className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary/10 border border-primary/25 py-2 text-xs font-mono font-medium text-primary hover:bg-primary/20 transition-colors"
               >
-                <Sparkles className="size-3" />
+                <Bot className="size-3.5" />
                 <span>Query Portfolio AI</span>
               </Link>
             </div>

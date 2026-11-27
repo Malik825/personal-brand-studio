@@ -131,6 +131,64 @@ export function GmailIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function MongoDBIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M12.35 2.15C12.22 1.95 11.78 1.95 11.65 2.15C10.95 3.25 6.8 7.45 6.8 12.6C6.8 16.55 9.6 19.15 11.4 20.15L11.75 22H12.45L12.7 20.1C14.5 19.1 17.2 16.5 17.2 12.6C17.2 7.45 13.05 3.25 12.35 2.15Z"
+        fill="#47A248"
+      />
+      <path
+        d="M12 3.2V19.6C12 19.6 15.8 17.2 15.8 12.6C15.8 8.3 12 3.2 12 3.2Z"
+        fill="#3F9142"
+      />
+    </svg>
+  );
+}
+
+export function VercelIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M12 3L22 20.5H2L12 3Z" />
+    </svg>
+  );
+}
+
+export function GraphqlIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <polygon
+        points="12,2.5 20.2,7.25 20.2,16.75 12,21.5 3.8,16.75 3.8,7.25"
+        stroke="#E10098"
+        strokeWidth="1.6"
+      />
+      <polygon
+        points="12,3.4 19.4,16.2 4.6,16.2"
+        stroke="#E10098"
+        strokeWidth="1.3"
+      />
+      <circle cx="12" cy="2.5" r="1.7" fill="#E10098" />
+      <circle cx="20.2" cy="7.25" r="1.7" fill="#E10098" />
+      <circle cx="20.2" cy="16.75" r="1.7" fill="#E10098" />
+      <circle cx="12" cy="21.5" r="1.7" fill="#E10098" />
+      <circle cx="3.8" cy="16.75" r="1.7" fill="#E10098" />
+      <circle cx="3.8" cy="7.25" r="1.7" fill="#E10098" />
+    </svg>
+  );
+}
+
+export function TanStackIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <circle cx="12" cy="12" r="9.5" fill="#FF4154" fillOpacity="0.14" stroke="#FF4154" strokeWidth="1.6" />
+      <path d="M7.5 14.5C9.5 11.5 14.5 11.5 16.5 14.5" stroke="#FF4154" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M12 12V7.2" stroke="#10B981" strokeWidth="1.7" strokeLinecap="round" />
+      <path d="M12 7.5C10.2 6.8 8.8 7.4 8.2 8.4" stroke="#10B981" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M12 7.5C13.8 6.8 15.2 7.4 15.8 8.4" stroke="#10B981" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /**
  * Helper to match any technology string to its authentic icon.
  */
@@ -142,10 +200,14 @@ export function getTechIcon(name: string, className = "size-4") {
   if (n.includes("typescript")) return <TypeScriptIcon className={className} />;
   if (n.includes("angular")) return <AngularIcon className={className} />;
   if (n.includes("tailwind")) return <TailwindIcon className={className} />;
+  if (n.includes("tanstack")) return <TanStackIcon className={className} />;
   if (n.includes("node")) return <NodejsIcon className={className} />;
   if (n.includes("supabase")) return <SupabaseIcon className={className} />;
   if (n.includes("postgres")) return <PostgresIcon className={className} />;
-  if (n.includes("github")) return <GithubIcon className={className} />;
+  if (n.includes("mongo")) return <MongoDBIcon className={className} />;
+  if (n.includes("graphql")) return <GraphqlIcon className={className} />;
+  if (n.includes("vercel")) return <VercelIcon className={className} />;
+  if (n.includes("github") || n.includes("git")) return <GithubIcon className={className} />;
   if (n.includes("linkedin")) return <LinkedinIcon className={className} />;
   return null;
 }

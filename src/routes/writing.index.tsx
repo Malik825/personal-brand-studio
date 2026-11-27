@@ -9,7 +9,7 @@ import { formatDate, getArticles, type Article } from "@/content";
 import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
 import {
   Search,
-  Sparkles,
+  Bookmark,
   BookOpen,
   Clock,
   Tag,
@@ -272,7 +272,7 @@ function Writing() {
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-xs font-semibold text-primary">
-                      <Sparkles className="size-3" />
+                      <Bookmark className="size-3" />
                       Featured Publication
                     </span>
                     <button
