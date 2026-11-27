@@ -1,8 +1,6 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { type ReactNode, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { site } from "@/content";
-import { cinematicEase } from "@/components/motion/variants";
 import { cn } from "@/lib/utils";
 import { EmailAction } from "./EmailAction";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/TechIcons";
@@ -16,7 +14,6 @@ const nav = [
 ] as const;
 
 export function Header() {
-  const shouldReduceMotion = useReducedMotion();
   const [isVisible, setIsVisible] = useState(true);
   const [isFixed, setIsFixed] = useState(false);
   const lastScrollY = useRef(0);
@@ -196,8 +193,6 @@ export function Footer() {
 }
 
 export function Page({ children }: { children: ReactNode }) {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <div className="min-h-screen flex flex-col justify-between">
       {/* WCAG 2.1 AA Skip to Content Link */}
@@ -208,16 +203,9 @@ export function Page({ children }: { children: ReactNode }) {
         Skip to main content
       </a>
       <Header />
-      <motion.main
-        id="main-content"
-        tabIndex={-1}
-        className="flex-1 outline-none"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.28, ease: cinematicEase }}
-      >
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
-      </motion.main>
+      </main>
       <Footer />
     </div>
   );

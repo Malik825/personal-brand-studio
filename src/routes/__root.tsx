@@ -9,11 +9,19 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { CommandPalette } from "@/components/site/CommandPalette";
-import { AssistantDrawer } from "@/components/site/AssistantDrawer";
 import { PostHogClientProvider } from "@/lib/analytics/posthog";
+
+const LazyCommandPalette = lazy(() =>
+  import("@/components/site/CommandPalette").then((m) => ({ default: m.CommandPalette })),
+);
+const LazyAssistantDrawer = lazy(() =>
+  import("@/components/site/AssistantDrawer").then((m) => ({ default: m.AssistantDrawer })),
+);
+
+const GOOGLE_FONTS_HREF =
+  "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap";
 
 import appCss from "../styles.css?url";
 
@@ -140,17 +148,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "preload",
-        as: "style",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap",
-        media: "print",
-        onLoad: "this.media='all'" as unknown as React.ReactEventHandler<HTMLLinkElement>,
-      },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
     scripts: [
@@ -218,12 +215,86 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <link
+          id="google-fonts-sheet"
+          rel="stylesheet"
+          href={GOOGLE_FONTS_HREF}
+          media="print"
+          onLoad={(e) => {
+            e.currentTarget.media = "all";
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=document.getElementById('google-fonts-sheet');if(l){if(l.sheet){l.media='all';}else{l.addEventListener('load',function(){l.media='all';});}}})();`,
+          }}
+        />
+        <noscript>
+          <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+        </noscript>
       </head>
       <body>
         {children}
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function DeferredWidgets() {
+  const [ready, setReady] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    if (ready) return;
+
+    const activate = () => setReady(true);
+
+    // Activate & open immediately if user triggers Cmd/Ctrl+K before idle fires
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setReady(true);
+        setPaletteOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    const ric = (
+      window as Window & {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+        cancelIdleCallback?: (id: number) => void;
+      }
+    ).requestIdleCallback;
+
+    if (ric) {
+      const id = ric(activate, { timeout: 1200 });
+      return () => {
+        window.removeEventListener("keydown", onKeyDown);
+        (
+          window as Window & { cancelIdleCallback?: (id: number) => void }
+        ).cancelIdleCallback?.(id);
+      };
+    }
+
+    const timer = window.setTimeout(activate, 700);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.clearTimeout(timer);
+    };
+  }, [ready]);
+
+  if (!ready) return null;
+
+  return (
+    <Suspense fallback={null}>
+      <LazyCommandPalette
+        {...(paletteOpen !== undefined
+          ? { open: paletteOpen, onOpenChange: setPaletteOpen }
+          : {})}
+      />
+      <LazyAssistantDrawer />
+    </Suspense>
   );
 }
 
@@ -248,17 +319,22 @@ function TopRouteProgressBar() {
 function PageTransitionContainer({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const shouldReduceMotion = useReducedMotion();
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    isInitialMount.current = false;
+  }, []);
 
   if (shouldReduceMotion) {
-    return <div className="w-full flex-1">{children}</div>;
+    return <div className="w-full flex-1 flex flex-col justify-between">{children}</div>;
   }
 
   return (
     <motion.div
       key={pathname}
-      initial={{ opacity: 0.4 }}
+      initial={isInitialMount.current ? false : { opacity: 0.5 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
       className="w-full flex-1 flex flex-col justify-between"
     >
       {children}
@@ -273,8 +349,7 @@ function RootComponent() {
     <PostHogClientProvider>
       <QueryClientProvider client={queryClient}>
         <TopRouteProgressBar />
-        <CommandPalette />
-        <AssistantDrawer />
+        <DeferredWidgets />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <PageTransitionContainer>
           <Outlet />

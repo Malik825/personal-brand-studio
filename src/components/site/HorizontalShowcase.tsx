@@ -200,7 +200,7 @@ function SwipeTrack({ projects, alwaysVisible }: { projects: Project[]; alwaysVi
               className="group block rounded-3xl border border-border bg-card p-2.5 outline-none transition-colors duration-300 hover:border-foreground/25 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div className="overflow-hidden rounded-2xl">
-                <ProjectVisual project={p} eager={i === 0} className="border-0" />
+                <ProjectVisual project={p} eager={false} className="border-0" />
               </div>
               <div className="space-y-2 px-2 pb-2 pt-4">
                 <p className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
