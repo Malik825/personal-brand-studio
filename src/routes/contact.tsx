@@ -1,7 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
+import { motion } from "motion/react";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { getSite } from "@/content";
 import { contactCopy } from "@/content/contact";
 import { submitContactInquiry } from "@/server/inquiry";
@@ -59,10 +67,19 @@ export const Route = createFileRoute("/contact")({
 const SERVICE_OPTIONS = contactCopy.form.serviceOptions;
 const TIMELINE_OPTIONS = contactCopy.form.timelineOptions;
 
+interface SubmittedInquiry {
+  name: string;
+  email: string;
+  company?: string | undefined;
+  serviceType: string;
+  timeline: string;
+}
+
 export function Contact() {
   const { site } = Route.useLoaderData();
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [submittedInquiry, setSubmittedInquiry] = useState<SubmittedInquiry | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Form interactive state
@@ -86,7 +103,12 @@ export function Contact() {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedCompany = company.trim();
+    const trimmedMessage = message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) {
       setError(contactCopy.form.validationError);
       return;
     }
@@ -98,24 +120,36 @@ export function Contact() {
       // Route securely through server function
       await submitContactInquiry({
         data: {
-          name,
-          email,
-          company: company || undefined,
+          name: trimmedName,
+          email: trimmedEmail,
+          company: trimmedCompany || undefined,
           serviceType: selectedService,
           timeline: selectedTimeline,
-          message,
+          message: trimmedMessage,
         },
       });
       trackEvent("contact_form_submitted", {
         service_type: selectedService,
         timeline: selectedTimeline,
-        has_company: Boolean(company),
+        has_company: Boolean(trimmedCompany),
       });
-      setSent(true);
+      setSubmittedInquiry({
+        name: trimmedName,
+        email: trimmedEmail,
+        company: trimmedCompany || undefined,
+        serviceType: selectedService,
+        timeline: selectedTimeline,
+      });
+      setModalOpen(true);
+      setName("");
+      setEmail("");
+      setCompany("");
+      setMessage("");
+      setSelectedService(SERVICE_OPTIONS[0]);
+      setSelectedTimeline(TIMELINE_OPTIONS[0]);
     } catch (err) {
       console.warn("[Contact] Server submission note:", err);
-      // Gracefully show sent state
-      setSent(true);
+      setError(err instanceof Error && err.message ? err.message : contactCopy.form.submissionError);
     } finally {
       setLoading(false);
     }
@@ -336,45 +370,7 @@ export function Contact() {
         {/* Right Column: Interactive Enquiry Form */}
         <FadeUp delay={0.2}>
           <div className="rounded-3xl border border-border bg-card/70 p-7 md:p-10 backdrop-blur-md shadow-sm">
-            {sent ? (
-              <div className="py-8 space-y-6">
-                <div className="flex size-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
-                  <Check className="size-6" />
-                </div>
-                <div className="space-y-2">
-                  <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl text-foreground">
-                    {contactCopy.form.success.heading}
-                  </h2>
-                  <p className="text-muted-foreground text-base leading-relaxed sm:text-lg">
-                    {contactCopy.form.success.bodyPrefix}{" "}
-                    <strong className="text-foreground">{name}</strong>.{" "}
-                    {contactCopy.form.success.bodyMiddle}{" "}
-                    <span className="text-foreground font-medium">{email}</span>{" "}
-                    {contactCopy.form.success.bodySuffix}
-                  </p>
-                </div>
-                <div className="pt-4 flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSent(false);
-                      setMessage("");
-                    }}
-                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-xs font-medium text-foreground transition-colors hover:bg-muted cursor-pointer"
-                  >
-                    <span>{contactCopy.form.success.sendAnother}</span>
-                  </button>
-                  <Link
-                    to="/work"
-                    className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                  >
-                    <span>{contactCopy.form.success.exploreWork}</span>
-                    <ArrowUpRight className="size-3.5" />
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={onSubmit} className="space-y-8">
+            <form onSubmit={onSubmit} className="space-y-8">
                 <div className="border-b border-border/60 pb-6">
                   <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
                     {contactCopy.form.heading}
@@ -542,10 +538,115 @@ export function Contact() {
                   </p>
                 </div>
               </form>
-            )}
           </div>
         </FadeUp>
       </section>
+
+      {/* Enquiry Confirmation Modal */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="max-w-md rounded-3xl border border-border bg-card/95 p-0 shadow-2xl backdrop-blur-xl sm:rounded-3xl overflow-hidden">
+          <div className="p-7 sm:p-8 space-y-6">
+            <div className="flex items-center gap-3">
+              <motion.div
+                initial={{ scale: 0.6, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 360, damping: 22 }}
+                className="flex size-11 shrink-0 items-center justify-center rounded-full bg-emerald-500/12 text-emerald-600 ring-1 ring-emerald-500/25 dark:text-emerald-400"
+              >
+                <Check className="size-5 stroke-[2.4]" />
+              </motion.div>
+              <span className="text-[11px] font-mono font-medium uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                {contactCopy.form.success.eyebrow}
+              </span>
+            </div>
+
+            <DialogHeader className="space-y-2.5 text-left">
+              <DialogTitle className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+                {contactCopy.form.success.headingPrefix}{" "}
+                <em className="font-serif italic font-normal text-primary">
+                  {contactCopy.form.success.headingEmphasis}
+                </em>
+              </DialogTitle>
+              <DialogDescription className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {contactCopy.form.success.bodyPrefix}{" "}
+                <strong className="font-medium text-foreground">
+                  {submittedInquiry?.name}
+                </strong>
+                . {contactCopy.form.success.bodyMiddle}{" "}
+                <span className="font-medium text-foreground break-all">
+                  {submittedInquiry?.email}
+                </span>{" "}
+                {contactCopy.form.success.bodySuffix}
+              </DialogDescription>
+            </DialogHeader>
+
+            {submittedInquiry && (
+              <div className="rounded-2xl border border-border/80 bg-background/70 p-4 space-y-2.5">
+                <p className="text-[11px] font-mono uppercase tracking-[0.14em] text-muted-foreground">
+                  {contactCopy.form.success.summaryHeading}
+                </p>
+                <dl className="grid gap-2 text-xs sm:text-sm">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <dt className="text-muted-foreground">
+                      {contactCopy.form.success.topicLabel}
+                    </dt>
+                    <dd className="font-medium text-foreground text-right">
+                      {submittedInquiry.serviceType}
+                    </dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <dt className="text-muted-foreground">
+                      {contactCopy.form.success.timelineLabel}
+                    </dt>
+                    <dd className="font-medium text-foreground text-right">
+                      {submittedInquiry.timeline}
+                    </dd>
+                  </div>
+                  {submittedInquiry.company && (
+                    <div className="flex items-baseline justify-between gap-4">
+                      <dt className="text-muted-foreground">
+                        {contactCopy.form.success.companyLabel}
+                      </dt>
+                      <dd className="font-medium text-foreground text-right">
+                        {submittedInquiry.company}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
+
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              {contactCopy.form.success.directFallback}{" "}
+              <a
+                href={`mailto:${site.email}`}
+                className="font-mono text-foreground underline underline-offset-4 transition-colors hover:text-primary break-all"
+              >
+                {site.email}
+              </a>
+              .
+            </p>
+
+            <div className="flex flex-col-reverse gap-2.5 pt-1 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+                className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-4 py-2.5 text-xs font-medium text-foreground transition-colors hover:bg-muted cursor-pointer"
+              >
+                {contactCopy.form.success.doneLabel}
+              </button>
+              <Link
+                to="/work"
+                onClick={() => setModalOpen(false)}
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-4 py-2.5 text-xs font-medium text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
+              >
+                <span>{contactCopy.form.success.exploreWork}</span>
+                <ArrowUpRight className="size-3.5" />
+              </Link>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Page>
   );
 }
