@@ -7,6 +7,7 @@ import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
 import { formatDate, getArticles, type Article } from "@/content";
 import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
+import { buildPageMeta, PERSON_ID, SITE_URL } from "@/lib/seo";
 import {
   Search,
   Bookmark,
@@ -38,53 +39,37 @@ export const Route = createFileRoute("/writing/")({
   loader: async () => {
     return { articles: await getArticles() };
   },
-  head: () => ({
-    meta: [
-      { title: "Writing & Field Notes — Sule Malik" },
-      {
-        name: "description",
-        content:
-          "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
-      },
-      { property: "og:title", content: "Writing & Field Notes — Sule Malik" },
-      {
-        property: "og:description",
-        content:
-          "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/writing" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Writing & Field Notes — Sule Malik" },
-      {
-        name: "twitter:description",
-        content:
-          "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.sulemalik.com/writing" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "@id": "https://www.sulemalik.com/writing#collection",
-          url: "https://www.sulemalik.com/writing",
-          name: "Writing & Field Notes — Sule Malik",
-          description:
-            "Long-form essays on software architecture, design engineering, product thinking, and building with distributed teams by Sule Malik.",
-          author: {
-            "@type": "Person",
-            "@id": "https://www.sulemalik.com/#person",
-            name: "Sule Malik",
-          },
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = buildPageMeta({
+      title: "Engineering Articles & Frontend Notes | Sule Malik",
+      description:
+        "Articles by Sule Malik on frontend engineering, React architecture, web usability, API integrations, and building maintainable digital products.",
+      path: "/writing",
+      type: "website",
+      imageAlt: "Engineering Articles & Frontend Notes by Sule Malik",
+    });
+
+    return {
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "@id": `${SITE_URL}/writing#collection`,
+            url: seo.url,
+            name: "Engineering Articles & Frontend Notes | Sule Malik",
+            description: seo.description,
+            author: {
+              "@id": PERSON_ID,
+            },
+          }),
+        },
+      ],
+    };
+  },
   component: Writing,
   pendingComponent: ArticleListSkeleton,
 });
@@ -511,9 +496,9 @@ function Writing() {
 
                     {/* Column 2: Title, Excerpt & Tags */}
                     <div className="space-y-2.5">
-                      <h3 className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
+                      <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
                         {a.title}
-                      </h3>
+                      </h2>
                       <p className="max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed font-sans">
                         {a.excerpt}
                       </p>

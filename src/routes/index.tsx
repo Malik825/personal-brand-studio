@@ -17,6 +17,7 @@ import { getExperience, getProjects, getSite } from "@/content";
 import { closingScrollType, philosophyMarquee, techMarquee } from "@/content/marquees";
 import { getTechIcon } from "@/components/icons/TechIcons";
 import { EmailAction } from "@/components/site/EmailAction";
+import { BRAND_DESCRIPTION, buildPageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
@@ -27,52 +28,38 @@ export const Route = createFileRoute("/")({
     ]);
     return { site, projects, experience };
   },
-  head: () => ({
-    meta: [
-      { title: "Sule Malik — Product-minded software engineer" },
-      {
-        name: "description",
-        content:
-          "I build digital products with engineering precision and product thinking. React, Next.js, Angular and TypeScript.",
-      },
-      { property: "og:title", content: "Sule Malik — Product-minded software engineer" },
-      {
-        property: "og:description",
-        content:
-          "I build digital products with engineering precision and product thinking.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Sule Malik — Product-minded software engineer" },
-      {
-        name: "twitter:description",
-        content:
-          "I build digital products with engineering precision and product thinking.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-    ],
-    links: [
-      { rel: "canonical", href: "https://www.sulemalik.com/" },
-      {
-        rel: "preload",
-        as: "image",
-        href: portraitMobile,
-        type: "image/webp",
-        fetchPriority: "high",
-        media: "(max-width: 1023px)",
-      },
-      {
-        rel: "preload",
-        as: "image",
-        href: portrait,
-        type: "image/webp",
-        fetchPriority: "high",
-        media: "(min-width: 1024px)",
-      },
-    ],
-  }),
+  head: () => {
+    const seo = buildPageMeta({
+      title: "Sule Malik | Product-minded Software Engineer",
+      description: BRAND_DESCRIPTION,
+      path: "/",
+      type: "website",
+      imageAlt: "Sule Malik — Product-minded Software Engineer",
+    });
+
+    return {
+      meta: seo.meta,
+      links: [
+        seo.canonicalLink,
+        {
+          rel: "preload",
+          as: "image",
+          href: portraitMobile,
+          type: "image/webp",
+          fetchPriority: "high",
+          media: "(max-width: 1023px)",
+        },
+        {
+          rel: "preload",
+          as: "image",
+          href: portrait,
+          type: "image/webp",
+          fetchPriority: "high",
+          media: "(min-width: 1024px)",
+        },
+      ],
+    };
+  },
   component: Home,
   pendingComponent: HomeSkeleton,
 });
@@ -122,18 +109,24 @@ function Home() {
         <div className="block lg:hidden">
           <motion.figure
             style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: cinematicEase }}
             className="group relative overflow-hidden rounded-3xl min-h-[32rem] sm:min-h-[36rem] flex flex-col justify-end p-6 sm:p-9 shadow-xl border border-border/40"
           >
             <picture>
               <source media="(min-width: 1024px)" srcSet={TRANSPARENT_PIXEL} />
-              <img
+              <motion.img
                 src={portraitMobile}
                 alt="Sule Malik"
                 width={640}
                 height={853}
                 loading="eager"
                 fetchPriority="high"
-                decoding="sync"
+                decoding="async"
+                initial={shouldReduceMotion ? false : { scale: 1.05 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.2, delay: 0.1, ease: cinematicEase }}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </picture>
@@ -180,39 +173,84 @@ function Home() {
         {/* ---------------- DESKTOP HERO: CLEAN EDITORIAL SPLIT (>= lg) ---------------- */}
         <div className="hidden lg:grid lg:grid-cols-[1fr_1.12fr] lg:items-center lg:gap-14 xl:gap-20">
           <div>
-            <div>
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: cinematicEase }}
+            >
               <Eyebrow>{site.role}</Eyebrow>
-            </div>
+            </motion.div>
 
             <h1 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl lg:text-[2.85rem] xl:text-[3.4rem] leading-[1.12] sm:leading-[1.08] tracking-tight text-foreground">
-              <span className="block">I build digital products</span>
-              <span className="block">with engineering precision</span>
-              <span className="block">
-                and product <em className="text-primary italic">thinking.</em>
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: cinematicEase }}
+                >
+                  I build digital products
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.32, ease: cinematicEase }}
+                >
+                  with engineering precision
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block"
+                  initial={shouldReduceMotion ? false : { y: "115%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.44, ease: cinematicEase }}
+                >
+                  and product <em className="text-primary italic">thinking.</em>
+                </motion.span>
               </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-foreground/85">
+            <motion.p
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.56, ease: cinematicEase }}
+              className="mt-6 max-w-xl text-base sm:text-lg leading-relaxed text-foreground/85"
+            >
               I'm Sule Malik — a product-minded software engineer based in Asante Mampong, Ghana. I architect and engineer high-performance web systems, fluid mobile apps, and scalable digital commerce platforms that solve real business problems.
-            </p>
+            </motion.p>
 
-            <ul
+            <motion.ul
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.68, ease: cinematicEase }}
               className="mt-7 flex flex-wrap gap-2"
               aria-label="Core technologies"
             >
-              {site.stack.map((t) => (
-                <li
+              {site.stack.map((t, idx) => (
+                <motion.li
                   key={t}
+                  initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.7 + idx * 0.05, ease: cinematicEase }}
                   className="inline-flex items-center gap-2 rounded-full border border-foreground/25 bg-background/50 px-3.5 py-1.5 text-sm transition-colors duration-200 hover:border-primary hover:text-primary"
                 >
                   {getTechIcon(t, "size-4 shrink-0")}
                   <span>{t}</span>
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <span className="inline-flex">
+              <motion.span
+                className="inline-flex"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8, ease: cinematicEase }}
+              >
                 <Link to="/work" className="btn-solid group">
                   <span>View my work</span>
                   <span
@@ -222,8 +260,13 @@ function Home() {
                     →
                   </span>
                 </Link>
-              </span>
-              <span className="inline-flex">
+              </motion.span>
+              <motion.span
+                className="inline-flex"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.9, ease: cinematicEase }}
+              >
                 <Link to="/contact" className="btn-outline group">
                   <span>Let's work together</span>
                   <span
@@ -233,7 +276,7 @@ function Home() {
                     →
                   </span>
                 </Link>
-              </span>
+              </motion.span>
             </div>
           </div>
 
@@ -241,29 +284,46 @@ function Home() {
             style={shouldReduceMotion ? {} : { y: portraitParallaxY }}
             className="relative w-full max-w-md sm:max-w-lg lg:max-w-[520px] xl:max-w-[580px] mx-auto lg:mx-0 lg:justify-self-end will-change-transform"
           >
-            <div className="overflow-hidden portrait-editorial aspect-[4/5] w-full">
+            <motion.div
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : { clipPath: "inset(100% 0% 0% 0%)", opacity: 0.6 }
+              }
+              animate={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
+              transition={{ duration: 1.15, delay: 0.35, ease: cinematicEase }}
+              className="overflow-hidden portrait-editorial aspect-[4/5] w-full"
+            >
               <picture>
                 <source media="(max-width: 1023px)" srcSet={TRANSPARENT_PIXEL} />
-                <img
+                <motion.img
                   src={portrait}
                   alt="Sule Malik"
                   width={960}
                   height={1280}
                   loading="eager"
                   fetchPriority="high"
-                  decoding="sync"
+                  decoding="async"
+                  initial={shouldReduceMotion ? false : { scale: 1.08 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 1.3, delay: 0.35, ease: cinematicEase }}
                   className="h-full w-full object-cover"
                 />
               </picture>
-            </div>
+            </motion.div>
 
-            <figcaption className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-sm px-4 py-2 text-xs border border-border">
+            <motion.figcaption
+              initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.05, ease: cinematicEase }}
+              className="absolute bottom-5 right-5 flex items-center gap-2 rounded-full bg-card/95 backdrop-blur-sm px-4 py-2 text-xs border border-border"
+            >
               <span className="relative flex size-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-success" />
               </span>
               <span>Open to opportunities</span>
-            </figcaption>
+            </motion.figcaption>
           </motion.figure>
         </div>
       </section>

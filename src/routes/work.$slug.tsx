@@ -9,6 +9,7 @@ import { getProject, getProjects } from "@/content";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { trackEvent } from "@/lib/analytics/posthog";
+import { buildPageMeta, PERSON_ID, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }) => {
@@ -27,57 +28,49 @@ export const Route = createFileRoute("/work/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.project;
-    const imageUrl = p?.image
-      ? p.image.startsWith("http")
-        ? p.image
-        : `https://www.sulemalik.com${p.image}`
-      : "https://www.sulemalik.com/og-image.png";
+    if (!p) {
+      return {
+        meta: [{ title: "Case Study Unavailable | Sule Malik" }, { name: "robots", content: "noindex" }],
+        links: [],
+        scripts: [],
+      };
+    }
+
+    const title = `${p.title} — Case Study | ${SITE_NAME}`;
+    const seo = buildPageMeta({
+      title,
+      description: p.summary,
+      path: `/work/${p.slug}`,
+      type: "article",
+      ...(p.image ? { image: p.image } : {}),
+      imageAlt: `${p.title} — ${p.category} case study preview`,
+    });
 
     return {
-      meta: p
-        ? [
-            { title: `${p.title} case study — Sule Malik` },
-            { name: "description", content: p.summary },
-            {
-              property: "og:title",
-              content: `${p.title} case study — Sule Malik`,
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            name: p.title,
+            headline: `${p.title} Case Study`,
+            description: seo.description,
+            image: seo.imageUrl,
+            url: seo.url,
+            dateCreated: p.year,
+            keywords: p.stack.join(", "),
+            author: {
+              "@id": PERSON_ID,
+              "@type": "Person",
+              name: SITE_NAME,
+              url: SITE_URL,
             },
-            {
-              property: "og:description",
-              content: p.summary,
-            },
-            { property: "og:type", content: "article" },
-            { property: "og:url", content: `https://www.sulemalik.com/work/${p.slug}` },
-            { property: "og:image", content: imageUrl },
-            { property: "og:image:alt", content: `${p.title} preview` },
-            { name: "twitter:card", content: "summary_large_image" },
-            { name: "twitter:title", content: `${p.title} case study — Sule Malik` },
-            { name: "twitter:description", content: p.summary },
-            { name: "twitter:image", content: imageUrl },
-          ]
-        : [{ title: "Case study unavailable" }, { name: "robots", content: "noindex" }],
-      links: p ? [{ rel: "canonical", href: `https://www.sulemalik.com/work/${p.slug}` }] : [],
-      scripts: p
-        ? [
-            {
-              type: "application/ld+json",
-              children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "CreativeWork",
-                "name": p.title,
-                "headline": `${p.title} Case Study`,
-                "description": p.summary,
-                "image": imageUrl,
-                "url": `https://www.sulemalik.com/work/${p.slug}`,
-                "author": {
-                  "@type": "Person",
-                  "name": "Sule Malik",
-                  "url": "https://www.sulemalik.com",
-                },
-              }),
-            },
-          ]
-        : [],
+          }),
+        },
+      ],
     };
   },
   component: CaseStudy,
@@ -302,9 +295,9 @@ function CaseStudy() {
                 </span>
               </div>
               <div className="mt-4 flex items-center justify-between">
-                <h3 className="font-display text-3xl sm:text-5xl font-medium tracking-tight text-foreground group-hover:text-primary transition-colors">
+                <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-tight text-foreground group-hover:text-primary transition-colors">
                   {next.title}
-                </h3>
+                </h2>
                 <span
                   className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-transform duration-300 ease-out group-hover:translate-x-2 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary"
                   aria-hidden

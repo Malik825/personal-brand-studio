@@ -1,6 +1,8 @@
 # Allow search engines
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /ask/
 
 # Allow AI & Answer Engines (GEO & AEO optimization)
 User-agent: GPTBot

@@ -12,6 +12,7 @@ import {
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { PostHogClientProvider } from "@/lib/analytics/posthog";
+import { BRAND_DESCRIPTION, buildHomeJsonLd, DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const LazyCommandPalette = lazy(() =>
   import("@/components/site/CommandPalette").then((m) => ({ default: m.CommandPalette })),
@@ -101,44 +102,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "WoTofkmt-cQZwmHG2xNQ1rK5uwfJR06C6uCNMTXXG1U" },
       { name: "msvalidate.01", content: "C197C61F1B5FA2FD708767D5A7D5C863" },
-      { title: "Sule Malik — Product-minded software engineer" },
-      {
-        name: "description",
-        content:
-          "Sule Malik builds digital products with engineering precision, fluid motion design, and product thinking. Specializing in React 19, React Native, TypeScript, and TanStack Start.",
-      },
-      { name: "author", content: "Sule Malik" },
-      {
-        name: "keywords",
-        content:
-          "Sule Malik, software engineer, product engineer, React 19, React Native, TypeScript, Next.js, TanStack Start, frontend engineering, portfolio",
-      },
-      // Open Graph (Facebook, LinkedIn, Discord, Slack)
-      { property: "og:site_name", content: "Sule Malik" },
-      { property: "og:title", content: "Sule Malik — Product-minded software engineer" },
-      {
-        property: "og:description",
-        content:
-          "Sule Malik builds digital products with engineering precision, fluid motion design, and product thinking.",
-      },
+      { title: "Sule Malik | Product-minded Software Engineer" },
+      { name: "description", content: BRAND_DESCRIPTION },
+      { name: "author", content: SITE_NAME },
+      // Open Graph defaults (overridden per route)
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:title", content: "Sule Malik | Product-minded Software Engineer" },
+      { property: "og:description", content: BRAND_DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { property: "og:image:secure_url", content: "https://www.sulemalik.com/og-image.png" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:image", content: DEFAULT_OG_IMAGE },
+      { property: "og:image:secure_url", content: DEFAULT_OG_IMAGE },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Sule Malik — Product-minded software engineer" },
-      // Twitter / X Cards
+      { property: "og:image:alt", content: "Sule Malik — Product-minded Software Engineer" },
+      // Twitter / X Card defaults
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Sule Malik — Product-minded software engineer" },
-      {
-        name: "twitter:description",
-        content:
-          "Sule Malik builds digital products with engineering precision, fluid motion design, and product thinking.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:image:alt", content: "Sule Malik — Product-minded software engineer" },
+      { name: "twitter:title", content: "Sule Malik | Product-minded Software Engineer" },
+      { name: "twitter:description", content: BRAND_DESCRIPTION },
+      { name: "twitter:image", content: DEFAULT_OG_IMAGE },
+      { name: "twitter:image:alt", content: "Sule Malik — Product-minded Software Engineer" },
     ],
     links: [
       {
@@ -148,58 +132,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
     ],
     scripts: [
       {
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "Person",
-              "@id": "https://www.sulemalik.com/#person",
-              "name": "Sule Malik",
-              "jobTitle": "Product-Minded Software Engineer",
-              "description":
-                "Sule Malik is a product-minded software engineer specializing in building high-performance web and mobile products with clean component architectures.",
-              "url": "https://www.sulemalik.com",
-              "email": "abdulmaliksuleman75@gmail.com",
-              "sameAs": [
-                "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
-                "https://github.com/malik825"
-              ],
-              "knowsAbout": [
-                "React 19",
-                "React Native",
-                "TypeScript",
-                "Next.js",
-                "TanStack Start",
-                "Angular",
-                "Supabase",
-                "Node.js & Express",
-                "PostgreSQL & MongoDB",
-                "Tailwind CSS",
-                "Product Engineering",
-                "Software Architecture",
-                "Product Analytics",
-                "Search Engine Optimization (SEO)",
-                "Answer Engine Optimization (AEO)",
-                "Generative Engine Optimization (GEO)",
-                "AI & Agentic Engineering"
-              ]
-            },
-            {
-              "@type": "WebSite",
-              "@id": "https://www.sulemalik.com/#website",
-              "url": "https://www.sulemalik.com",
-              "name": "Sule Malik",
-              "description": "Portfolio of Sule Malik, product-minded software engineer.",
-              "publisher": {
-                "@id": "https://www.sulemalik.com/#person"
-              }
-            }
-          ]
-        }),
+        children: JSON.stringify(buildHomeJsonLd()),
       },
     ],
   }),

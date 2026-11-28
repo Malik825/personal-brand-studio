@@ -3,59 +3,61 @@ import { useState, type FormEvent } from "react";
 import { Eyebrow, Page } from "@/components/site/Layout";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { getSite } from "@/content";
+import { contactCopy } from "@/content/contact";
 import { submitContactInquiry } from "@/server/inquiry";
 import { trackEvent } from "@/lib/analytics/posthog";
+import { buildPageMeta, PERSON_ID, SITE_URL } from "@/lib/seo";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/TechIcons";
 import {
   Check,
   Copy,
   ArrowUpRight,
-  Clock,
+  Briefcase,
   Globe,
   Mail,
   Send,
-  MessageSquare,
 } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   loader: async () => {
     return { site: await getSite() };
   },
-  head: () => ({
-    meta: [
-      { title: "Contact — Sule Malik" },
-      {
-        name: "description",
-        content: "Get in touch with Sule Malik about engineering roles, technical advisory, or product work.",
-      },
-      { property: "og:title", content: "Contact — Sule Malik" },
-      {
-        property: "og:description",
-        content: "Get in touch with Sule Malik about engineering roles, technical advisory, or product work.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/contact" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Contact — Sule Malik" },
-      {
-        name: "twitter:description",
-        content: "Get in touch with Sule Malik about engineering roles, technical advisory, or product work.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.sulemalik.com/contact" }],
-  }),
+  head: () => {
+    const seo = buildPageMeta({
+      title: "Contact Sule Malik | Software Engineering Inquiries",
+      description:
+        "Contact Sule Malik for frontend engineering roles, SaaS product development, architecture consulting, or web application projects.",
+      path: "/contact",
+      type: "website",
+      imageAlt: "Contact Sule Malik — Product-minded Software Engineer",
+    });
+
+    return {
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "@id": `${SITE_URL}/contact#webpage`,
+            url: seo.url,
+            name: "Contact Sule Malik | Software Engineering Inquiries",
+            description: seo.description,
+            mainEntity: {
+              "@id": PERSON_ID,
+            },
+          }),
+        },
+      ],
+    };
+  },
   component: Contact,
 });
 
-const SERVICE_OPTIONS = [
-  "Full-Time Role",
-  "Greenfield Build",
-  "UI & Design Systems",
-  "Technical Consulting",
-];
-
-const TIMELINE_OPTIONS = ["Immediate", "Within 1–2 months", "Flexible / Exploring"];
+const SERVICE_OPTIONS = contactCopy.form.serviceOptions;
+const TIMELINE_OPTIONS = contactCopy.form.timelineOptions;
 
 export function Contact() {
   const { site } = Route.useLoaderData();
@@ -64,8 +66,8 @@ export function Contact() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Form interactive state
-  const [selectedService, setSelectedService] = useState<string>("Full-Time Role");
-  const [selectedTimeline, setSelectedTimeline] = useState<string>("Immediate");
+  const [selectedService, setSelectedService] = useState<string>(SERVICE_OPTIONS[0]);
+  const [selectedTimeline, setSelectedTimeline] = useState<string>(TIMELINE_OPTIONS[0]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -85,7 +87,7 @@ export function Contact() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) {
-      setError("Please fill in your name, email, and a brief message.");
+      setError(contactCopy.form.validationError);
       return;
     }
 
@@ -119,60 +121,77 @@ export function Contact() {
     }
   };
 
+  const githubUrl = site.github || "https://github.com/Malik825";
+
   return (
     <Page>
       {/* Editorial Header */}
       <header className="container-site pt-12 pb-16 md:pt-16 md:pb-20">
         <FadeUp>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1 text-xs font-medium text-foreground backdrop-blur-sm">
-              <span className="relative flex size-2">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] font-medium text-foreground backdrop-blur-sm">
+              <span className="relative flex size-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
               </span>
-              <span>Available for select engineering roles</span>
+              <span>{contactCopy.badge}</span>
             </span>
-            <span className="text-xs text-muted-foreground">· Typical response &lt; 24h</span>
           </div>
 
           <h1 className="mt-8 font-display text-5xl tracking-tight sm:text-7xl lg:text-8xl">
-            Let&apos;s build something <em className="font-serif italic font-normal text-primary">meaningful.</em>
+            {contactCopy.titlePrefix}{" "}
+            <em className="font-serif italic font-normal text-primary">
+              {contactCopy.titleEmphasis}
+            </em>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Whether you are assembling a founding engineering team, hiring a senior product engineer, or seeking architectural direction for a high-impact build, I welcome the conversation.
-          </p>
+
+          <div className="mt-6 max-w-2xl space-y-4 text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            {contactCopy.intro.map((paragraph, idx) => (
+              <p key={idx} className={idx === 1 ? "text-base sm:text-lg text-foreground/80" : ""}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </FadeUp>
       </header>
 
       {/* Main Grid: Context & Direct Channels vs Interactive Inquiry */}
-      <section className="container-site grid gap-16 pb-28 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
+      <section className="container-site grid gap-16 pb-28 lg:grid-cols-[1fr_1.45fr] lg:gap-20">
         {/* Left Column: Direct channels & work parameters */}
         <FadeUp delay={0.1}>
           <div className="space-y-10">
-            {/* Direct Email Card */}
+            {/* Direct Contact Card */}
             <div className="rounded-2xl border border-border bg-card/40 p-6 backdrop-blur-sm transition-colors hover:border-foreground/20">
               <div className="flex items-center justify-between">
-                <Eyebrow>Direct Inbox</Eyebrow>
+                <Eyebrow>{contactCopy.directContact.eyebrow}</Eyebrow>
                 <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <Mail className="size-3.5" />
                 </span>
               </div>
+              <p className="mt-4 text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                {contactCopy.directContact.emailLabel}
+              </p>
               <div
                 onClick={copyEmail}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") copyEmail(); }}
-                className="group mt-3 flex items-center justify-between rounded-xl p-2 -mx-2 transition-colors hover:bg-card/80 cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    void copyEmail();
+                  }
+                }}
+                className="group mt-1.5 flex items-center justify-between rounded-xl p-2 -mx-2 transition-colors hover:bg-card/80 cursor-pointer"
                 title="Click to copy email address"
               >
-                <p className="text-base font-medium tracking-tight text-foreground sm:text-lg font-mono">
+                <p className="text-base font-medium tracking-tight text-foreground sm:text-lg font-mono break-all">
                   {site.email}
                 </p>
                 <span className="text-xs font-mono text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1 shrink-0 ml-2">
                   {copiedEmail ? (
                     <>
                       <Check className="size-3.5 text-emerald-500" />
-                      <span className="text-emerald-500">Copied!</span>
+                      <span className="text-emerald-500">{contactCopy.directContact.copiedLabel}!</span>
                     </>
                   ) : (
                     <>
@@ -185,101 +204,136 @@ export function Contact() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <a
                   href={`mailto:${site.email}`}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
-                  <span>Open mail client</span>
+                  <span>{contactCopy.directContact.primaryCta}</span>
                   <ArrowUpRight className="size-3" />
                 </a>
                 <a
                   href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(site.email)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted"
                 >
-                  <span>Gmail</span>
+                  <span>{contactCopy.directContact.gmailCta}</span>
                   <ArrowUpRight className="size-3" />
                 </a>
                 <button
                   type="button"
                   onClick={copyEmail}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted cursor-pointer"
                 >
                   {copiedEmail ? (
                     <>
                       <Check className="size-3 text-emerald-500" />
-                      <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
+                      <span className="text-emerald-600 dark:text-emerald-400">
+                        {contactCopy.directContact.copiedLabel}
+                      </span>
                     </>
                   ) : (
                     <>
                       <Copy className="size-3 text-muted-foreground" />
-                      <span>Copy address</span>
+                      <span>{contactCopy.directContact.copyCta}</span>
                     </>
                   )}
                 </button>
               </div>
             </div>
 
-            {/* Availability & Location Overview */}
-            <div className="space-y-6 border-y border-border py-8">
+            {/* Location & Remote Work + What I'm Open To */}
+            <div className="space-y-8 border-y border-border py-8">
               <div className="flex items-start gap-3.5">
-                <Globe className="mt-0.5 size-4 text-muted-foreground shrink-0" />
+                <Globe className="mt-0.5 size-4 text-primary shrink-0" />
                 <div>
-                  <h4 className="text-xs uppercase tracking-widest text-muted-foreground">Location & Remote Work</h4>
-                  <p className="mt-1 text-sm font-medium text-foreground">
-                    Asante Mampong, Kumasi, Ghana (UTC+0) · Available worldwide for remote roles with flexible overlap across GMT, EST, and CET.
+                  <h2 className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                    {contactCopy.location.heading}
+                  </h2>
+                  <p className="mt-1.5 text-sm font-semibold text-foreground">
+                    {contactCopy.location.place}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                    {contactCopy.location.availability}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3.5">
-                <Clock className="mt-0.5 size-4 text-muted-foreground shrink-0" />
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-muted-foreground">Engagements Accepted</h4>
-                  <p className="mt-1 text-sm font-medium text-foreground">
-                    Full-time Senior Engineering roles, high-velocity MVP launches, and specialized frontend architecture advisory.
-                  </p>
+                <Briefcase className="mt-0.5 size-4 text-primary shrink-0" />
+                <div className="space-y-3">
+                  <h2 className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+                    {contactCopy.openTo.heading}
+                  </h2>
+                  <ul className="space-y-2.5 text-sm leading-relaxed text-muted-foreground">
+                    {contactCopy.openTo.items.map((item) => (
+                      <li key={item.label}>
+                        <strong className="font-semibold text-foreground">{item.label}:</strong>{" "}
+                        {item.description}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
 
-            {/* Social & Professional Networks */}
+            {/* Professional Profiles */}
             <div>
-              <Eyebrow>Professional Profiles</Eyebrow>
+              <Eyebrow>{contactCopy.profiles.eyebrow}</Eyebrow>
               <ul className="mt-4 divide-y divide-border/60">
                 <li>
                   <a
                     href={site.linkedin}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     className="group flex items-center justify-between py-3 text-sm font-medium text-foreground transition-colors hover:text-primary"
                   >
-                    <span>LinkedIn Profile</span>
+                    <span className="inline-flex items-center gap-2.5">
+                      <LinkedinIcon className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      <span>{contactCopy.profiles.linkedinLabel}</span>
+                    </span>
                     <span className="flex items-center gap-1 text-xs text-muted-foreground group-hover:text-primary transition-colors">
-                      <span>Connect</span>
+                      <span>{contactCopy.profiles.linkedinAction}</span>
                       <ArrowUpRight className="size-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://github.com/Malik825"
+                    href={githubUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     className="group flex items-center justify-between py-3 text-sm font-medium text-foreground transition-colors hover:text-primary"
                   >
-                    <span>GitHub Repositories</span>
+                    <span className="inline-flex items-center gap-2.5">
+                      <GithubIcon className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      <span>{contactCopy.profiles.githubLabel}</span>
+                    </span>
                     <span className="flex items-center gap-1 text-xs text-muted-foreground group-hover:text-primary transition-colors">
-                      <span>Explore code</span>
+                      <span>{contactCopy.profiles.githubAction}</span>
                       <ArrowUpRight className="size-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </a>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    className="group flex items-center justify-between py-3 text-sm font-medium text-foreground transition-colors hover:text-primary"
+                  >
+                    <span className="inline-flex items-center gap-2.5">
+                      <Globe className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      <span>{contactCopy.profiles.portfolioLabel}</span>
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground group-hover:text-primary transition-colors">
+                      <span>{contactCopy.profiles.portfolioAction}</span>
+                      <ArrowUpRight className="size-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
         </FadeUp>
 
-        {/* Right Column: High-End Interactive Inquiry Form */}
+        {/* Right Column: Interactive Enquiry Form */}
         <FadeUp delay={0.2}>
           <div className="rounded-3xl border border-border bg-card/70 p-7 md:p-10 backdrop-blur-md shadow-sm">
             {sent ? (
@@ -289,10 +343,14 @@ export function Contact() {
                 </div>
                 <div className="space-y-2">
                   <h2 className="font-display text-3xl font-medium tracking-tight sm:text-4xl text-foreground">
-                    Message safely received.
+                    {contactCopy.form.success.heading}
                   </h2>
                   <p className="text-muted-foreground text-base leading-relaxed sm:text-lg">
-                    Thank you for reaching out, <strong className="text-foreground">{name}</strong>. I review inquiries every business morning and will get back to you directly at <span className="text-foreground font-medium">{email}</span> within 24 hours.
+                    {contactCopy.form.success.bodyPrefix}{" "}
+                    <strong className="text-foreground">{name}</strong>.{" "}
+                    {contactCopy.form.success.bodyMiddle}{" "}
+                    <span className="text-foreground font-medium">{email}</span>{" "}
+                    {contactCopy.form.success.bodySuffix}
                   </p>
                 </div>
                 <div className="pt-4 flex flex-wrap gap-3">
@@ -302,39 +360,48 @@ export function Contact() {
                       setSent(false);
                       setMessage("");
                     }}
-                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-xs font-medium text-foreground transition-colors hover:bg-muted cursor-pointer"
                   >
-                    <span>Send another inquiry</span>
+                    <span>{contactCopy.form.success.sendAnother}</span>
                   </button>
                   <Link
                     to="/work"
                     className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
                   >
-                    <span>Explore case studies</span>
+                    <span>{contactCopy.form.success.exploreWork}</span>
                     <ArrowUpRight className="size-3.5" />
                   </Link>
                 </div>
               </div>
             ) : (
               <form onSubmit={onSubmit} className="space-y-8">
+                <div className="border-b border-border/60 pb-6">
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
+                    {contactCopy.form.heading}
+                  </h2>
+                  <p className="mt-2 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    {contactCopy.form.subtitle}
+                  </p>
+                </div>
+
                 {error && (
                   <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-xs font-medium text-destructive">
                     {error}
                   </div>
                 )}
 
-                {/* 1. What are you looking to build / hire for? */}
+                {/* 1. What would you like to discuss? */}
                 <div className="space-y-3">
-                  <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                    1. Engagement Focus
-                  </label>
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  <span className="block text-xs font-mono font-medium uppercase tracking-widest text-muted-foreground">
+                    {contactCopy.form.step1Label}
+                  </span>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
                     {SERVICE_OPTIONS.map((opt) => (
                       <button
                         key={opt}
                         type="button"
                         onClick={() => setSelectedService(opt)}
-                        className={`rounded-xl border px-3 py-2 text-xs font-medium transition-all text-center ${
+                        className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition-all text-center cursor-pointer ${
                           selectedService === opt
                             ? "border-primary bg-primary text-primary-foreground shadow-sm"
                             : "border-border bg-background/60 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
@@ -346,18 +413,18 @@ export function Contact() {
                   </div>
                 </div>
 
-                {/* 2. Timeline Selector */}
+                {/* 2. When would you like to get started? */}
                 <div className="space-y-3">
-                  <label className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                    2. Desired Timeline
-                  </label>
+                  <span className="block text-xs font-mono font-medium uppercase tracking-widest text-muted-foreground">
+                    {contactCopy.form.step2Label}
+                  </span>
                   <div className="flex flex-wrap gap-2">
                     {TIMELINE_OPTIONS.map((t) => (
                       <button
                         key={t}
                         type="button"
                         onClick={() => setSelectedTimeline(t)}
-                        className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                        className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all cursor-pointer ${
                           selectedTimeline === t
                             ? "border-primary bg-primary/10 text-primary font-semibold"
                             : "border-border bg-background/50 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
@@ -369,12 +436,19 @@ export function Contact() {
                   </div>
                 </div>
 
-                {/* 3. Contact Credentials */}
+                {/* 3. Your details */}
                 <div className="space-y-4">
+                  <span className="block text-xs font-mono font-medium uppercase tracking-widest text-muted-foreground">
+                    {contactCopy.form.step3Label}
+                  </span>
+
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label htmlFor="contact-name" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
-                        Your Name <span className="text-primary">*</span>
+                      <label
+                        htmlFor="contact-name"
+                        className="block text-xs font-medium text-foreground/85 mb-1.5"
+                      >
+                        {contactCopy.form.fields.nameLabel} <span className="text-primary">*</span>
                       </label>
                       <input
                         id="contact-name"
@@ -382,13 +456,16 @@ export function Contact() {
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="e.g. Sarah Jenkins"
+                        placeholder={contactCopy.form.fields.namePlaceholder}
                         className="w-full rounded-xl border border-input bg-background/80 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                       />
                     </div>
                     <div>
-                      <label htmlFor="contact-email" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
-                        Work Email <span className="text-primary">*</span>
+                      <label
+                        htmlFor="contact-email"
+                        className="block text-xs font-medium text-foreground/85 mb-1.5"
+                      >
+                        {contactCopy.form.fields.emailLabel} <span className="text-primary">*</span>
                       </label>
                       <input
                         id="contact-email"
@@ -396,47 +473,56 @@ export function Contact() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="sarah@company.com"
+                        placeholder={contactCopy.form.fields.emailPlaceholder}
                         className="w-full rounded-xl border border-input bg-background/80 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="contact-company" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1.5">
-                      Company or Organisation <span className="text-muted-foreground/60 text-[10px] normal-case">(optional)</span>
+                    <label
+                      htmlFor="contact-company"
+                      className="block text-xs font-medium text-foreground/85 mb-1.5"
+                    >
+                      {contactCopy.form.fields.companyLabel}{" "}
+                      <span className="text-muted-foreground/70 font-normal">
+                        {contactCopy.form.fields.companyOptional}
+                      </span>
                     </label>
                     <input
                       id="contact-company"
                       type="text"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      placeholder="e.g. Linear, Vercel, or Startup Stealth"
+                      placeholder={contactCopy.form.fields.companyPlaceholder}
                       className="w-full rounded-xl border border-input bg-background/80 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                     />
                   </div>
-                </div>
 
-                {/* 4. Project Details */}
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label htmlFor="contact-message" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                      Project or Role Overview <span className="text-primary">*</span>
-                    </label>
-                    <span className="text-[11px] text-muted-foreground">
-                      {message.length}/2000
-                    </span>
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label
+                        htmlFor="contact-message"
+                        className="block text-xs font-medium text-foreground/85"
+                      >
+                        {contactCopy.form.fields.overviewLabel}{" "}
+                        <span className="text-primary">*</span>
+                      </label>
+                      <span className="text-[11px] text-muted-foreground">
+                        {message.length}/2000
+                      </span>
+                    </div>
+                    <textarea
+                      id="contact-message"
+                      required
+                      rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={contactCopy.form.fields.overviewPlaceholder}
+                      maxLength={2000}
+                      className="w-full rounded-xl border border-input bg-background/80 p-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-y leading-relaxed"
+                    />
                   </div>
-                  <textarea
-                    id="contact-message"
-                    required
-                    rows={4}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell me about the problem you're solving, the technical stack, or the role responsibilities..."
-                    maxLength={2000}
-                    className="w-full rounded-xl border border-input bg-background/80 p-4 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors resize-y leading-relaxed"
-                  />
                 </div>
 
                 {/* Submit Button */}
@@ -444,13 +530,15 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:opacity-95 disabled:opacity-50 sm:w-auto"
+                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:opacity-95 disabled:opacity-50 sm:w-auto cursor-pointer"
                   >
                     <Send className="size-4 transition-transform group-hover:translate-x-0.5" />
-                    <span>{loading ? "Transmitting enquiry..." : "Send enquiry"}</span>
+                    <span>
+                      {loading ? contactCopy.form.submittingLabel : contactCopy.form.submitLabel}
+                    </span>
                   </button>
-                  <p className="mt-3 text-[11px] text-muted-foreground">
-                    Protected by secure same-origin encryption · Your details are never shared.
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {contactCopy.form.closingNote}
                   </p>
                 </div>
               </form>

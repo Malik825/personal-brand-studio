@@ -9,6 +9,7 @@ import { cinematicEase } from "@/components/motion/variants";
 import { getAbout, getSite } from "@/content";
 import { philosophyMarquee } from "@/content/marquees";
 import { getTechIcon } from "@/components/icons/TechIcons";
+import { buildPageMeta, PERSON_ID, PERSON_IMAGE, SITE_URL } from "@/lib/seo";
 import {
   ArrowRight,
   MapPin,
@@ -41,81 +42,38 @@ export const Route = createFileRoute("/about")({
     const [about, site] = await Promise.all([getAbout(), getSite()]);
     return { about, site };
   },
-  head: () => ({
-    meta: [
-      { title: "About — Sule Malik" },
-      {
-        name: "description",
-        content:
-          "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer based in Asante Mampong, Ghana.",
-      },
-      { property: "og:title", content: "About — Sule Malik" },
-      {
-        property: "og:description",
-        content:
-          "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/about" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "About — Sule Malik" },
-      {
-        name: "twitter:description",
-        content:
-          "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.sulemalik.com/about" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ProfilePage",
-          "@id": "https://www.sulemalik.com/about#webpage",
-          url: "https://www.sulemalik.com/about",
-          name: "About Sule Malik — Product-Minded Software Engineer",
-          description:
-            "Background, engineering philosophy, and technical capabilities of Sule Malik, a product-minded software engineer based in Asante Mampong, Ghana.",
-          mainEntity: {
-            "@type": "Person",
-            "@id": "https://www.sulemalik.com/#person",
-            name: "Sule Malik",
-            jobTitle: "Product-Minded Software Engineer",
-            url: "https://www.sulemalik.com",
-            image: "https://www.sulemalik.com/og-image.png",
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: "Asante Mampong",
-              addressRegion: "Ashanti Region",
-              addressCountry: "GH",
+  head: () => {
+    const seo = buildPageMeta({
+      title: "About Sule Malik | Product-minded Software Engineer",
+      description:
+        "Learn about Sule Malik, a Frontend-focused Software Engineer building scalable SaaS, dashboards, and web apps with React, Next.js, TypeScript and Angular.",
+      path: "/about",
+      type: "profile",
+      image: PERSON_IMAGE,
+      imageAlt: "Portrait of Sule Malik, Product-minded Software Engineer",
+    });
+
+    return {
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "@id": `${SITE_URL}/about#webpage`,
+            url: seo.url,
+            name: "About Sule Malik | Product-minded Software Engineer",
+            description: seo.description,
+            mainEntity: {
+              "@id": PERSON_ID,
             },
-            sameAs: [
-              "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
-              "https://github.com/malik825",
-            ],
-            knowsAbout: [
-              "React",
-              "Next.js",
-              "Angular",
-              "TypeScript",
-              "React Native",
-              "Node.js",
-              "Express",
-              "Supabase",
-              "PostgreSQL",
-              "MongoDB",
-              "AEO (Answer Engine Optimization)",
-              "GEO (Generative Engine Optimization)",
-              "Product Analytics",
-            ],
-          },
-        }),
-      },
-    ],
-  }),
+          }),
+        },
+      ],
+    };
+  },
   component: About,
 });
 

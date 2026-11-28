@@ -8,6 +8,7 @@ import { FadeUp } from "@/components/motion/FadeUp";
 import { cinematicEase } from "@/components/motion/variants";
 import { getProjects, getSite, type Project } from "@/content";
 import { trackEvent } from "@/lib/analytics/posthog";
+import { buildPageMeta, PERSON_ID, SITE_URL } from "@/lib/seo";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -27,53 +28,37 @@ export const Route = createFileRoute("/work/")({
     const [projects, site] = await Promise.all([getProjects(), getSite()]);
     return { projects, site };
   },
-  head: () => ({
-    meta: [
-      { title: "Selected Work & Systems — Sule Malik" },
-      {
-        name: "description",
-        content:
-          "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik with architectural rigor and product thinking.",
-      },
-      { property: "og:title", content: "Selected Work & Systems — Sule Malik" },
-      {
-        property: "og:description",
-        content:
-          "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://www.sulemalik.com/work" },
-      { property: "og:image", content: "https://www.sulemalik.com/og-image.png" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Selected Work & Systems — Sule Malik" },
-      {
-        name: "twitter:description",
-        content:
-          "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik.",
-      },
-      { name: "twitter:image", content: "https://www.sulemalik.com/og-image.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://www.sulemalik.com/work" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "@id": "https://www.sulemalik.com/work#collection",
-          url: "https://www.sulemalik.com/work",
-          name: "Selected Work & Systems — Sule Malik",
-          description:
-            "Curated production systems, cross-platform mobile apps, and e-commerce platforms engineered by Sule Malik with architectural rigor and product thinking.",
-          author: {
-            "@type": "Person",
-            "@id": "https://www.sulemalik.com/#person",
-            name: "Sule Malik",
-          },
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const seo = buildPageMeta({
+      title: "Software Engineering Projects & Case Studies | Sule Malik",
+      description:
+        "Explore web applications, SaaS platforms, dashboards, and e-commerce systems built by Sule Malik with React, Next.js, TypeScript and Angular.",
+      path: "/work",
+      type: "website",
+      imageAlt: "Software Engineering Projects & Case Studies by Sule Malik",
+    });
+
+    return {
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "@id": `${SITE_URL}/work#collection`,
+            url: seo.url,
+            name: "Software Engineering Projects & Case Studies | Sule Malik",
+            description: seo.description,
+            author: {
+              "@id": PERSON_ID,
+            },
+          }),
+        },
+      ],
+    };
+  },
   component: Work,
   pendingComponent: ProjectListSkeleton,
 });

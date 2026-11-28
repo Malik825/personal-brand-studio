@@ -8,6 +8,7 @@ import { FadeUp } from "@/components/motion/FadeUp";
 import { formatDate, getArticle, getArticles, getProject, site } from "@/content";
 import { ProjectVisual } from "@/components/site/ProjectVisual";
 import { getOptimizedImageUrl, getSanitySrcSet } from "@/lib/images";
+import { buildPageMeta, PERSON_ID, SITE_NAME, SITE_URL } from "@/lib/seo";
 import {
   Check,
   Copy,
@@ -109,69 +110,70 @@ export const Route = createFileRoute("/writing/$slug")({
   },
   head: ({ loaderData }) => {
     const a = loaderData?.article;
-    const pageTitle = a?.seoTitle
-      ? a.seoTitle.includes("Sule Malik")
+    if (!a) {
+      return {
+        meta: [{ title: "Article Unavailable | Sule Malik" }, { name: "robots", content: "noindex" }],
+        links: [],
+        scripts: [],
+      };
+    }
+
+    const pageTitle = a.seoTitle
+      ? a.seoTitle.includes(SITE_NAME)
         ? a.seoTitle
-        : `${a.seoTitle} — Sule Malik`
-      : `${a?.title} — Sule Malik`;
-    const metaDescription = a?.seoDescription || a?.excerpt || "";
-    const imageUrl = a?.image
-      ? a.image.startsWith("http")
-        ? a.image
-        : `https://www.sulemalik.com${a.image}`
-      : "https://www.sulemalik.com/og-image.png";
+        : `${a.seoTitle} | ${SITE_NAME}`
+      : `${a.title} | ${SITE_NAME}`;
+    const authorName = a.author?.name || SITE_NAME;
+    const modifiedDate = a.updatedAt ? a.updatedAt.split("T")[0] : a.date;
+
+    const seo = buildPageMeta({
+      title: pageTitle,
+      description: a.seoDescription || a.excerpt,
+      path: `/writing/${a.slug}`,
+      type: "article",
+      ...(a.image ? { image: a.image } : {}),
+      imageAlt: a.title,
+      publishedTime: a.date,
+      modifiedTime: modifiedDate,
+      author: authorName,
+      section: a.topic,
+    });
 
     return {
-      meta: a
-        ? [
-            { title: pageTitle },
-            { name: "description", content: metaDescription },
-            { property: "og:title", content: pageTitle },
-            { property: "og:description", content: metaDescription },
-            { property: "og:type", content: "article" },
-            { property: "og:url", content: `https://www.sulemalik.com/writing/${a.slug}` },
-            { property: "og:image", content: imageUrl },
-            { property: "og:image:alt", content: a.title },
-            { name: "twitter:card", content: "summary_large_image" },
-            { name: "twitter:title", content: pageTitle },
-            { name: "twitter:description", content: metaDescription },
-            { name: "twitter:image", content: imageUrl },
-            { name: "article:published_time", content: a.date },
-            { name: "article:author", content: a.author?.name || "Sule Malik" },
-            { name: "article:section", content: a.topic },
-          ]
-        : [{ title: "Article unavailable" }, { name: "robots", content: "noindex" }],
-      links: a ? [{ rel: "canonical", href: `https://www.sulemalik.com/writing/${a.slug}` }] : [],
-      scripts: a
-        ? [
-            {
-              type: "application/ld+json",
-              children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                "headline": a.title,
-                "description": metaDescription,
-                "image": [imageUrl],
-                "datePublished": a.date,
-                "dateModified": a.date,
-                "author": {
-                  "@type": "Person",
-                  "name": a.author?.name || "Sule Malik",
-                  "url": "https://www.sulemalik.com",
-                },
-                "publisher": {
-                  "@type": "Person",
-                  "name": "Sule Malik",
-                  "url": "https://www.sulemalik.com",
-                },
-                "mainEntityOfPage": {
-                  "@type": "WebPage",
-                  "@id": `https://www.sulemalik.com/writing/${a.slug}`,
-                },
-              }),
+      meta: seo.meta,
+      links: [seo.canonicalLink],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: a.title,
+            description: seo.description,
+            image: [seo.imageUrl],
+            datePublished: a.date,
+            dateModified: modifiedDate,
+            articleSection: a.topic,
+            ...(a.tags && a.tags.length > 0 ? { keywords: a.tags.join(", ") } : {}),
+            author: {
+              "@id": PERSON_ID,
+              "@type": "Person",
+              name: authorName,
+              url: SITE_URL,
             },
-          ]
-        : [],
+            publisher: {
+              "@id": PERSON_ID,
+              "@type": "Person",
+              name: SITE_NAME,
+              url: SITE_URL,
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": seo.url,
+            },
+          }),
+        },
+      ],
     };
   },
   component: ArticlePage,
@@ -811,9 +813,9 @@ function ArticlePage() {
                     <span className="text-[11px] font-mono uppercase tracking-widest text-primary font-medium">
                       Written by
                     </span>
-                    <h4 className="font-display text-xl sm:text-2xl font-medium text-foreground">
+                    <h3 className="font-display text-xl sm:text-2xl font-medium text-foreground">
                       {a.author?.name || "Sule Malik"}
-                    </h4>
+                    </h3>
                     <p className="text-xs font-mono text-muted-foreground mt-0.5">
                       {a.author?.role || "Software Engineer"}{a.author?.location ? ` · ${a.author.location}` : ""}
                     </p>
@@ -854,9 +856,9 @@ function ArticlePage() {
                       <span className="text-primary font-bold">{relatedProject.metric.value}</span>
                     )}
                   </div>
-                  <h4 className="font-display text-lg font-medium text-foreground mt-1 leading-snug">
+                  <h3 className="font-display text-lg font-medium text-foreground mt-1 leading-snug">
                     {relatedProject.title}
-                  </h4>
+                  </h3>
                   <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
                     {relatedProject.summary}
                   </p>

@@ -21,18 +21,25 @@ export const Route = createFileRoute("/sitemap.xml")({
           { url: `${baseUrl}/contact`, priority: "0.8", changefreq: "monthly", lastmod: today },
         ];
 
-        const projectRoutes = projects.map((p) => ({
+        const uniqueProjects = Array.from(
+          new Map(projects.map((p) => [p.slug, p])).values(),
+        );
+        const uniqueArticles = Array.from(
+          new Map(articles.map((a) => [a.slug, a])).values(),
+        );
+
+        const projectRoutes = uniqueProjects.map((p) => ({
           url: `${baseUrl}/work/${p.slug}`,
           priority: p.featured ? "0.8" : "0.7",
           changefreq: "monthly",
           lastmod: today,
         }));
 
-        const articleRoutes = articles.map((a) => ({
+        const articleRoutes = uniqueArticles.map((a) => ({
           url: `${baseUrl}/writing/${a.slug}`,
           priority: "0.8",
           changefreq: "monthly",
-          lastmod: a.date ? a.date.split("T")[0] : today,
+          lastmod: (a.updatedAt || a.date || today || "").split("T")[0],
         }));
 
         const allRoutes = [...coreRoutes, ...projectRoutes, ...articleRoutes];

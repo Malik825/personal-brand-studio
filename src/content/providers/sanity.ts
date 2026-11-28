@@ -120,7 +120,13 @@ export class SanityContentProvider implements ContentProvider {
       }`;
       const data = await this.client.fetch<Project[]>(query);
       if (data && data.length > 0) {
-        return data.map((p) => {
+        const seen = new Set<string>();
+        const unique = data.filter((p) => {
+          if (!p.slug || seen.has(p.slug)) return false;
+          seen.add(p.slug);
+          return true;
+        });
+        return unique.map((p) => {
           const fallback = staticProjects.find((sp) => sp.slug === p.slug);
           const image = p.image || fallback?.image;
           const { image: _image, ...fields } = p;
@@ -187,6 +193,7 @@ export class SanityContentProvider implements ContentProvider {
         excerpt,
         seoTitle,
         seoDescription,
+        "updatedAt": _updatedAt,
         body,
         tags,
         takeaways,
@@ -256,6 +263,7 @@ export class SanityContentProvider implements ContentProvider {
         excerpt,
         seoTitle,
         seoDescription,
+        "updatedAt": _updatedAt,
         body,
         tags,
         takeaways,

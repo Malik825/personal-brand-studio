@@ -86,6 +86,7 @@ export type Article = {
   author?: Author | undefined;
   seoTitle?: string | undefined;
   seoDescription?: string | undefined;
+  updatedAt?: string | undefined;
 };
 
 /** A work-experience entry. */
