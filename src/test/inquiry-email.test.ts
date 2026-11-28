@@ -25,6 +25,8 @@ describe("contact inquiry Resend email delivery", () => {
     expect(email.html).toContain("Sarah &lt;Admin&gt;");
     expect(email.html).toContain("Acme &amp; Co");
     expect(email.html).toContain("Line 1<br />&lt;b&gt;Line 2&lt;/b&gt;");
+    expect(email.html).toContain('align="center" width="600"');
+    expect(email.html).toContain("Reply to Sarah &lt;Admin&gt;");
     expect(email.text).toContain("Email: sarah@company.com");
   });
 

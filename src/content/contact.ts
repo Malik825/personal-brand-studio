@@ -2,80 +2,118 @@
 // Contact page copy and options (typed, CMS-ready)
 // ---------------------------------------------------------------------------
 
-export interface OpenToItem {
-  label: string;
+export type HelpServiceIcon = "globe" | "layout-grid" | "layers" | "wrench" | "briefcase";
+
+export interface HelpServiceItem {
+  id: string;
+  title: string;
   description: string;
+  icon: HelpServiceIcon;
 }
 
 export const contactCopy = {
-  badge: "Open to engineering opportunities & collaborations",
+  badge: "Open to projects, collaborations & engineering roles",
   titlePrefix: "Let's build something",
   titleEmphasis: "meaningful.",
+  supportingHeadline: "Have an idea, a business challenge, or an opportunity? Let's talk.",
   intro: [
-    "Whether you're looking for an engineer to join your team, need help bringing a digital product to life, or want to discuss a technical challenge, I'd be happy to hear from you.",
-    "I'm interested in opportunities where thoughtful engineering, product thinking, and a focus on solving real problems come together.",
+    "I work with businesses, founders, and teams to turn ideas and everyday challenges into useful digital products.",
+    "Whether you need a website for your business, a platform to serve your customers, a better way to manage your operations, or an engineer to join your team, I'd love to hear what you're working on.",
+    "You don't need to know the technical details or have everything figured out. Just tell me what you're trying to achieve, and we can explore the best way to make it happen.",
   ],
+  howIHelp: {
+    eyebrow: "How I can help",
+    heading: "Practical ways we can work together.",
+    items: [
+      {
+        id: "websites",
+        title: "Websites for Businesses",
+        description:
+          "Professional websites that help businesses establish an online presence, showcase their services, and reach more customers.",
+        icon: "globe",
+      },
+      {
+        id: "web-apps",
+        title: "Web Applications",
+        description:
+          "Custom platforms that make everyday processes easier, improve customer experiences, and support business growth.",
+        icon: "layout-grid",
+      },
+      {
+        id: "digital-products",
+        title: "Digital Products",
+        description:
+          "SaaS platforms, dashboards, management systems, and MVPs built around real needs.",
+        icon: "layers",
+      },
+      {
+        id: "existing-products",
+        title: "Existing Products",
+        description:
+          "Improving, maintaining, and extending websites and applications.",
+        icon: "wrench",
+      },
+      {
+        id: "engineering-opportunities",
+        title: "Engineering Opportunities",
+        description:
+          "Joining teams as a Frontend Engineer or Software Engineer to build and improve digital products.",
+        icon: "briefcase",
+      },
+    ] satisfies HelpServiceItem[],
+  },
+  workingTogether: {
+    eyebrow: "Working together",
+    heading: "You don't need all the answers.",
+    paragraphs: [
+      "I collaborate with business owners, founders, designers, and engineering teams. You can come with a detailed specification or simply explain a problem you're trying to solve.",
+      "My job is to understand the need, help clarify the approach, and build something useful.",
+    ],
+  },
   directContact: {
     eyebrow: "Direct contact",
     emailLabel: "Email",
     primaryCta: "Send me an email",
-    gmailCta: "Gmail",
-    copyCta: "Copy address",
+    gmailCta: "Compose in Gmail",
+    copyCta: "Copy email",
     copiedLabel: "Copied",
   },
   location: {
-    heading: "Location & remote work",
+    heading: "Location & availability",
     place: "Kumasi, Ghana · GMT (UTC+0)",
-    availability: "Available for remote opportunities and collaborations with teams worldwide.",
-  },
-  openTo: {
-    heading: "What I'm open to",
-    items: [
-      {
-        label: "Full-time opportunities",
-        description: "Frontend Engineer and Software Engineer roles.",
-      },
-      {
-        label: "Product development",
-        description: "Building SaaS platforms, web applications, dashboards, and MVPs.",
-      },
-      {
-        label: "Frontend engineering",
-        description: "React, Next.js, TypeScript, Angular, API integrations, and scalable frontend architecture.",
-      },
-      {
-        label: "Technical collaboration",
-        description: "Working with founders, designers, and engineering teams to turn ideas into reliable products.",
-      },
-    ] satisfies OpenToItem[],
+    availability:
+      "Available for remote opportunities and collaborations with individuals and teams worldwide.",
   },
   profiles: {
     eyebrow: "Professional profiles",
     linkedinLabel: "LinkedIn",
     linkedinAction: "Connect",
+    linkedinUrl: "https://www.linkedin.com/in/abdulmalik-suleman-14a8501a9/",
     githubLabel: "GitHub",
     githubAction: "Explore code",
-    portfolioLabel: "Portfolio",
-    portfolioAction: "www.sulemalik.com",
-    portfolioUrl: "https://www.sulemalik.com/",
+    githubUrl: "https://github.com/Malik825",
+    websiteLabel: "Website",
+    websiteAction: "www.sulemalik.com",
+    websiteUrl: "https://www.sulemalik.com/",
   },
   form: {
-    heading: "Tell me about your opportunity",
-    subtitle: "Whether you have a clearly defined project or are still exploring an idea, share a little context below.",
-    step1Label: "1. What would you like to discuss?",
+    heading: "Tell me about what you have in mind.",
+    subtitle:
+      "You don't need to know the technical language. Just tell me a little about yourself, your business, or the opportunity you're exploring.",
+    step1Label: "1. What brings you here?",
     serviceOptions: [
-      "Full-time opportunity",
-      "Freelance / Contract project",
-      "Product development",
-      "Frontend engineering",
-      "Technical consulting",
-      "Other",
+      "I need a website for my business.",
+      "I have an idea for an application or platform.",
+      "I want to improve an existing website or product.",
+      "I'm looking for a developer to join my team.",
+      "I want to discuss a freelance or contract project.",
+      "Something else.",
     ] as const,
     step2Label: "2. When would you like to get started?",
     timelineOptions: [
       "Immediately",
       "Within 1–2 months",
-      "Flexible / Exploring",
+      "Flexible / Just exploring",
     ] as const,
     step3Label: "3. Your details",
     fields: {
@@ -85,17 +123,18 @@ export const contactCopy = {
       emailPlaceholder: "sarah@company.com",
       companyLabel: "Company or organisation",
       companyOptional: "(optional)",
-      companyPlaceholder: "e.g. Acme Corp or Independent",
-      overviewLabel: "Project or role overview",
+      companyPlaceholder: "e.g. Acme Studio or Independent",
+      overviewLabel: "Tell me what you're trying to achieve.",
       overviewPlaceholder:
-        "Share a bit of context about the role, project goals, technical stack, or challenge you'd like to discuss...",
+        "Tell me a little about your business, idea, project, or opportunity. What problem are you trying to solve?",
     },
-    validationError: "Please fill in your name, work email, and a brief project or role overview.",
+    validationError:
+      "Please fill in your name, work email, and tell me a little about what you're trying to achieve.",
     submissionError:
       "Something went wrong sending your enquiry. Please try again or email me directly.",
     submitLabel: "Send enquiry",
     submittingLabel: "Sending enquiry...",
-    closingNote: "I look forward to hearing from you.",
+    closingNote: "Usually replies within 1 business day.",
     success: {
       eyebrow: "Enquiry sent",
       headingPrefix: "Enquiry",
@@ -104,12 +143,16 @@ export const contactCopy = {
       bodyMiddle: "I've received your message and will reply directly to",
       bodySuffix: "soon. I look forward to hearing from you.",
       summaryHeading: "Submission summary",
-      topicLabel: "Topic",
+      topicLabel: "Reason",
       timelineLabel: "Timeline",
       companyLabel: "Organisation",
       directFallback: "Need to share attachments or follow up right away? Email",
       doneLabel: "Done",
       exploreWork: "Explore case studies",
     },
+  },
+  closing: {
+    heading: "I look forward to hearing from you.",
+    emailPrompt: "Prefer email directly?",
   },
 } as const;
